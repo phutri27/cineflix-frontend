@@ -8,9 +8,11 @@ import Signup from './pages/Signup'
 import Home from './pages/Home'
 import AdminDashboard from './pages/admin-dashboard/AdminDashboard'
 import Movies from './pages/admin-dashboard/movies/Movies'
-import Movie from './pages/admin-dashboard/movies/Movie'
-import SingleMovieEdit from './pages/admin-dashboard/movies/SingleMovieEdit'
-
+import Movie from './pages/admin-dashboard/movies/movies/Movie'
+import SingleMovieEdit from './pages/admin-dashboard/movies/movies/SingleMovieEdit'
+import Actors from './pages/admin-dashboard/movies/actors/Actors'
+import Directors from './pages/admin-dashboard/movies/directors/Directors'
+import Genres from './pages/admin-dashboard/movies/genres/Genres'
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -33,7 +35,10 @@ const router = createBrowserRouter([
          element: <Movies />, 
          children:
          [
-           {index: true, element: <Movie />}
+           {index: true, element: <Movie />},
+           {path: "actors", element: <Actors /> },
+           {path: "directors", element: <Directors />},
+           {path: "genres", element: <Genres />},
          ]},
       ]
      },

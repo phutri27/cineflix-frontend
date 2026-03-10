@@ -1,18 +1,13 @@
 import SingleMovie from "./SingleMovie"
 import { useGetMovieAdmin, useInsertMovieAdmin, useGetGenresAdmin } from "@/hooks"
-import ModalComponent from "../../../components/modal/Modal"
-import { useModalStore } from "../../../components/modal/modal-store"
+import ModalComponent from "../../../../components/modal/Modal"
+import { useModalStore } from "../../../../components/modal/modal-store"
 import { type SubmitHandler } from "react-hook-form"
 import { type MovieFormInput } from "@/api"
 import MovieForm from "@/components/forms/MovieForm"
 import { movieData } from "@/components/helper/movie-submit-helper"
 import Select from "react-select"
 import { useState } from "react"
-
-interface GenreOption {
-    value: string
-    label: string
-}
 
 export default function Movie(){
     const {data: admin_movies, isLoading, isError, error} = useGetMovieAdmin()

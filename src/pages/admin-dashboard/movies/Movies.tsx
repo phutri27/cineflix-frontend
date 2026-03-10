@@ -7,6 +7,7 @@ export default function Movies(){
                 <Link to="">Movies</Link>
                 <Link to="actors">Actors</Link>
                 <Link to="directors">Directors</Link>
+                <Link to="genres">Genres</Link>
             </div>
             <Outlet />
         </div>

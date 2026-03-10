@@ -1,4 +1,4 @@
-type Option = {
+export type Option = {
     id: string
     name: string
 }

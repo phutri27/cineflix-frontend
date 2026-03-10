@@ -15,7 +15,7 @@ export const adminInsertDirectorApi = async (name: string): Promise<DirectorResp
     return response.data
 }
 
-export const adminUpdateDirectorApi = async (id: string, name: string): Promise<DirectorResponse> => {
+export const adminUpdateDirectorApi = async ({id, name} : {id: string, name: string}): Promise<DirectorResponse> => {
     const response = await axiosClient.put(`/api/admin/dashboard/directors/${id}`, { name })
     return response.data
 }
