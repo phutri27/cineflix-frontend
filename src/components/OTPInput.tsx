@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useOTP } from "@/hooks/use-otp";
+import { useOTP } from "@/hooks/user/use-otp";
 import { useNavigate } from "react-router";
-import { useSharedDataStore } from "@/utils/shared-data";
 export default function OTPInput({email} : {email: string}){
     const [otp, setOTP] = useState<string>('')
-    const setSharedData = useSharedDataStore((state) => state.setSharedData)
 
     const navigate = useNavigate()
     const {data, mutate, isSuccess } = useOTP()
@@ -19,8 +17,7 @@ export default function OTPInput({email} : {email: string}){
     }
 
     if (isSuccess){
-        setSharedData(data as any)
-        navigate("/login")
+        navigate('/login', { state: data })
     }
 
     return (

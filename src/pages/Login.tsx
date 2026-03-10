@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { useLogin, useLoginGoolge } from '@/hooks';
-import { useSharedDataStore } from '@/utils/shared-data';
-
+import { Navigate, useLocation } from 'react-router';
+import Error from '@/components/Error';
 export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [pw, setPw] = useState<string>('');
     const [googleLogin, setGoogleLogin] = useState<boolean>(false)
+    const location = useLocation()
 
-    const sharedData = useSharedDataStore((state) => state.sharedData) 
-
-    const { mutate, isPending, error } = useLogin();
+    const { mutate, isPending, isError, error, isSuccess } = useLogin();
     const { isLoading } = useLoginGoolge({enabled: googleLogin})
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -25,9 +24,13 @@ export default function Login() {
         return <div>Loading...</div>
     }
 
+    if (isSuccess) {
+        return <Navigate to="/" />
+    }
+
     return (
         <div className="login-container">
-            {sharedData ? <p>{sharedData.message}</p> : null}
+            {location.state ? (<p>{location.state.message}</p>) : null}
             <h1>Login</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -50,7 +53,7 @@ export default function Login() {
                         required
                     />
                 </div>
-                {error && <p className="error">{error.message}</p>}
+                {isError && <Error errors={error.response?.data.errors}/>}
                 <button type="submit" disabled={isPending}>
                     {isPending ? 'Logging in...' : 'Login'}
                 </button>

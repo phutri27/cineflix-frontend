@@ -1,9 +1,9 @@
-export default function Error({errors, keyword}: {errors: string[], keyword: string}){
+export default function Error({errors}: {errors: string[]}){
     return (
-        <>
+        <div>
             {errors.map(error => (
-                (error.includes(keyword) ? <p>{error}</p> : null)
+                <p>{error}</p>
             ))}
-        </>
+        </div>
     )
 }
