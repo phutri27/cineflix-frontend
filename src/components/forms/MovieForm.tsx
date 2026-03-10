@@ -1,13 +1,19 @@
-import { useGetActorsAdmin, useGetDirectorsAdmin, useGetGenresAdmin } from "@/hooks"
+import { useGetActorsAdmin, useGetDirectorsAdmin } from "@/hooks"
+import type { GenreResponse } from "@/api"
 import { useForm, Controller } from "react-hook-form"
 import type { MovieFormInput } from "@/api"
 import Select from 'react-select'
 
+type MovieFormProps = {
+    onSubmit: (data: MovieFormInput) => void
+    isPending: boolean
+    admin_genres: GenreResponse[] | undefined
+}
+
 const emptyMsg = "must not be empty"
-export default function MovieForm({onSubmit, isPending}: {onSubmit: (data: MovieFormInput) => void, isPending: boolean}){
+export default function MovieForm({onSubmit, isPending, admin_genres}: MovieFormProps){
     const {data: admin_actors} = useGetActorsAdmin()
     const {data: admin_directors} = useGetDirectorsAdmin()
-    const {data: admin_genres} = useGetGenresAdmin()
 
     const { register, handleSubmit, formState: { errors}, control, watch } = useForm<MovieFormInput>()
     

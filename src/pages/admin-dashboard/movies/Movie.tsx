@@ -1,20 +1,32 @@
 import SingleMovie from "./SingleMovie"
-import { useGetMovieAdmin, useInsertMovieAdmin } from "@/hooks"
+import { useGetMovieAdmin, useInsertMovieAdmin, useGetGenresAdmin } from "@/hooks"
 import ModalComponent from "../../../components/modal/Modal"
 import { useModalStore } from "../../../components/modal/modal-store"
 import { type SubmitHandler } from "react-hook-form"
 import { type MovieFormInput } from "@/api"
 import MovieForm from "@/components/forms/MovieForm"
 import { movieData } from "@/components/helper/movie-submit-helper"
+import Select from "react-select"
 import { useState } from "react"
+
+interface GenreOption {
+    value: string
+    label: string
+}
+
 export default function Movie(){
     const {data: admin_movies, isLoading, isError, error} = useGetMovieAdmin()
-    
+    const {data: genres} = useGetGenresAdmin()
+
+    const [selectedGenre, setSelectedGenre] = useState<string>("All")
+
     const { mutate, isPending } = useInsertMovieAdmin()
 
     const modalIsOpen = useModalStore(state => state.modalIsOpen)
     const openModal = useModalStore(state => state.openModal)
     const closeModal = useModalStore(state => state.closeModal) 
+
+    const defaultGenreValues = {value: "", label: "All"}
 
     const onSubmit: SubmitHandler<MovieFormInput> = (data) => {
         const formData = movieData(data)
@@ -24,7 +36,6 @@ export default function Movie(){
     }
 
     if(isLoading) {
-        
         return <div>Loading...</div>
     }
 
@@ -32,18 +43,35 @@ export default function Movie(){
         <div>
             {isError && <div>{error.message}</div>}
             <button onClick={openModal}>Add movie</button>
+            <Select
+                defaultValue={defaultGenreValues}
+                onChange={(option) => setSelectedGenre(option?.label as string)}
+                options={[defaultGenreValues, ...genres?.map((g) => ({value: g.id, label: g.name})) as GenreOption[]]} 
+            />
             <ModalComponent
                 openModal={modalIsOpen}
                 closeModal={closeModal}
             >
-                <MovieForm isPending={isPending} onSubmit={onSubmit}/>
+                <MovieForm 
+                isPending={isPending} 
+                onSubmit={onSubmit}
+                admin_genres={genres}
+                />
             </ModalComponent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {admin_movies?.map(movie => (
-                    <SingleMovie key={movie.id} 
+                {selectedGenre === "All" ? 
+                (admin_movies?.map(movie => (
+                    <SingleMovie 
+                    key={movie.id} 
                     movie={movie} 
                     />
-                ))}
+                ))) : (admin_movies?.filter(movie => (movie.genres.some(m => m.name === selectedGenre)))
+                    .map(movie => (
+                    <SingleMovie 
+                    key={movie.id} 
+                    movie={movie} 
+                    />
+                )))}
             </div>
         </div>
     )
