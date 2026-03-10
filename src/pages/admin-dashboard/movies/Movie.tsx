@@ -17,16 +17,17 @@ interface GenreOption {
 export default function Movie(){
     const {data: admin_movies, isLoading, isError, error} = useGetMovieAdmin()
     const {data: genres} = useGetGenresAdmin()
+    const { mutate, isPending } = useInsertMovieAdmin()
 
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
-
-    const { mutate, isPending } = useInsertMovieAdmin()
 
     const modalIsOpen = useModalStore(state => state.modalIsOpen)
     const openModal = useModalStore(state => state.openModal)
     const closeModal = useModalStore(state => state.closeModal) 
 
-    const defaultGenreValues = {value: "", label: "All"}
+    const defaultGenreValues = {value: "sss", label: "All"}
+    const optionGenres = genres?.map((genre) => ({value: genre.id, label: genre.name}))
+    optionGenres?.unshift(defaultGenreValues)
 
     const onSubmit: SubmitHandler<MovieFormInput> = (data) => {
         const formData = movieData(data)
@@ -46,7 +47,7 @@ export default function Movie(){
             <Select
                 defaultValue={defaultGenreValues}
                 onChange={(option) => setSelectedGenre(option?.label as string)}
-                options={[defaultGenreValues, ...genres?.map((g) => ({value: g.id, label: g.name})) as GenreOption[]]} 
+                options={optionGenres} 
             />
             <ModalComponent
                 openModal={modalIsOpen}
