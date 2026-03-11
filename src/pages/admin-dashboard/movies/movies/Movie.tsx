@@ -8,11 +8,17 @@ import MovieForm from "@/components/forms/MovieForm"
 import { movieData } from "@/components/helper/movie-submit-helper"
 import Select from "react-select"
 import { useState } from "react"
-
+import { errorMessages } from "@/utils/error-messages"
+import Error from "@/components/Error"
 export default function Movie(){
     const {data: admin_movies, isLoading, isError, error} = useGetMovieAdmin()
     const {data: genres} = useGetGenresAdmin()
-    const { mutate, isPending } = useInsertMovieAdmin()
+    const { mutate, isPending, isError: isInsertError, error: insertError } = useInsertMovieAdmin()
+
+    let displayError: string | string[] = ""
+    if (isInsertError){
+        displayError = errorMessages(insertError)
+    }
 
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
 
@@ -31,13 +37,16 @@ export default function Movie(){
         });
     }
 
+    if (error){
+        return <div>{error.message}</div>
+    }
+
     if(isLoading) {
         return <div>Loading...</div>
     }
 
     return (
         <div>
-            {isError && <div>{error.message}</div>}
             <button onClick={openModal}>Add movie</button>
             <Select
                 defaultValue={defaultGenreValues}
@@ -48,6 +57,7 @@ export default function Movie(){
                 openModal={modalIsOpen}
                 closeModal={closeModal}
             >
+                {(isError && Array.isArray(displayError)) ? <Error errors={displayError} /> : <div>{displayError}</div>}
                 <MovieForm 
                 isPending={isPending} 
                 onSubmit={onSubmit}

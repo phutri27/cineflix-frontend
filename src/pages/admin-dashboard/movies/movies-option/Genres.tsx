@@ -2,8 +2,8 @@ import { useGetGenresAdmin, useInsertGenreAdmin, useUpdateGenreAdmin, useDeleteG
 import MoviesOptionEntity from "../MoviesOptionEntity";
 export default function Genres() {
     const { data: admin_genres, isLoading, isError, error} = useGetGenresAdmin()
-    const { mutate: insertGenre, isPending: insertPending } = useInsertGenreAdmin()
-    const { mutate: updateGenre, isPending: updatePending} = useUpdateGenreAdmin()
+    const { mutate: insertGenre, isPending: insertPending, isError: isInsertError, error: insertError } = useInsertGenreAdmin()
+    const { mutate: updateGenre, isPending: updatePending, isError: isUpdateError, error: updateError} = useUpdateGenreAdmin()
     const { mutate: deleteGenre} = useDeleteGenreAdmin()
 
     return <MoviesOptionEntity 
@@ -17,5 +17,9 @@ export default function Genres() {
             onDelete={(id) => deleteGenre(id)} 
             isInsertPending={insertPending}
             isUpdatePending={updatePending}
+            isInsertError={isInsertError}
+            insertError={insertError!}
+            isUpdateError={isUpdateError}
+            updateError={updateError!}
             />
 }

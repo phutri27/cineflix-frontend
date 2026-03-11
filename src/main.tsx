@@ -10,9 +10,9 @@ import AdminDashboard from './pages/admin-dashboard/AdminDashboard'
 import Movies from './pages/admin-dashboard/movies/Movies'
 import Movie from './pages/admin-dashboard/movies/movies/Movie'
 import SingleMovieEdit from './pages/admin-dashboard/movies/movies/SingleMovieEdit'
-import Actors from './pages/admin-dashboard/movies/actors/Actors'
-import Directors from './pages/admin-dashboard/movies/directors/Directors'
-import Genres from './pages/admin-dashboard/movies/genres/Genres'
+import Actors from './pages/admin-dashboard/movies/movies-option/Actors'
+import Directors from './pages/admin-dashboard/movies/movies-option/Directors'
+import Genres from './pages/admin-dashboard/movies/movies-option/Genres'
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -40,6 +40,7 @@ const router = createBrowserRouter([
            {path: "directors", element: <Directors />},
            {path: "genres", element: <Genres />},
          ]},
+         {path: "cinemas"}
       ]
      },
      {

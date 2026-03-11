@@ -1,9 +1,8 @@
-import React from "react";
 import { useSignup } from "@/hooks";
 import OTPInput from "@/components/OTPInput";
-import ErrorFunc from "@/components/Error";
 import { useForm, type SubmitHandler } from "react-hook-form";
-
+import { errorMessages } from "@/utils/error-messages";
+import Error from "@/components/Error";
 interface State {
     email: string
     pw: string
@@ -18,14 +17,9 @@ export default function Signup(){
     
     const email = watch("email")
 
-    let displayError: string | React.ReactNode = ""
+    let displayError: string | string[ ]= ""
     if (isError){
-        const errors = error?.response?.data.errors || error?.message || "An error occurred"
-        if (Array.isArray(error)){
-            displayError = <ErrorFunc errors={errors} />
-        } else {
-            displayError = errors
-        }
+       displayError = errorMessages(error)
     }
 
     const onSubmit: SubmitHandler<State> = (data) => {
@@ -38,7 +32,7 @@ export default function Signup(){
 
     return (    
         <>
-            {displayError}
+            {(isError && Array.isArray(displayError)) ? <Error errors={displayError} /> : <div>{displayError}</div>}
             <div className="signup-container">
                 <h1>Signup</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>

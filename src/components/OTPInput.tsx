@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { useOTP } from "@/hooks/user/use-otp";
 import { useNavigate } from "react-router";
+import { errorMessages } from "@/utils/error-messages";
+import Error from "./Error";
 export default function OTPInput({email} : {email: string}){
     const [otp, setOTP] = useState<string>('')
 
     const navigate = useNavigate()
-    const {data, mutate, isSuccess } = useOTP()
+    const {data, mutate, isSuccess, isError, error } = useOTP()
+
+    let displayError: string | string[] = ""
+    if (isError){
+        displayError = errorMessages(error)
+    }
+
     
     const handleOTP = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOTP(e.target.value)
@@ -23,6 +31,7 @@ export default function OTPInput({email} : {email: string}){
     return (
         <div className="otp-container">
             <form onSubmit={handleSubmit}>
+                {(isError && Array.isArray(displayError)) ? <Error errors={displayError} /> : <div>{displayError}</div>}
                 <label htmlFor="otp">
                     OTP 
                     <input 

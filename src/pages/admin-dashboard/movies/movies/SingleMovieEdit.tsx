@@ -5,6 +5,7 @@ import type { MovieFormInput } from "@/api";
 import Select from "react-select"
 import { movieData } from "@/components/helper/movie-submit-helper";
 import { useNavigate } from "react-router";
+import { errorMessages } from "@/utils/error-messages";
 import Error from "@/components/Error";
 
 const emptyMsg = "must not be empty"
@@ -16,14 +17,9 @@ export default function SingleMovieEdit(){
     const { data: admin_movie, isLoading, isError: queyrIsError, error: queryError} = useGetSpecificMovieAdmin(movieId!)
     const { mutate, isPending, isError: mutateIsError, error: mutateError} = useUpdateMovieAdmin()
 
-    let displayError: string | React.ReactNode = ""
+    let displayError: string | string[] = ""
     if (mutateIsError){
-        const errors: string[] | string = mutateError?.response?.data.errors || mutateError?.message || "An error occurred"
-        if (Array.isArray(errors)){
-            displayError = <Error errors={errors} />
-        } else {
-            displayError = errors
-        }
+        displayError = errorMessages(mutateError)
     }
 
     const { register, handleSubmit, formState: {errors: formError}, control, watch}  = useForm<MovieFormInput>({
@@ -59,7 +55,7 @@ export default function SingleMovieEdit(){
 
     return (
         <div>
-            {displayError}
+            {(mutateError && Array.isArray(displayError)) ? <Error errors={displayError}/> : <div>{displayError}</div>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <input type="file" {...register("filename")} accept=".jpg, .jpeg, .png"/>

@@ -2,9 +2,11 @@ import { useGetActorsAdmin, useInsertActorAdmin, useUpdateActorAdmin, useDeleteA
 import MoviesOptionEntity from "../MoviesOptionEntity";
 export default function Actors() {
     const { data: admin_actor, isLoading, isError, error} = useGetActorsAdmin()
-    const { mutate : insertActor, isPending: insertPending } = useInsertActorAdmin()
-    const { mutate : updateActor, isPending: updatePending } = useUpdateActorAdmin()
+    const { mutate : insertActor, isPending: insertPending, isError: isInsertError, error: insertError } = useInsertActorAdmin()
+    const { mutate : updateActor, isPending: updatePending, isError: isUpdateError, error: updateError} = useUpdateActorAdmin()
     const { mutate : deleteActor } = useDeleteActorAdmin()
+
+
 
     return <MoviesOptionEntity 
             entityName="actor"
@@ -17,5 +19,9 @@ export default function Actors() {
             onDelete={(id) => deleteActor(id)} 
             isInsertPending={insertPending}
             isUpdatePending={updatePending}
+            isInsertError={isInsertError}
+            insertError={insertError!}
+            isUpdateError={isUpdateError}
+            updateError={updateError!}
             />
 }

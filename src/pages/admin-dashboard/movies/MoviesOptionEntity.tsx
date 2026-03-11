@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ModalComponent from "@/components/modal/Modal";
 import LetterNode from "../LetterNode";
-
+import { errorMessages } from "@/utils/error-messages";
+import Error from "@/components/Error";
 interface Entity {
     id: string;
     name: string;
@@ -18,6 +19,10 @@ interface EntityProps {
     onDelete: (id: string) => void;
     isInsertPending: boolean;
     isUpdatePending: boolean;
+    isInsertError: boolean
+    insertError: Error
+    isUpdateError: boolean
+    updateError: Error
 }
 
 export default function MoviesOptionEntity({
@@ -30,13 +35,22 @@ export default function MoviesOptionEntity({
     onUpdate,
     onDelete,
     isInsertPending,
-    isUpdatePending
+    isUpdatePending,
+    isInsertError,
+    insertError,
+    isUpdateError,
+    updateError
 }: EntityProps) {
     const [nameInput, setNameInput] = useState<string>("");
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editingId, setEditingId] = useState<string>("");
     
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    let displayError: string | string[] = ""
+    if (isInsertError || isUpdateError){
+        displayError = errorMessages(insertError || updateError)
+    }
 
     const openInsertModal = () => {
         setIsModalOpen(true);
@@ -78,6 +92,7 @@ export default function MoviesOptionEntity({
             </div>
             <ModalComponent openModal={isModalOpen} closeModal={() => setIsModalOpen(false)}>
                 <form onSubmit={handleSubmit}>
+                    {((isInsertError || isUpdateError) && Array.isArray(displayError)) ? <Error errors={displayError}/> : <div>{displayError}</div> }
                     <input 
                         type="text" 
                         placeholder={`${entityName} name`} 
