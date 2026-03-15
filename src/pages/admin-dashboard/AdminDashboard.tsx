@@ -9,6 +9,7 @@ export default function AdminDashboard(){
             <div>
                 <div>
                     <Link to="movies">Movies</Link>
+                    <Link to="cinemas">Cinemas</Link>
                 </div>
             </div>
             <Outlet />

@@ -19,12 +19,12 @@ export const adminGetMovieApi = async (): Promise<MovieResponse[]> => {
 }
 
 export const adminGetSpecificMovie = async (id: string): Promise<MovieResponse> => {
-    const response = await axiosClient.get(`/api/admin/dashboard/movie/${id}`)
+    const response = await axiosClient.get(`/api/admin/dashboard/movies/${id}`)
     return response.data
 }
 
 export const adminInsertMovieApi = async (formData: FormData): Promise<MovieResponse> => {
-    const response = await axiosClient.post("/api/admin/dashboard/movie", formData, {
+    const response = await axiosClient.post("/api/admin/dashboard/movies", formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -33,7 +33,7 @@ export const adminInsertMovieApi = async (formData: FormData): Promise<MovieResp
 }
 
 export const adminUpdateMovieApi = async ({id, formData}: {id: string, formData: FormData}): Promise<MovieResponse> => {
-    const response = await axiosClient.put(`/api/admin/dashboard/movie/${id}`, formData, {
+    const response = await axiosClient.put(`/api/admin/dashboard/movies/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -42,5 +42,5 @@ export const adminUpdateMovieApi = async ({id, formData}: {id: string, formData:
 }
 
 export const adminDeleteMovieApi = async (id: string): Promise<void> => {
-    await axiosClient.delete(`/api/admin/dashboard/movie/${id}`)
+    await axiosClient.delete(`/api/admin/dashboard/movies/${id}`)
 }

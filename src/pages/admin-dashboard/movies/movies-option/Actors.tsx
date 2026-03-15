@@ -6,8 +6,6 @@ export default function Actors() {
     const { mutate : updateActor, isPending: updatePending, isError: isUpdateError, error: updateError} = useUpdateActorAdmin()
     const { mutate : deleteActor } = useDeleteActorAdmin()
 
-
-
     return <MoviesOptionEntity 
             entityName="actor"
             data={admin_actor}

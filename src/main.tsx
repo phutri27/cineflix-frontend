@@ -13,6 +13,10 @@ import SingleMovieEdit from './pages/admin-dashboard/movies/movies/SingleMovieEd
 import Actors from './pages/admin-dashboard/movies/movies-option/Actors'
 import Directors from './pages/admin-dashboard/movies/movies-option/Directors'
 import Genres from './pages/admin-dashboard/movies/movies-option/Genres'
+import Cinemas from './pages/admin-dashboard/cinemas/Cinemas'
+import CinemaSpecific from './pages/admin-dashboard/cinemas/CinemaSpecific'
+import ScreenView from './pages/admin-dashboard/cinemas/screens/ScreenView'
+import ScreenCreate from './pages/admin-dashboard/cinemas/screens/ScreenCreate'
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -40,12 +44,24 @@ const router = createBrowserRouter([
            {path: "directors", element: <Directors />},
            {path: "genres", element: <Genres />},
          ]},
-         {path: "cinemas"}
+         {path: "cinemas", element: <Cinemas />}
       ]
      },
      {
       path: "/admin/edit-movie/:movieId",
       element: <SingleMovieEdit />,
+     },
+     {
+      path: "/admin/edit-cinemas/:cinemaId",
+      element: <CinemaSpecific />
+     },
+     {
+      path: "/admin/cinemas/:cinemaId/add-screen",
+      element: <ScreenCreate />
+     },
+     {
+      path: "/admin/cinemas/:cinemaId/screens/:screenId",
+      element: <ScreenView />
      }
 ])
 
