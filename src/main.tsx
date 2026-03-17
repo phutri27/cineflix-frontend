@@ -17,6 +17,9 @@ import Cinemas from './pages/admin-dashboard/cinemas/Cinemas'
 import CinemaSpecific from './pages/admin-dashboard/cinemas/CinemaSpecific'
 import ScreenView from './pages/admin-dashboard/cinemas/screens/ScreenView'
 import ScreenCreate from './pages/admin-dashboard/cinemas/screens/ScreenCreate'
+import SpecificCinemaMovies from './pages/admin-dashboard/cinemas/showing-movies/SpecificCinemaMovies'
+import Snacks from './pages/admin-dashboard/snacks/Snacks'
+
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -44,7 +47,8 @@ const router = createBrowserRouter([
            {path: "directors", element: <Directors />},
            {path: "genres", element: <Genres />},
          ]},
-         {path: "cinemas", element: <Cinemas />}
+         {path: "cinemas", element: <Cinemas />},
+         {path: "snacks", element: <Snacks />}
       ]
      },
      {
@@ -62,7 +66,11 @@ const router = createBrowserRouter([
      {
       path: "/admin/cinemas/:cinemaId/screens/:screenId",
       element: <ScreenView />
-     }
+     },
+     {
+      path: "/admin/cinemas/:cinemaId/movies/:movieId/showtimes",
+      element: <SpecificCinemaMovies />
+     },
 ])
 
 createRoot(document.getElementById('root')!).render(

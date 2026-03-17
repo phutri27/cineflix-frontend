@@ -2,8 +2,7 @@ import * as cities from "@/hooks/admin/cinemas/use-city-cinema"
 import ModalComponent from "@/components/modal/Modal"
 import React, { useState } from "react"
 import CinemasByCity from "./CinemasByCity"
-import { errorMessages } from "@/utils/error-messages"
-import Error from "@/components/Error"
+import { ErrorMessages } from "@/utils/error-messages"
 export default function Cinemas() {
     const [modalIsOpen, setModal] = useState<boolean>(false)
     const [cityName, setCityName] = useState<string>('')
@@ -13,11 +12,6 @@ export default function Cinemas() {
     const { data: admin_cities, isLoading, isError, error } = cities.useGetAdminCities()
     const { mutate: insertMutate, isPending: insertPending, isError: isInsertError, error: insertError } = cities.useInsertAdminCity()
     const { mutate: updateMutate, isPending: updatePending, isError: isUpdateError, error: updateError } = cities.useUpdateAdminCity()
-
-    let displayError: string | string[] = ""
-    if (isInsertError || isUpdateError){
-        displayError = errorMessages(insertError || updateError!)
-    }
 
     const openModal = () => {
         setModal(true)
@@ -74,9 +68,7 @@ export default function Cinemas() {
                 <button onClick={openModal}>Add city</button>
             </div>
             <ModalComponent openModal={modalIsOpen} closeModal={closeModal}>
-                {((isInsertError || isUpdateError) && Array.isArray(displayError)) 
-                ? <Error errors={displayError}/> 
-                : <div>{displayError}</div> }
+                {((isInsertError || isUpdateError) && <ErrorMessages error={insertError || updateError!}/>)}
                 <form onSubmit={handleSubmit}>
                     <input type="text" 
                     name="city_name"

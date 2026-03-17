@@ -11,10 +11,33 @@ export interface ScreenTypeProp {
     cinema_id: string
     seats: SeatType[]
 }
+
+export interface ScreenByMovieAndCinemaResponse {
+    id: string
+    name: string
+    cinemaId: string
+    showtimes: {
+        id: string
+        startTime: Date
+        movieId: string
+        screenId: string
+    }[]
+}
+
 export const getAdminScreensByCinema = async (cinema_id: string) => {
     const response = await axiosClient.get("/api/admin/dashboard/screens", {
         params: {
-            cinema_id
+            cinema_id,
+        }
+    })
+    return response.data
+}
+
+export const getAdminScreenByMovieAndCinema = async (cinema_id: string, movie_id: string): Promise<ScreenByMovieAndCinemaResponse[]> => {
+    const response = await axiosClient.get("/api/admin/dashboard/screens", {
+        params: {
+            cinema_id,
+            movie_id
         }
     })
     return response.data

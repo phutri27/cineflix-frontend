@@ -14,6 +14,14 @@ export function useGetAdminScreens(cinemaId: string, options?: Omit<UseQueryOpti
     })
 }
 
+export function useGetAdminScreenByMovie(cinema_id: string, movie_id: string,options?: Omit<UseQueryOptions<screens.ScreenByMovieAndCinemaResponse[]>, "queryKey" | "queryFn">) {
+    return useQuery({
+        queryKey: ["admin_screen_specfic", cinema_id, movie_id],
+        queryFn: () => screens.getAdminScreenByMovieAndCinema(cinema_id, movie_id),
+        ...options
+    })
+}
+
 export function useGetAdminSpecificScreen(screen_id: string, options?: Omit<UseQueryOptions<screens.ScreenTypeProp>, "queryKey" | "queryFn">) {
     return useQuery({
         queryKey: ["admin_screen", screen_id],

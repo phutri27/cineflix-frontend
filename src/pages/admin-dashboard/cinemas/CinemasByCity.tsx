@@ -5,8 +5,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import ModalComponent from "@/components/modal/Modal";
 import CinemaDetails from "./CinemaDetails";
-import { errorMessages } from "@/utils/error-messages";
-import Error from "@/components/Error";
+import { ErrorMessages } from "@/utils/error-messages";
 
 interface CinemasByCityProps {
     city: CityResponse;
@@ -39,12 +38,6 @@ export default function CinemasByCity({city, openEditingModal}: CinemasByCityPro
     const { data: cinemaByCity, isLoading, isError: isGetError, error: getError } = cinemas.useGetAdminCinema(Number(city.id))
     const { mutate: insertCinema, isPending: insertCinemaPending, isError: isInsertError, error: insertError } = cinemas.useAdminInsertCinema()
     const { mutate: updateCinema, isPending: updateCinemaPending, isError: isUpdateError, error: updateError } = cinemas.useAdminUpdateCinema()
-
-    let displayError: string | string[] = ""
-    if (isInsertError || isUpdateError){
-        displayError = errorMessages(insertError || updateError!)
-        reset()
-    }
 
     const openModal = () => {
         setModal(true)
@@ -118,9 +111,7 @@ export default function CinemasByCity({city, openEditingModal}: CinemasByCityPro
                 <button onClick={openModal}>Add cinema</button>
                 <ModalComponent openModal={modalIsOpen} closeModal={closeModal}>
                     <p>Create cinema</p>
-                    {((isInsertError || isUpdateError) && Array.isArray(displayError)) 
-                    ? <Error errors={displayError}/> 
-                    : <div>{displayError}</div> }
+                    {((isInsertError || isUpdateError)  && <ErrorMessages error={insertError || updateError!}/>)}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <label htmlFor="hame">Name</label>

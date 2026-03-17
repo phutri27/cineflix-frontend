@@ -49,7 +49,7 @@ export default function MovieForm({onSubmit, isPending, admin_genres}: MovieForm
             </div>
             <div>
                 <label htmlFor="filename">Poster</label>
-                <input type="file" {...register("filename", {required: `Poster ${emptyMsg}`})} accept=".jpg, .jpeg, .png"/>
+                <input type="file" {...register("filename", {required: `Poster ${emptyMsg}`})} accept="image/*"/>
                 {selectedPoster && selectedPoster.length > 0 && (
                     <div>
                         <img src={URL.createObjectURL(selectedPoster[0])} alt="image preview" />

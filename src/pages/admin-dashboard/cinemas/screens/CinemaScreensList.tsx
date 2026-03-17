@@ -1,17 +1,10 @@
 import type { screenOption } from "@/api/admin/cinema/admin-cinema-api"
 import { useDeleteAdminScreen } from "@/hooks/admin/cinemas/use-admin-screen"
-import { errorMessages } from "@/utils/error-messages"
-import Error from "@/components/Error"
+import { ErrorMessages } from "@/utils/error-messages"
 import { useNavigate } from "react-router"
 export default function CinemaScreensList({cinemaId, screens}: {cinemaId: string, screens: screenOption[]}) {
     const navigate = useNavigate()
     const { mutate: deleteScreen, isError: isDeleteError, error: deleteError } = useDeleteAdminScreen(cinemaId)
-
-    let displayError: string | string[]
-    if (isDeleteError){
-        displayError = errorMessages(deleteError)
-    }
-
     const handleViewScreen = (screenId: string) => {
         navigate(`/admin/cinemas/${cinemaId}/screens/${screenId}`)
     }
@@ -28,9 +21,7 @@ export default function CinemaScreensList({cinemaId, screens}: {cinemaId: string
                 <div key={screen.id}>
                     <h3>{screen.name}</h3>
                     <button onClick={() => handleViewScreen(screen.id)}>View</button>
-                    {isDeleteError && Array.isArray(displayError)
-                    ? <Error errors={displayError}/> 
-                    : <div>{displayError}</div> }
+                    {isDeleteError && <ErrorMessages error={deleteError}/>}
                     <button onClick={() => handleDeleteScreen(screen.id)}>Delete</button>
                 </div>
             ))}

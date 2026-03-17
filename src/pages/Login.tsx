@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useLogin, useLoginGoolge } from '@/hooks';
 import { Navigate, useLocation } from 'react-router';
-import { errorMessages } from '@/utils/error-messages';
-import Error from '@/components/Error';
+import { ErrorMessages } from '@/utils/error-messages';
+
 export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [pw, setPw] = useState<string>('');
@@ -11,11 +11,6 @@ export default function Login() {
 
     const { mutate, isPending, isError, error, isSuccess } = useLogin();
     const { isLoading } = useLoginGoolge({enabled: googleLogin})
-
-    let displayError: string | string[] = ""
-    if (isError){
-        displayError = errorMessages(error)
-    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,7 +54,7 @@ export default function Login() {
                         required
                     />
                 </div>
-                {(isError && Array.isArray(displayError)) ? <Error errors={displayError} /> : <div>{displayError}</div>}
+                {(isError && <ErrorMessages error={error!}/>)}
                 <button type="submit" disabled={isPending}>
                     {isPending ? 'Logging in...' : 'Login'}
                 </button>

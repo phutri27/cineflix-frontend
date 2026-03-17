@@ -5,8 +5,8 @@ import * as cinemasApi from '@/hooks/admin/cinemas/use-admin-cinema';
 import CinemaScreensList from './screens/CinemaScreensList';
 import SeatTypeList from './seat-types/SeatTypeList';
 import { useNavigate } from 'react-router';
-import Error from '@/components/Error';
-import { errorMessages } from '@/utils/error-messages';
+import { ErrorMessages } from '@/utils/error-messages';
+import MoviesList from './showing-movies/MoviesList';
 
 interface CinemaGeneralFormData {
     name: string;
@@ -25,11 +25,6 @@ export default function EditCinemaPage() {
     const { mutate: updateCinema, isPending, isError: isUpdateError, error: updateError } = cinemasApi.useAdminUpdateCinema();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CinemaGeneralFormData>();
-
-    let displayError: string | string[] = ""
-    if (isUpdateError){
-        displayError = errorMessages(updateError!)
-    }
 
     useEffect(() => {
         if (cinema) {
@@ -59,9 +54,7 @@ export default function EditCinemaPage() {
             <h1>Edit Cinema: {cinema.name}</h1>
             <section className="general-info-section">
                 <h2>General Information</h2>
-                {isUpdateError && Array.isArray(displayError)
-                ? <Error errors={displayError}/> 
-                : <div>{displayError}</div> }
+                {isUpdateError && <ErrorMessages error={updateError!}/>}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label>Name</label>
@@ -104,7 +97,7 @@ export default function EditCinemaPage() {
 
                     <div className="management-card">
                         {/* <h3>Currently Showing Movies ({cinema.movies.length})</h3> */}
-                        
+                        <MoviesList cinemaId={cinemaId!} movies={cinema.movies} />
                         <button>Manage Movies</button>
                     </div>
                 </div>

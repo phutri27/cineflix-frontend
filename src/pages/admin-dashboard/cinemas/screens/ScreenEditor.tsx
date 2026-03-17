@@ -5,8 +5,7 @@ import { useState } from "react";
 import { useGetAdminSeatTypesByCinema } from "@/hooks/admin/cinemas/use-admin-seat-type";
 import { useNavigate } from "react-router";
 import SeatGridLayout from "./SeatGridLayout";
-import { errorMessages } from "@/utils/error-messages";
-import Error from "@/components/Error";
+import { ErrorMessages } from "@/utils/error-messages";
 
 export interface ScreenFormData {
     rows: number,
@@ -67,12 +66,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
             seats: initialSeats
         }
     })
-
-    let displayError: string | string[]
-    if (isError){
-        displayError = errorMessages(error)
-    }
-
+    
     const handleSave = () => {
         const formattedSeats = localSeats.map((s) => ({
             row: s.row,
@@ -93,7 +87,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
 
     return (
         <FormProvider {...methods} >
-            {isError && Array.isArray(displayError!) ? <Error errors={displayError}/> : <div>{displayError!}</div>}
+            {isError && <ErrorMessages error={error} />}
             <div>
                 <button onClick={openModal}>Create seats grid</button>
                 <button onClick={handleSave} disabled={isPending}>{isPending ? "Saving" : "Save screen layout"}</button>

@@ -26,12 +26,32 @@ export const useAdminInsertCinema = () => {
     })
 }
 
+export const useAdminInsertMovieInCinema = (cinema_id: string) => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: cinemasApi.insertMovieInCinemaApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["admin-cinema", cinema_id]})
+        }
+    })
+}
+
 export const useAdminUpdateCinema = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: cinemasApi.updateCinemaApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-cinemas"]})
+        }
+    })
+}
+
+export const useAdminDeleteMovieInCinema = (cinema_id: string) => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: cinemasApi.deleteMovieInCinemaApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["admin-cinema", cinema_id]})
         }
     })
 }

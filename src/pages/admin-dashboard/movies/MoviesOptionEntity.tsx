@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ModalComponent from "@/components/modal/Modal";
 import LetterNode from "../LetterNode";
-import { errorMessages } from "@/utils/error-messages";
-import Error from "@/components/Error";
+import { ErrorMessages } from "@/utils/error-messages";
+
 interface Entity {
     id: string;
     name: string;
@@ -47,11 +47,6 @@ export default function MoviesOptionEntity({
     
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    let displayError: string | string[] = ""
-    if (isInsertError || isUpdateError){
-        displayError = errorMessages(insertError || updateError)
-    }
-
     const openInsertModal = () => {
         setIsModalOpen(true);
         setIsEditing(false);
@@ -92,7 +87,7 @@ export default function MoviesOptionEntity({
             </div>
             <ModalComponent openModal={isModalOpen} closeModal={() => setIsModalOpen(false)}>
                 <form onSubmit={handleSubmit}>
-                    {((isInsertError || isUpdateError) && Array.isArray(displayError)) ? <Error errors={displayError}/> : <div>{displayError}</div> }
+                    {((isInsertError || isUpdateError) && <ErrorMessages error={insertError || updateError!}/>)}
                     <input 
                         type="text" 
                         placeholder={`${entityName} name`} 

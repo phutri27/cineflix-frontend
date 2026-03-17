@@ -10,6 +10,7 @@ export default function AdminDashboard(){
                 <div>
                     <Link to="movies">Movies</Link>
                     <Link to="cinemas">Cinemas</Link>
+                    <Link to="snacks">Snacks</Link>
                 </div>
             </div>
             <Outlet />

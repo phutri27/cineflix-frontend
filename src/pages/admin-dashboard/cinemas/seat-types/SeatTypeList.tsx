@@ -74,10 +74,12 @@ export default function SeatTypeList({cinemaId, seatTypes}: {cinemaId: string, s
                     <div>
                         <label htmlFor="price">Price</label>
                         <input type="number" id="price"{...register("price", {required: `Price ${emptyMsg}`})}/>
+                        {errors.price && <p>{errors.price.message}</p>}
                     </div>
                     <div>
                         <label htmlFor="seat_type">Seat Type</label>
                         <input id="seat_type" {...register("seat_type", {required: `Seat type ${emptyMsg}`})}/>
+                        {errors.seat_type && <p>{errors.seat_type.message}</p>}
                     </div>
                     <button type="submit">Add</button>
                 </form>
