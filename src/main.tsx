@@ -21,7 +21,7 @@ import SpecificCinemaMovies from './pages/admin-dashboard/cinemas/showing-movies
 import Snacks from './pages/admin-dashboard/snacks/Snacks'
 import Vouchers from './pages/admin-dashboard/vouchers/Vouchers'
 import User from './pages/admin-dashboard/users/User'
-
+import RoleAccess from './components/RoleAcess'
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -37,44 +37,49 @@ const router = createBrowserRouter([
         element: <Login />
      },
      {
-      path: "/admin/dashboard",
-      element: <AdminDashboard />,
-      children: [
-        {path: "movies", 
-         element: <Movies />, 
-         children:
-         [
-           {index: true, element: <Movie />},
-           {path: "actors", element: <Actors /> },
-           {path: "directors", element: <Directors />},
-           {path: "genres", element: <Genres />},
-         ]},
-         {path: "cinemas", element: <Cinemas />},
-         {path: "snacks", element: <Snacks />},
-         {path: "vouchers", element: <Vouchers />},
-         {path: "users", element: <User />}
-      ]
-     },
-     {
-      path: "/admin/edit-movie/:movieId",
-      element: <SingleMovieEdit />,
-     },
-     {
-      path: "/admin/edit-cinemas/:cinemaId",
-      element: <CinemaSpecific />
-     },
-     {
-      path: "/admin/cinemas/:cinemaId/add-screen",
-      element: <ScreenCreate />
-     },
-     {
-      path: "/admin/cinemas/:cinemaId/screens/:screenId",
-      element: <ScreenView />
-     },
-     {
-      path: "/admin/cinemas/:cinemaId/movies/:movieId/showtimes",
-      element: <SpecificCinemaMovies />
-     },
+        element: <RoleAccess />,
+        children: [
+          {
+            path: "/admin/dashboard",
+            element: <AdminDashboard />,
+            children: [
+              {path: "movies", 
+              element: <Movies />, 
+              children:
+              [
+                {index: true, element: <Movie />},
+                {path: "actors", element: <Actors /> },
+                {path: "directors", element: <Directors />},
+                {path: "genres", element: <Genres />},
+              ]},
+              {path: "cinemas", element: <Cinemas />},
+              {path: "snacks", element: <Snacks />},
+              {path: "vouchers", element: <Vouchers />},
+              {path: "users", element: <User />}
+            ]
+          },
+          {
+            path: "/admin/edit-movie/:movieId",
+            element: <SingleMovieEdit />,
+          },
+          {
+            path: "/admin/edit-cinemas/:cinemaId",
+            element: <CinemaSpecific />
+          },
+          {
+            path: "/admin/cinemas/:cinemaId/add-screen",
+            element: <ScreenCreate />
+          },
+          {
+            path: "/admin/cinemas/:cinemaId/screens/:screenId",
+            element: <ScreenView />
+          },
+          {
+            path: "/admin/cinemas/:cinemaId/movies/:movieId/showtimes",
+            element: <SpecificCinemaMovies />
+          },
+        ]
+     }
 ])
 
 createRoot(document.getElementById('root')!).render(
