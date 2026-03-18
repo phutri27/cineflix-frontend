@@ -71,7 +71,7 @@ export const insertMovieInCinemaApi = async ({cinema_id, movieIds}: { cinema_id:
 }
 
 export const deleteMovieInCinemaApi = async ({cinema_id, movieId}: { cinema_id: string, movieId: string}): Promise<void> => {
-    await axiosClient.put(`/api/admin/dashboard/cinemas/movies/${cinema_id}/${movieId}`, )
+    await axiosClient.put(`/api/admin/dashboard/cinemas/movies/${cinema_id}/${movieId}`)
 }
 
 export const deleteCinemaApi = async (cinema_id: string): Promise<void> => {

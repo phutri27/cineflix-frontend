@@ -19,6 +19,8 @@ import ScreenView from './pages/admin-dashboard/cinemas/screens/ScreenView'
 import ScreenCreate from './pages/admin-dashboard/cinemas/screens/ScreenCreate'
 import SpecificCinemaMovies from './pages/admin-dashboard/cinemas/showing-movies/SpecificCinemaMovies'
 import Snacks from './pages/admin-dashboard/snacks/Snacks'
+import Vouchers from './pages/admin-dashboard/vouchers/Vouchers'
+import User from './pages/admin-dashboard/users/User'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -48,7 +50,9 @@ const router = createBrowserRouter([
            {path: "genres", element: <Genres />},
          ]},
          {path: "cinemas", element: <Cinemas />},
-         {path: "snacks", element: <Snacks />}
+         {path: "snacks", element: <Snacks />},
+         {path: "vouchers", element: <Vouchers />},
+         {path: "users", element: <User />}
       ]
      },
      {

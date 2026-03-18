@@ -11,6 +11,8 @@ export default function AdminDashboard(){
                     <Link to="movies">Movies</Link>
                     <Link to="cinemas">Cinemas</Link>
                     <Link to="snacks">Snacks</Link>
+                    <Link to="vouchers">Vouchers</Link>
+                    <Link to="users">Users</Link>
                 </div>
             </div>
             <Outlet />
