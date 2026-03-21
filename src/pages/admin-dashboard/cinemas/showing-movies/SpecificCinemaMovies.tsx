@@ -4,6 +4,9 @@ import { useParams } from "react-router";
 import ModalComponent from "@/components/modal/Modal";
 import ShowtimeForm from "./ShowtimeForm";
 import { ErrorMessages } from "@/utils/error-messages";
+import { format } from "date-fns";
+import {ShowtimeDisplay}  from "./ShowtimeDisplay";
+
 export interface SpecificCinemaMoviesProps {
     screenId: string;
     showtime: { time: string }[]
@@ -21,6 +24,8 @@ export default function SpecificCinemaMovies() {
     const handleCreateShowtime = () => {
         setIsModalOpen(true);
     };
+
+    const moviedate = [...new Set(screenByMovie?.flatMap((screen) => screen.showtimes.map((st) => format(st.startTime, "dd/MM/y"))))]
 
     const handleEditShowtime = (screenId: string, showtime: {time: string}[]) => {
         setEditData({screenId, showtime});
@@ -49,11 +54,13 @@ export default function SpecificCinemaMovies() {
                 {screenByMovie?.map((screen) => (
                     <div key={screen.id}>
                         <p>{screen.name}</p>
-                        <div>
-                            {screen.showtimes?.map((st) => (
-                                <button key={st.id}>{st.startTime.toString()}</button>
-                            ))}
-                        </div>
+                        {moviedate.map((dateString) => {
+                            const showtimesForDate = screen.showtimes.filter(
+                                (st) => format(st.startTime, "dd/MM/y") === dateString
+                            );
+                            if (showtimesForDate.length === 0) return null;
+                            return <ShowtimeDisplay dateString={dateString} showtimesForDate={showtimesForDate} />
+                        })}
                         <button onClick={() => handleEditShowtime(
                             screen.id,
                             screen.showtimes?.map((st) => ({time: st.startTime.toString().slice(0,16)})) || []

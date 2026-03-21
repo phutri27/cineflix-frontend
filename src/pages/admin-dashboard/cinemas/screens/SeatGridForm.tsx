@@ -11,7 +11,7 @@ interface SeatGridFormProps {
 const emptyMsg = 'field must not be empty'
 export default function SeatGridForm({seat_type, closeModal, handleSetSeats}: SeatGridFormProps) {
     const { register, reset, handleSubmit, formState: { errors }, control } = useFormContext<ScreenFormData>()
-
+    console.log(seat_type)
     const onSubmit: SubmitHandler<ScreenFormData> = (data) => {
         const generatedSeats: SeatDetailData[] = [];
         for (let i = 0; i < data.rows; i++) {

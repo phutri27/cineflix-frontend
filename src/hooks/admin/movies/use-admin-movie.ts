@@ -1,6 +1,7 @@
 import { adminGetMovieApi, adminDeleteMovieApi, adminInsertMovieApi, adminUpdateMovieApi, adminGetSpecificMovie } from "@/api";
 import { useQuery, useMutation, type UseQueryOptions, useQueryClient } from "@tanstack/react-query";
 import type { MovieResponse } from "@/api/admin/types/movie-response";
+
 export const useGetMovieAdmin = (options?: Omit<UseQueryOptions<MovieResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<MovieResponse[]>({
         ...options,

@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useLogin, useLoginGoolge } from '@/hooks';
 import { Navigate, useLocation } from 'react-router';
 import { ErrorMessages } from '@/utils/error-messages';
-
+import { useUserRoleStore } from '@/utils/user-role-store';
 export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [pw, setPw] = useState<string>('');
     const [googleLogin, setGoogleLogin] = useState<boolean>(false)
+    const setUser = useUserRoleStore(state => state.setUser)
+
     const location = useLocation()
 
     const { mutate, isPending, isError, error, isSuccess } = useLogin();
@@ -14,7 +16,11 @@ export default function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        mutate({email, pw});
+        mutate({email, pw}, {
+            onSuccess(data) {
+                setUser(data.user)
+            },
+        });
     };
 
     const handleLoginGoogle = () => {

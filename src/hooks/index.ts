@@ -1,5 +1,5 @@
 export * from "./user/use-login"
-export * from "./user/use-movie"
+export * from "./user/movies/use-movie"
 export * from "./user/use-otp"
 export * from "./user/use-signup"
 export * from "./admin/movies/use-admin-movie"

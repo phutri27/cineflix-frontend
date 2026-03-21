@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useGetSpecificMovieAdmin, useUpdateMovieAdmin } from "@/hooks";
+import { useGetSpecificMovieAdmin, useUpdateMovieAdmin, useGetActorsAdmin, useGetDirectorsAdmin, useGetGenresAdmin } from "@/hooks";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import type { MovieFormInput } from "@/api";
 import Select from "react-select"
@@ -15,6 +15,9 @@ export default function SingleMovieEdit(){
 
     const { data: admin_movie, isLoading, isError: queyrIsError, error: queryError} = useGetSpecificMovieAdmin(movieId!)
     const { mutate, isPending, isError: mutateIsError, error: mutateError} = useUpdateMovieAdmin()
+    const { data: actors} = useGetActorsAdmin()
+    const { data: directors} = useGetDirectorsAdmin()
+    const { data: genres} = useGetGenresAdmin()
 
     const { register, handleSubmit, formState: {errors: formError}, control, watch}  = useForm<MovieFormInput>({
         values: {
@@ -73,7 +76,7 @@ export default function SingleMovieEdit(){
                             render={({ field }) => (
                                 <Select
                                     {...field}
-                                    options={admin_movie?.directors?.map((director: {id: string, name: string}) => ({value: director.id, label: director.name})) || []}
+                                    options={directors?.map((director: {id: string, name: string}) => ({value: director.id, label: director.name})) || []}
                                     isMulti
                                     placeholder="Select directors..."
                                 />
@@ -90,7 +93,7 @@ export default function SingleMovieEdit(){
                             render={({ field }) => (
                                 <Select
                                     {...field}
-                                    options={admin_movie?.actors?.map((actor: {id: string, name: string}) => ({value: actor.id, label: actor.name})) || []}
+                                    options={actors?.map((actor: {id: string, name: string}) => ({value: actor.id, label: actor.name})) || []}
                                     isMulti
                                     placeholder="Select actors..."
                                 />
@@ -107,7 +110,7 @@ export default function SingleMovieEdit(){
                             render={({ field }) => (
                                 <Select
                                     {...field}
-                                    options={admin_movie?.genres?.map((genre: {id: string, name: string}) => ({value: genre.id, label: genre.name})) || []}
+                                    options={genres?.map((genre: {id: string, name: string}) => ({value: genre.id, label: genre.name})) || []}
                                     isMulti
                                     placeholder="Select genres..."
                                 />

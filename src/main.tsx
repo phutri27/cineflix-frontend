@@ -22,11 +22,27 @@ import Snacks from './pages/admin-dashboard/snacks/Snacks'
 import Vouchers from './pages/admin-dashboard/vouchers/Vouchers'
 import User from './pages/admin-dashboard/users/User'
 import RoleAccess from './components/RoleAcess'
+import SpecficMovie from './pages/movies/SpecficMovie'
+import ShowingMovies from './pages/movies/ShowingMovies'
+import ComingMovies from './pages/movies/ComingMovies'
+
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
         path: "/",
         element: <Home />
+     },
+     {
+      path: "/default/movies/showing-movies",
+      element: <ShowingMovies />
+     },
+     {
+      path: "/default/movies/coming-soon",
+      element: <ComingMovies />
+     },
+     {
+      path: "/default/:movie_id",
+      element: <SpecficMovie />
      },
      {
         path:"/signup",
