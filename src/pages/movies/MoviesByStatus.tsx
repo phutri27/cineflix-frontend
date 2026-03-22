@@ -5,6 +5,7 @@ import ModalComponent from "@/components/modal/Modal"
 import Select from 'react-select'
 import MovieList from "./MovieList"
 import BookingScreen from "../booking/BookingScreen"
+import Header from "@/components/Header"
 
 interface MoviesByStatusProps {
     status: string
@@ -38,6 +39,7 @@ export default function MoviesByStatus({status, title, genre} : MoviesByStatusPr
     }
     return (
         <div>
+            <Header />
             <div>
                   <p>{status === "coming" ? "Coming Movies" : "Showing Movies"}</p>
                   <Select

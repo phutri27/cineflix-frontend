@@ -1,10 +1,12 @@
 import { useUserRoleStore } from "@/utils/user-role-store";
 import { Link } from "react-router";
 export default function Header() {
-    const { first_name, last_name } = useUserRoleStore()
+    const { id, first_name, last_name } = useUserRoleStore()
     return (
         <header className="mb-6">
-            <h1 className="text-2xl font-bold">Welcome back, {first_name} {last_name}</h1>
+            {id ? <div>
+                <Link to="/default/profile">Welcome back, {first_name} {last_name}</Link>
+            </div> : <Link to="/login">Login</Link>}
             <div>
                 <div>Movies</div>
                 <div>

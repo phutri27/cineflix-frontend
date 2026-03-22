@@ -25,6 +25,12 @@ import RoleAccess from './components/RoleAcess'
 import SpecficMovie from './pages/movies/SpecficMovie'
 import ShowingMovies from './pages/movies/ShowingMovies'
 import ComingMovies from './pages/movies/ComingMovies'
+import Profile from './pages/profile/Profile'
+import GeneralInfo from './pages/profile/GeneralInfo'
+import DetailedInfo from './pages/profile/DetailedInfo'
+import ChangePassword from './pages/profile/ChangePassword'
+import NewPassword from './pages/profile/NewPassword'
+import ConfirmOTP from './pages/profile/ConfirmOTP'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -51,6 +57,18 @@ const router = createBrowserRouter([
      {
         path:  "/login",
         element: <Login />
+     },
+     {
+      path: "/default/profile",
+      element: <Profile />,
+      children: [
+        { index: true, element: <GeneralInfo /> },
+        { path: "detailed", element: <DetailedInfo /> },
+        { path: "change-password", element: <ChangePassword />},
+        { path: "confirm-otp", element: <ConfirmOTP />},
+        { path: "new-password", element: <NewPassword />},
+        { path: "booking-history", element: <p>Booking history</p>},
+      ]
      },
      {
         element: <RoleAccess />,
