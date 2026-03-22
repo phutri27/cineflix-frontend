@@ -2,32 +2,38 @@ import { useSignup } from "@/hooks";
 import OTPInput from "@/components/OTPInput";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
-
+import { useOTP } from "@/hooks";
 interface State {
     email: string
     pw: string
-    confirmPw: string
+    confirm_pw: string
     first_name: string
     last_name: string
 }
 
 export default function Signup(){ 
-    const {mutate, isPending, isError, error, isSuccess} = useSignup()
+    const {mutate: signUpMutate, isPending, isError: isSignupError, error: signupError, isSuccess: signupSuccess} = useSignup()
     const { register, handleSubmit, watch, formState: {errors}} = useForm<State>()
-    
-    const email = watch("email")
+    const { mutate: OTPMutate, isError: isOTPError, error: OTPError } = useOTP()
+
+    const email = watch("email") 
 
     const onSubmit: SubmitHandler<State> = (data) => {
-        mutate(data)
+        signUpMutate(data)
     }
 
-    if (isSuccess){
-        return <OTPInput email={email}/>
+    if (signupSuccess){
+        return <OTPInput 
+        onMutate={(otp, email, onSuccess) => OTPMutate({otp, email}, { onSuccess })}
+        email={email}
+        isError={isOTPError}
+        error={OTPError!}
+        navigateURL="/login"/>
     }
 
     return (    
         <>
-            {(isError && <ErrorMessages error={error!}/>)}
+            {(isSignupError && <ErrorMessages error={signupError!}/>)}
             <div className="signup-container">
                 <h1>Signup</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,14 +66,14 @@ export default function Signup(){
                         {errors.pw && <p>{errors.pw.message}</p>}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="confirm_password">Confirm Password</label>
+                        <label htmlFor="confirm_pw">Confirm Password</label>
                         <input
-                            {...register("confirmPw", {
+                            {...register("confirm_pw", {
                                 required: "Confirm password is required",
                                 validate: (value) => value === watch("pw") || "Passwords do not match"
                             })}
                         />
-                        {errors.confirmPw && <p>{errors.confirmPw.message}</p>}
+                        {errors.confirm_pw && <p>{errors.confirm_pw.message}</p>}
                     </div>
                     <button type="submit" disabled={isPending}>
                         {isPending ? "Loading" : "Sign up"}

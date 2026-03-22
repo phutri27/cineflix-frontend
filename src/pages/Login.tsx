@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLogin, useLoginGoolge } from '@/hooks';
-import { Navigate, useLocation } from 'react-router';
+import { Navigate, useLocation, Link } from 'react-router';
 import { ErrorMessages } from '@/utils/error-messages';
 import { useUserRoleStore } from '@/utils/user-role-store';
 export default function Login() {
@@ -61,6 +61,9 @@ export default function Login() {
                     />
                 </div>
                 {(isError && <ErrorMessages error={error!}/>)}
+                <div>
+                    <Link to="/forgotpassword">Forgot password?</Link>
+                </div>
                 <button type="submit" disabled={isPending}>
                     {isPending ? 'Logging in...' : 'Login'}
                 </button>

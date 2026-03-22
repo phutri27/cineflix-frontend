@@ -26,7 +26,6 @@ export const confirmChangePasswordOTP = async (data: {otp: string}) => {
 }
 
 export const newPassword = async (data: {pw: string, confirm_pw: string, resetToken:string}) => {
-    console.log(data)
     const response = await axiosClient.post("/api/password/new", data)
     return response.data
 }

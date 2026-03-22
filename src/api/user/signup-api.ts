@@ -3,6 +3,7 @@ import axiosClient from "../axios-client"
 interface SignupData {
     email: string;
     pw: string;
+    confirm_pw: string;
     first_name: string;
     last_name: string;
 }

@@ -30,8 +30,9 @@ import GeneralInfo from './pages/profile/GeneralInfo'
 import DetailedInfo from './pages/profile/DetailedInfo'
 import ChangePassword from './pages/profile/ChangePassword'
 import NewPassword from './pages/profile/NewPassword'
-import ConfirmOTP from './pages/profile/ConfirmOTP'
-
+import ForgotPassword from './pages/forgot-password/ForgotPassword'
+import { Outlet } from 'react-router'
+import ForgotNewPassword from './pages/forgot-password/ForgotNewPassword'
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -59,13 +60,20 @@ const router = createBrowserRouter([
         element: <Login />
      },
      {
+        path: "/forgotpassword",
+        element: <Outlet />,
+        children: [
+          {index: true, element: <ForgotPassword />},
+          {path: "new-password", element: <ForgotNewPassword />}
+        ]
+     },
+     {
       path: "/default/profile",
       element: <Profile />,
       children: [
         { index: true, element: <GeneralInfo /> },
         { path: "detailed", element: <DetailedInfo /> },
         { path: "change-password", element: <ChangePassword />},
-        { path: "confirm-otp", element: <ConfirmOTP />},
         { path: "new-password", element: <NewPassword />},
         { path: "booking-history", element: <p>Booking history</p>},
       ]

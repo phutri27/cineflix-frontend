@@ -1,13 +1,26 @@
 import React, { useState } from "react";
-import { useOTP } from "@/hooks/user/use-otp";
 import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
 
-export default function OTPInput({email} : {email: string}){
-    const [otp, setOTP] = useState<string>('')
+interface ResponseData {
+    message: string
+    resetToken:string
+    userCred?: string
+}
+    
 
+interface OTPInputProps {
+    onMutate: (otp: string, email: string, onSuccess: (data: ResponseData) => void) => void
+    email?: string;
+    isError: boolean
+    error: Error
+    navigateURL: string
+
+}
+export default function OTPInput({onMutate, email, isError, error, navigateURL}: OTPInputProps) {
+    const [otp, setOTP] = useState<string>('')
+    
     const navigate = useNavigate()
-    const {data, mutate, isSuccess, isError, error } = useOTP()
     
     const handleOTP = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOTP(e.target.value)
@@ -15,11 +28,10 @@ export default function OTPInput({email} : {email: string}){
 
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault()
-        mutate({otp, email})
-    }
-
-    if (isSuccess){
-        navigate('/login', { state: data })
+        const onSuccess = (data: ResponseData) => {
+            navigate(navigateURL, {state: data})
+        }
+        onMutate(otp, email!, onSuccess)
     }
 
     return (

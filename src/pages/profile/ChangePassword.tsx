@@ -2,19 +2,15 @@ import { useChangePassword } from "@/hooks/user/use-profile";
 import { ErrorMessages } from "@/utils/error-messages";
 import React, { useState } from "react";
 import ConfirmOTP from "./ConfirmOTP";
-import { useNavigate } from "react-router";
-
-// interface ChangePasswordForm {
-//     current_password: string,
-//     new_password: string,
-//     confirm_new_password: string
-// }
 
 export default function ChangePassword() {
     const [password, setPassword] = useState<string>("")
 
-    const navigate = useNavigate()
-    const { mutate: changePassword, isPending, isError, error } = useChangePassword()
+    const { mutate: changePassword, 
+        isPending: changePasswordPending, 
+        isError: isChangePasswordError, 
+        error: changePasswordError, 
+        isSuccess: changePasswordSuccess } = useChangePassword()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
@@ -22,16 +18,16 @@ export default function ChangePassword() {
 
     const onSubmit = (e: React.SubmitEvent) => {
         e.preventDefault()
-        changePassword({ password }, {
-            onSuccess : () => {
-                navigate("/default/profile/confirm-otp")
-            },
-        })
+        changePassword({ password })
     } 
+
+    if (changePasswordSuccess){
+        return <ConfirmOTP />
+    }
 
     return (
         <div>
-            {isError && <ErrorMessages error={error}/>}
+            {isChangePasswordError && <ErrorMessages error={changePasswordError}/>}
             <form onSubmit={onSubmit}>
                 <div>
                     <label htmlFor="current_password">Current password</label>
@@ -41,7 +37,7 @@ export default function ChangePassword() {
                     value={password}
                     onChange={handleChange}/>
                 </div>
-                <button type="submit" disabled={isPending}>Submit</button>
+                <button type="submit" disabled={changePasswordPending}>Submit</button>
             </form>
         </div>
     );
