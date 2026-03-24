@@ -9,6 +9,7 @@ export type SeatType = {
 export interface ScreenTypeProp {
     name: string
     cinema_id: string
+    cinema: {name: string}
     seats: SeatType[]
 }
 

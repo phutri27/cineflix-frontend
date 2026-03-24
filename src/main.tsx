@@ -33,6 +33,8 @@ import NewPassword from './pages/profile/NewPassword'
 import ForgotPassword from './pages/forgot-password/ForgotPassword'
 import { Outlet } from 'react-router'
 import ForgotNewPassword from './pages/forgot-password/ForgotNewPassword'
+import SeatsDisplay from './pages/booking/SeatsDisplay'
+
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
      {
@@ -66,6 +68,10 @@ const router = createBrowserRouter([
           {index: true, element: <ForgotPassword />},
           {path: "new-password", element: <ForgotNewPassword />}
         ]
+     },
+     {
+      path: "/default/cinema/:cinemaId/booking/ticket/:showTimeId",
+      element: <SeatsDisplay />
      },
      {
       path: "/default/profile",

@@ -25,8 +25,15 @@ export default function SpecificCinemaMovies() {
         setIsModalOpen(true);
     };
 
-    const moviedate = [...new Set(screenByMovie?.flatMap((screen) => screen.showtimes.map((st) => format(st.startTime, "dd/MM/y"))))]
+    const allShowtimes = screenByMovie?.flatMap((screen) => screen.showtimes) || [];
+    const globallySortedShowtimes = allShowtimes.sort((a, b) => {
+        const timeA = new Date(a.startTime.toString().replace("Z", "")).getTime();
+        const timeB = new Date(b.startTime.toString().replace("Z", "")).getTime();
+        return timeA - timeB;
+    });
 
+    const moviedate = [...new Set(globallySortedShowtimes.map((st) => format(new Date(st.startTime.toString().replace("Z", "")), "dd/MM/y")))];
+    
     const handleEditShowtime = (screenId: string, showtime: {time: string}[]) => {
         setEditData({screenId, showtime});
         setIsModalOpen(true);
@@ -56,7 +63,7 @@ export default function SpecificCinemaMovies() {
                         <p>{screen.name}</p>
                         {moviedate.map((dateString) => {
                             const showtimesForDate = screen.showtimes.filter(
-                                (st) => format(st.startTime, "dd/MM/y") === dateString
+                                (st) => format(st.startTime.toString().replace("Z", ""), "dd/MM/y") === dateString
                             );
                             if (showtimesForDate.length === 0) return null;
                             return <ShowtimeDisplay dateString={dateString} showtimesForDate={showtimesForDate} />

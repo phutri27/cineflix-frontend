@@ -2,9 +2,10 @@ export function createCalendar(): Date[]{
     const calendar: Date[] = []
     const startDate = new Date()
 
+    calendar.push(new Date(startDate))
     for (let i = 0; i < 14; i++){
-        calendar.push(new Date(startDate))
         startDate.setDate(startDate.getDate() + 1)
+        calendar.push(new Date(startDate.setHours(0, 0, 0, 0)))
     }
 
     return calendar
