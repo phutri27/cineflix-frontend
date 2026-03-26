@@ -1,6 +1,7 @@
 import type { PricingDetailProp } from "./SeatsDisplay"
 import { format } from "date-fns"
 import { ErrorMessages } from "@/utils/error-messages"
+
 interface SeatDetailsProp {
     cinemaName: string | undefined
     showTime: Date | undefined
@@ -9,13 +10,27 @@ interface SeatDetailsProp {
     isSeatTypeError?: boolean
     seatTypeError?: Error
     movie: {id: string, title: string, posterUrl: string, rated: string} | undefined
+    handleGoToSnackVoucher: () => void
+    handleBackToSeatSelection: () => void
+    totalAmountBeforeDiscount: number
+    totalAmount?: number
 }
 
-export default function PricingDetail({cinemaName, showTime, screenName, ticketDatas, movie, isSeatTypeError, seatTypeError}: SeatDetailsProp){
+export default function PricingDetail({cinemaName, 
+    showTime, 
+    screenName, 
+    ticketDatas, 
+    movie, 
+    isSeatTypeError, 
+    seatTypeError, 
+    handleGoToSnackVoucher, 
+    handleBackToSeatSelection,
+    totalAmountBeforeDiscount,
+    totalAmount}: SeatDetailsProp){
     const date = showTime ? format(new Date(showTime.toString().replace("Z", "")), "HH:mm dd/MM/y") : null
-    const totalPrice = ticketDatas.reduce((total, ticket) => total + Number(ticket.price), 0)
+
     return (
-        <div>
+        <>
             <div>
                 <img className="h-30" src={movie?.posterUrl} alt={movie?.title} />
                 <div>
@@ -37,10 +52,15 @@ export default function PricingDetail({cinemaName, showTime, screenName, ticketD
                     {ticketDatas.length > 0 && <p>{ticketDatas.map((ticket) => ticket.row + ticket.number).join(", ")}</p>}
                 </div>
                 <div>
-                    Total price : {totalPrice}
+                    <p>{totalAmount ? "Old price: " : "Total price: "} {totalAmountBeforeDiscount}</p>
+                    {totalAmount && <p>Total after discount: {Math.round(totalAmount)}</p>}
                 </div>
+                {isSeatTypeError && <ErrorMessages error={seatTypeError!} />}
             </div>
-            {isSeatTypeError && <ErrorMessages error={seatTypeError!} />}
-        </div>
+            <div>
+                <button onClick={handleBackToSeatSelection}>Back</button>
+                <button onClick={handleGoToSnackVoucher}>Next</button>
+            </div>
+        </>
     )
 }

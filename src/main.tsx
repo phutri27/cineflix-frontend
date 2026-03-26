@@ -62,6 +62,10 @@ const router = createBrowserRouter([
         element: <Login />
      },
      {
+      path:"/default/checkout/payment",
+      element: <p>Payment page</p>
+     },
+     {
         path: "/forgotpassword",
         element: <Outlet />,
         children: [
