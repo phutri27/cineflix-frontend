@@ -1,4 +1,4 @@
-import type { PricingDetailProp } from "./SeatsDisplay"
+import type { PricingDetailProp } from "@/utils/booking-store"
 import { format } from "date-fns"
 import { ErrorMessages } from "@/utils/error-messages"
 

@@ -2,18 +2,18 @@ import { useSnacks } from "@/hooks/user/use-snack";
 import { useRedeemVoucher } from "@/hooks/user/use-voucher";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useState } from "react";
-import type { SnackData, VoucherData } from "./SeatsDisplay";
-
+import { useBookingStore } from "@/utils/booking-store";
+import type { SnackData } from "@/utils/booking-store";
 interface SnackVoucherScreenProps {
     snackQuantities: SnackData[]
-    setSnackQuantities: React.Dispatch<React.SetStateAction<SnackData[]>>
-    setVoucherQuantity: React.Dispatch<React.SetStateAction<VoucherData[]>>
 }
 
-export default function SnackVoucherScreen({snackQuantities, 
-    setSnackQuantities,
-    setVoucherQuantity}: SnackVoucherScreenProps){
+export default function SnackVoucherScreen({snackQuantities}: SnackVoucherScreenProps){
     const [voucherCode, setVoucherCode] = useState<string>("")
+
+    const handleIncrementQty = useBookingStore((state) => state.incrementSnackQuantities)
+    const handleDecrementQty = useBookingStore((state) => state.decrementSnackQuantites)
+    const setVoucherQuantity = useBookingStore((state) => state.setVoucherQuantity)
 
     const { data: snacks, isLoading, isError, error } = useSnacks()
     const { data: voucherData, 
@@ -22,32 +22,6 @@ export default function SnackVoucherScreen({snackQuantities,
         isError: isRedeemError,
          error: redeemError, 
          isSuccess } = useRedeemVoucher()
-    
-    const handleIncrementQty = (snackId: string, price: number) => {
-        const snackIndex = snackQuantities.findIndex((snack) => snack.snackId === snackId)
-        if (snackIndex !== -1){
-            const newQuantities = [...snackQuantities]
-            newQuantities[snackIndex].quantity += 1
-            setSnackQuantities(newQuantities)
-        } else{
-            setSnackQuantities((prev) => [...prev, {snackId, price, quantity: 1}])
-        }
-
-    }
-
-    const handleDecrementQty = (snackId: string) => {
-        const snackIndex = snackQuantities.findIndex((snack) => snack.snackId === snackId)
-        if (snackIndex !== -1){
-            const newQuantities = [...snackQuantities]
-            if (newQuantities[snackIndex].quantity > 0){
-                newQuantities[snackIndex].quantity -= 1
-                if (newQuantities[snackIndex].quantity === 0){
-                    newQuantities.splice(snackIndex, 1)
-                }
-                setSnackQuantities(newQuantities)
-            }
-        }
-    }
 
     const handleVoucherCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoucherCode(e.target.value)
@@ -57,8 +31,7 @@ export default function SnackVoucherScreen({snackQuantities,
         e.preventDefault()
         redeem(voucherCode, {
             onSuccess: (data) => {
-                console.log(data)
-                setVoucherQuantity((prev) => [...prev, {voucherId: data.id, reduceAmount: data.reduceAmount, quantity: 1}])
+                setVoucherQuantity(data.id, data.reduceAmount)
             }
         })
     }

@@ -1,39 +1,28 @@
 import { useGetSpecificShowTime } from "@/hooks/user/movies/use-showtime";
 import { useParams, useNavigate } from "react-router";
 import { useGetSeatType } from "@/hooks/user/use-seat-type";
-import { useState } from "react";
 import PricingDetail from "./PricingDetail";
 import { ErrorMessages } from "@/utils/error-messages";
 import Header from "@/components/Header";
 import SnackVoucherScreen from "./SnackVoucherScreen";
 import { usePostBooking, useGetLockedSeat } from "@/hooks/user/use-booking";
+import { io } from "socket.io-client"
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useBookingStore } from "@/utils/booking-store";
 
-export interface PricingDetailProp {
-    id: string
-    seat_id: string
-    price: string
-    seat_type: string
-    row: string
-    number: number
-}
-
-export interface SnackData {
-    snackId: string
-    price: number
-    quantity: number
-}
-
-export interface VoucherData {
-    voucherId: string
-    reduceAmount: number
-    quantity: number
-}
-
+const socket = io(import.meta.env.VITE_API_URL)
 export default function SeatsDisplay(){
-    const [ticketDatas, setTicketDatas] = useState<PricingDetailProp[]>([])
-    const [snackQuantities, setSnackQuantities] = useState<SnackData[]>([])
-    const [isSnackVoucherScreen, setIsSnackVoucherScreen] = useState<boolean>(false)
-    const [voucherQuantity, setVoucherQuantity] = useState<VoucherData[]>([])
+    const ticketDatas = useBookingStore((state) => state.ticketDatas)
+    const snackQuantities = useBookingStore((state) => state.snackQuantities)
+    const voucherQuantity = useBookingStore((state) => state.voucherQuantity)
+    const isSnackVoucherScreen = useBookingStore((state) => state.isSnackVoucherScreen)
+    const setSeatTypePrice = useBookingStore((state) => state.setSeatTypePrice)
+    const setIsSnackVoucherScreen = useBookingStore((state) => state.setIsSnackVoucherScreen)
+    const clearBookingData = useBookingStore((state) => state.clearBookingData)
+    const setSeatIds = useBookingStore((state) => state.setSeatIds)
+
+    const queryClient = useQueryClient()
 
     const navigate = useNavigate()
 
@@ -63,8 +52,10 @@ export default function SeatsDisplay(){
                 vouchers: voucherQuantity
             }
             postBooking({data, seatIds}, {
-                onSuccess: () => {
-                    navigate("/default/checkout/payment")
+                onSuccess: (data) => {
+                    setSeatIds()
+                    clearBookingData()
+                    navigate(`/default/checkout/payment/${data.id}`)
                 },
                 onError: () => {
                     alert("This seat has been taken, please choose another seat")
@@ -81,15 +72,31 @@ export default function SeatsDisplay(){
     }
 
     const handleSeatTypePrice = (seatTypeId: string, seatId: string, row: string, number: number) => {
-        const isPickedSeat = ticketDatas.some((ticket) => ticket.row === row && ticket.number == number)
-        if (!isPickedSeat){
-            const seatType = seatTypes?.find((type) => type.id === seatTypeId)
-            const newTicketData = {...seatType, seat_id: seatId, row, number} as PricingDetailProp
-            setTicketDatas((prev) => [...prev, newTicketData])
-        } else {
-            setTicketDatas((prev) => prev.filter((ticket) => !(ticket.row === row && ticket.number === number)))
-        }
+        const seatType = seatTypes?.find((seat) => seat.id === seatTypeId)
+        setSeatTypePrice(seatType!, seatId, row, number)
     }
+
+    useEffect(() => {
+        const handleSeatStatusUpdate = (newLockedSeatId: string[]) => {
+            queryClient.setQueryData(["lockedSeats", showTimeId], (oldData: string[] | undefined) => {
+                if (!oldData) return [newLockedSeatId];
+                return [...oldData, ...newLockedSeatId]; 
+            });
+        };
+
+        const handleExpiredSeat = (oldLockedSeatId: string) => {
+            queryClient.setQueryData(["lockedSeats", showTimeId], (oldData: string[] | undefined) => {
+                const newData = oldData!.filter((seatId) => seatId !== oldLockedSeatId)
+                return [...newData]
+            })
+        }
+        socket.on('seats_status', handleSeatStatusUpdate);
+        socket.on(`seat-expired`, handleExpiredSeat)
+        return () => {
+            socket.off('seats_status', handleSeatStatusUpdate);
+            socket.off(`seat-expired`, handleExpiredSeat)
+        };
+    }, [queryClient, showTimeId]);
 
     const screen = showTimeData?.screen
 
@@ -99,8 +106,7 @@ export default function SeatsDisplay(){
             {isSnackVoucherScreen ?  
             <SnackVoucherScreen 
             snackQuantities={snackQuantities} 
-            setSnackQuantities={setSnackQuantities}
-            setVoucherQuantity={setVoucherQuantity}/> : (
+            /> : (
                 <>
                     {isLoading && <p>Loading seats...</p>}
                     {isShowTimeError && <ErrorMessages error={showTimeError} />}

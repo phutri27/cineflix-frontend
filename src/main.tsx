@@ -34,6 +34,8 @@ import ForgotPassword from './pages/forgot-password/ForgotPassword'
 import { Outlet } from 'react-router'
 import ForgotNewPassword from './pages/forgot-password/ForgotNewPassword'
 import SeatsDisplay from './pages/booking/SeatsDisplay'
+import Payment from './pages/booking/Payment'
+
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -62,8 +64,8 @@ const router = createBrowserRouter([
         element: <Login />
      },
      {
-      path:"/default/checkout/payment",
-      element: <p>Payment page</p>
+      path:"/default/checkout/payment/:bookingId",
+      element: <Payment />
      },
      {
         path: "/forgotpassword",
