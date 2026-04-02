@@ -41,7 +41,9 @@ export default function MoviesByStatus({status, title, genre} : MoviesByStatusPr
         <div>
             <Header />
             <div>
-                  <p>{status === "coming" ? "Coming Movies" : "Showing Movies"}</p>
+                  {status ===  "coming" && <p>Coming Soon</p>}
+                  {status === "showing" && <p>Showing Movies</p>}
+                  {status === "" && <p>Search result for: {title}</p>}
                   <Select
                     defaultValue={defaultValue} 
                     onChange={(option) => setSelectedGenre(option?.label as string)}
