@@ -35,7 +35,9 @@ import { Outlet } from 'react-router'
 import ForgotNewPassword from './pages/forgot-password/ForgotNewPassword'
 import SeatsDisplay from './pages/booking/SeatsDisplay'
 import Payment from './pages/booking/Payment'
-
+import CancelPayment from './pages/payment/CancelPayment'
+import MoviesBySearch from './pages/movies/MoviesBySearch'
+import PaymentSuccess from './pages/payment/PaymentSuccess'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -52,6 +54,10 @@ const router = createBrowserRouter([
       element: <ComingMovies />
      },
      {
+      path: "/default/movies",
+      element: <MoviesBySearch />
+     },
+     {
       path: "/default/:movie_id",
       element: <SpecficMovie />
      },
@@ -64,8 +70,15 @@ const router = createBrowserRouter([
         element: <Login />
      },
      {
-      path:"/default/checkout/payment/:bookingId",
+      path:"/default/checkout/payment/:showTimeId",
       element: <Payment />
+     },
+     {
+      path:"/payment",
+      children:[
+        {path: "complete", element: <PaymentSuccess />},
+        {path: "cancel", element: <CancelPayment />}
+      ]
      },
      {
         path: "/forgotpassword",

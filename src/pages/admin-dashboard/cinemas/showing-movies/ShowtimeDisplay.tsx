@@ -1,5 +1,5 @@
 import { memo } from "react";
-
+import { format } from "date-fns";
 interface ShowtimeDisplayProps{
     dateString: string
     showtimesForDate: {id: string, startTime: Date}[]
@@ -12,7 +12,7 @@ export const ShowtimeDisplay = memo(function ShowtimeDisplay({dateString, showti
                 <div className="flex flex-wrap gap-2">
                     {showtimesForDate.map((st) => (
                         <button key={st.id} className="p-2 bg-blue-500 text-white rounded">
-                            {st.startTime.toString().substring(11, 16)}
+                            {format(st.startTime, "HH:mm")}
                         </button>
                     ))}
                 </div>

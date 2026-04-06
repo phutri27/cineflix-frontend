@@ -1,10 +1,11 @@
 import axiosClient from "../axios-client";
 import type { SnackData, VoucherData } from "@/utils/booking-store";
+import type { PricingDetailProp } from "@/utils/booking-store";
 
 export interface BookingData {
     movieId: string | undefined
     showtimeId: string
-    totalAmount: number
+    seats: PricingDetailProp[]
     snacks: SnackData[]
     vouchers: VoucherData[]
 }
@@ -17,6 +18,7 @@ export interface BookingInfoResponse {
         rated: string
     }
     showtime: {
+        id: string
         startTime: Date
         screen:{
             name: string
@@ -25,6 +27,11 @@ export interface BookingInfoResponse {
             }
         }
     }
+    seats:{
+        id: string
+        row: string
+        number: number
+    }[]
     totalAmount: number
     vouchers: {
         voucher: {name: string, reduceAmount: number}
@@ -38,27 +45,5 @@ export interface BookingInfoResponse {
 
 export const getBookingInfo = async (bookingId: string | undefined): Promise<BookingInfoResponse> => {
     const response = await axiosClient.get("/api/booking", {params: {bookingId}})
-    return response.data
-}
-
-export const postBooking = async ({data, seatIds}: {data: BookingData, seatIds: string[]}) => {
-    const response = await axiosClient.post("/api/booking", {data, seatIds})
-    return response.data
-}
-
-export const updateBookingStatus = async ({bookingId, status}: {bookingId: string, status: string}) => {
-    const response = await axiosClient.patch(`/api/booking/${bookingId}/status`, {status})
-    return response.data
-}
-
-export const deleteBooking = async ({bookingId, seatIds}: {bookingId: string | undefined, seatIds: string[]}) => {
-    const response = await axiosClient.post(`/api/booking/${bookingId}`, {
-        seatIds: seatIds
-    })
-    return response.data
-}
-
-export const getLockedSeat = async (showTimeId: string): Promise<string[]> => {
-    const response = await axiosClient.get("/api/booking/seats", {params: {showTimeId}})
     return response.data
 }

@@ -2,6 +2,8 @@ import { useMovie } from "@/hooks";
 import { ErrorMessages } from "@/utils/error-messages";
 import { Link } from "react-router";
 import Header from "@/components/Header";
+import SearchBar from "@/components/SearchBar";
+import Notification from "@/components/Notification";
 import "@/styles/style.css"
 export default function Home(){
     const { data: movies, isError, isLoading, error } = useMovie()
@@ -9,6 +11,8 @@ export default function Home(){
     return (
        <main className="p-5">
             <Header />
+            <SearchBar />
+            <Notification />
             <section>
                 <h2 className="text-xl font-semibold mb-4">Now Showing</h2>
                 {isLoading && <p className="text-gray-500">Loading movies...</p>}

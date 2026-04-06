@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { format } from "date-fns";
+
 interface ShowTimeProp{
     id: string
     name: string
@@ -25,7 +27,7 @@ export default function SpecficTimeSeat({showTime}: {showTime: ShowTimeProp}){
             <p>{showTime.name}</p>
             {allShowTimes.map((st, index) => (
                 <div onClick={() => handleSelectScreen(st.id)} key={index}>
-                    <p>{st.startTime.toString().substring(11,16)}</p>
+                    <p>{format(st.startTime, "HH:mm")}</p>
                 </div>
             ))}
         </div>

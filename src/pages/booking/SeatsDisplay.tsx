@@ -5,7 +5,7 @@ import PricingDetail from "./PricingDetail";
 import { ErrorMessages } from "@/utils/error-messages";
 import Header from "@/components/Header";
 import SnackVoucherScreen from "./SnackVoucherScreen";
-import { usePostBooking, useGetLockedSeat } from "@/hooks/user/use-booking";
+import { useGetLockedSeat } from "@/hooks/user/use-seats";
 import { io } from "socket.io-client"
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -19,8 +19,8 @@ export default function SeatsDisplay(){
     const isSnackVoucherScreen = useBookingStore((state) => state.isSnackVoucherScreen)
     const setSeatTypePrice = useBookingStore((state) => state.setSeatTypePrice)
     const setIsSnackVoucherScreen = useBookingStore((state) => state.setIsSnackVoucherScreen)
+    const setTotalAmount = useBookingStore((state) => state.setTotalAmount)
     const clearBookingData = useBookingStore((state) => state.clearBookingData)
-    const setSeatIds = useBookingStore((state) => state.setSeatIds)
 
     const queryClient = useQueryClient()
 
@@ -31,7 +31,6 @@ export default function SeatsDisplay(){
     const { data: lockedSeats } = useGetLockedSeat(showTimeId!)
     const { data: seatTypes, isError: isSeatTypeError, error: seatTypeError } = useGetSeatType(cinemaId!)
     const { data: showTimeData, isError: isShowTimeError, error: showTimeError, isLoading } = useGetSpecificShowTime(showTimeId!)
-    const { mutate: postBooking } = usePostBooking()
 
     const totalAmountBeforeDiscount = ticketDatas.reduce((total, ticket) => total + parseInt(ticket.price), 0) + snackQuantities.reduce((total, snack) => total + (snack.price * snack.quantity), 0)
     const totalDiscount = voucherQuantity.reduce((total, voucher) => total + (voucher.reduceAmount * voucher.quantity), 0)
@@ -43,25 +42,8 @@ export default function SeatsDisplay(){
             return
         }
         if (isSnackVoucherScreen){
-            const seatIds = ticketDatas.map((ticket) => ticket.seat_id)
-            const data = {
-                movieId: showTimeData?.movie.id,
-                showtimeId: showTimeId!,
-                totalAmount: totalAmount,
-                snacks: snackQuantities,
-                vouchers: voucherQuantity
-            }
-            postBooking({data, seatIds}, {
-                onSuccess: (data) => {
-                    setSeatIds()
-                    clearBookingData()
-                    navigate(`/default/checkout/payment/${data.id}`)
-                },
-                onError: () => {
-                    alert("This seat has been taken, please choose another seat")
-                    setIsSnackVoucherScreen(false)
-                }
-            })
+            setTotalAmount(totalAmount)
+            navigate(`/default/checkout/payment/${showTimeId}`)
         } else{
             setIsSnackVoucherScreen(true)
         }
@@ -75,6 +57,10 @@ export default function SeatsDisplay(){
         const seatType = seatTypes?.find((seat) => seat.id === seatTypeId)
         setSeatTypePrice(seatType!, seatId, row, number)
     }
+
+    useEffect(() => {
+        clearBookingData()
+    }, [clearBookingData])
 
     useEffect(() => {
         const handleSeatStatusUpdate = (newLockedSeatId: string[]) => {

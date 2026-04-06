@@ -27,12 +27,12 @@ export default function SpecificCinemaMovies() {
 
     const allShowtimes = screenByMovie?.flatMap((screen) => screen.showtimes) || [];
     const globallySortedShowtimes = allShowtimes.sort((a, b) => {
-        const timeA = new Date(a.startTime.toString().replace("Z", "")).getTime();
-        const timeB = new Date(b.startTime.toString().replace("Z", "")).getTime();
+        const timeA = new Date(a.startTime).getTime();
+        const timeB = new Date(b.startTime).getTime();
         return timeA - timeB;
     });
 
-    const moviedate = [...new Set(globallySortedShowtimes.map((st) => format(new Date(st.startTime.toString().replace("Z", "")), "dd/MM/y")))];
+    const moviedate = [...new Set(globallySortedShowtimes.map((st) => format(st.startTime, "dd/MM/y")))];
     
     const handleEditShowtime = (screenId: string, showtime: {time: string}[]) => {
         setEditData({screenId, showtime});
@@ -63,14 +63,14 @@ export default function SpecificCinemaMovies() {
                         <p>{screen.name}</p>
                         {moviedate.map((dateString) => {
                             const showtimesForDate = screen.showtimes.filter(
-                                (st) => format(st.startTime.toString().replace("Z", ""), "dd/MM/y") === dateString
+                                (st) => format(st.startTime, "dd/MM/y") === dateString
                             );
                             if (showtimesForDate.length === 0) return null;
                             return <ShowtimeDisplay dateString={dateString} showtimesForDate={showtimesForDate} />
                         })}
                         <button onClick={() => handleEditShowtime(
                             screen.id,
-                            screen.showtimes?.map((st) => ({time: st.startTime.toString().slice(0,16)})) || []
+                            screen.showtimes?.map((st) => ({time: format(st.startTime, "yyyy-MM-dd'T'HH:mm")})) || []
                         )}>Edit</button>
                     </div>
                 ))}

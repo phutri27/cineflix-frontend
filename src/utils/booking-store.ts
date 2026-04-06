@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import type { SeatTypeDetail } from '@/api'
-import { createJSONStorage, persist } from 'zustand/middleware'
-
+import { persist, createJSONStorage } from 'zustand/middleware'
 export interface PricingDetailProp {
     id: string
     seat_id: string
@@ -24,31 +23,31 @@ export interface VoucherData {
 }
 
 type State = {
-    seatIds: {id: string, row: string, number: number}[]
     ticketDatas: PricingDetailProp[] 
     snackQuantities: SnackData[] 
     voucherQuantity: VoucherData[] 
     isSnackVoucherScreen: boolean
+    totalAmount: number
 }
 
 type Action = {
-    setSeatIds: () => void
     setSeatTypePrice: (seatType: SeatTypeDetail, seatId: string, row: string, number: number) => void
     incrementSnackQuantities: (snackId: string, price: number) => void
     decrementSnackQuantites: (snackId: string) => void
     setVoucherQuantity: (voucherId: string, reduceAmount: number) => void 
     setIsSnackVoucherScreen: (isVoucherScreen: boolean) => void
     clearBookingData: () => void
+    setTotalAmount: (totalAmount: number) => void
 }
 
 export const useBookingStore = create<State & Action>()( 
-    persist(
-        (set) => ({
+        persist((set) => ({
             seatIds: [],
             ticketDatas: [],
             snackQuantities: [],
             voucherQuantity: [],
             isSnackVoucherScreen: false,
+            totalAmount: 0,
             setSeatTypePrice: (seatType, seatId, row, number) => set((state) => {
                 const isPickedSeat = state.ticketDatas.some((ticket) => ticket.seat_id === seatId)
                 if (!isPickedSeat){
@@ -86,15 +85,10 @@ export const useBookingStore = create<State & Action>()(
                 return {voucherQuantity: [...state.voucherQuantity, {voucherId, reduceAmount, quantity: 1}]}
             }),
             setIsSnackVoucherScreen: (isVoucherScreen) => set(() => ({isSnackVoucherScreen: isVoucherScreen})),
-            clearBookingData: () => set(() => ({ticketDatas: [], snackQuantities: [], voucherQuantity: [], isSnackVoucherScreen: false})),
-            setSeatIds: () => set((state) => ({seatIds: state.ticketDatas.map((ticket) => ({id: ticket.seat_id, row: ticket.row, number: ticket.number}))}))
-        }),
-        {
-            name: 'seats-id',
-            storage: createJSONStorage(() => localStorage),
-            partialize: (state) => ({
-                seatIds: state.seatIds
-            })
-        }
+            clearBookingData: () => set(() => ({ticketDatas: [], snackQuantities: [], voucherQuantity: [], isSnackVoucherScreen: false, totalAmount: 0})),
+            setTotalAmount: (totalAmount) => set(() => ({totalAmount: totalAmount}))
+        }),{
+            name: "picked-movie-store",
+            storage: createJSONStorage(() => localStorage)
+        })
     )
-)
