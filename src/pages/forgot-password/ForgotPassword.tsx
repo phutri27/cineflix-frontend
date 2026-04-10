@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useForgotPassword, useConfirmChangePasswordOTP } from "@/hooks/user/use-forgot-password"
+import { useForgotPassword, useConfirmForgotPasswordOTP } from "@/hooks/user/use-forgot-password"
 import { ErrorMessages } from "@/utils/error-messages"
 import OTPInput from "@/components/OTPInput"
 
@@ -10,7 +10,7 @@ export default function ForgotPassword(){
     const { 
         mutate: confirmOTPmutate, 
         isError: isConfirmOTPError, 
-        error: confirmOTPError } = useConfirmChangePasswordOTP()
+        error: confirmOTPError } = useConfirmForgotPasswordOTP()
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)

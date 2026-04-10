@@ -21,12 +21,10 @@ export const createShowtimeApi = async (data: { screenId: string, movieId: strin
     return response.data;
 }
 
-export const updateShowtimeApi = async (datas: {screenId: string, cinemaId: string, movieId: string, startTime: string}[]) => {
-    const data = datas.map((d) => ({
-        screenId: d.screenId,
-        startTime: d.startTime
-    }))
-    const response = await axiosClient.put(`/api/admin/dashboard/showtimes?cinemaId=${datas[0].cinemaId}&movieId=${datas[0].movieId}`,{data});
+export const updateShowtimeApi = async ({data, cinemaId}: 
+    {data: {screenId: string, id: string, movieId: string, startTime: Date}[] | undefined, cinemaId: string}) => {
+        
+    const response = await axiosClient.put(`/api/admin/dashboard/showtimes?cinemaId=${cinemaId}&movieId=${data![0].movieId}`,{data});
     return response.data;
 }
 

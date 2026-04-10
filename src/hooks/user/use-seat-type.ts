@@ -6,6 +6,7 @@ export const useGetSeatType = (cinemaId: string, options?: Omit<UseQueryOptions<
     return useQuery({
         ...options,
         queryKey: ["seat-type", cinemaId],
-        queryFn: () => getSeatType(cinemaId)
+        queryFn: () => getSeatType(cinemaId),
+        refetchOnWindowFocus: false
     })
 }

@@ -4,7 +4,8 @@ export const useGetAdminCities = (options?: Omit<UseQueryOptions<cities.CityResp
     return useQuery({
         ...options,
         queryKey: ["admin-cities"],
-        queryFn: cities.getAllCitiesApi
+        queryFn: cities.getAllCitiesApi,
+        refetchOnWindowFocus: false
     })
 }
 

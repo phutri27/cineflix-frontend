@@ -21,7 +21,7 @@ export const changePassword = async (data: {password: string}) => {
 }
 
 export const confirmChangePasswordOTP = async (data: {otp: string}) => {
-    const response = await axiosClient.post("/api/password/otp", data)
+    const response = await axiosClient.post("/api/password/change/otp", data)
     return response.data
 }
 

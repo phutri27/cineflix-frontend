@@ -16,6 +16,12 @@ interface VnPayCheckoutResponse {
     paymentUrl: string
     bookingId: string
 }
+
+export const getVnpayUrl = async (): Promise<{success: boolean}> => {
+    const response = await axiosClient.get("/payment/vnpay-return")
+    return response.data
+}
+
 export const createCheckoutSession = async (datas: BookingData): Promise<{redirectUrl: string, bookingId: string}> => {
     const response = await axiosClient.post("/payment/create-checkout-session", {datas})
     return response.data

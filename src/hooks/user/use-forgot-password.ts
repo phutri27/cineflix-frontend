@@ -9,7 +9,7 @@ export const useForgotPassword = () => {
     return forgotPasswordMutation;
 }
 
-export const useConfirmChangePasswordOTP = () => {
+export const useConfirmForgotPasswordOTP = () => {
     const confirmChangePasswordOTP = useMutation({
         mutationFn: confirmChangePasswordOTPApi,
     });

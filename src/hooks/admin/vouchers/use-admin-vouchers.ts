@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 export const useAdminGetVouchers = () => {
     return useQuery({
         queryKey: ["admin-vouchers"],
-        queryFn: vouchers.getVouchers
+        queryFn: vouchers.getVouchers,
+        refetchOnWindowFocus: false
     })
 }
 

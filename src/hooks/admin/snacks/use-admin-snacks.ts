@@ -5,7 +5,8 @@ export const useAdminGetSnacks = (options?: Omit<UseQueryOptions<snacks.SnackRes
     return useQuery({
         ...options,
         queryKey: ["admin-snacks"],
-        queryFn: snacks.getSnacks
+        queryFn: snacks.getSnacks,
+        refetchOnWindowFocus: false
     })
 }
 

@@ -5,6 +5,7 @@ export function useGetAdminSeatTypesByCinema(cinema_id: string, options?: Omit<U
     return useQuery({
         queryKey: ["admin_seat_types", cinema_id],
         queryFn: () => seatTypes.getAdminSeatTypesByCinema(cinema_id),
+        refetchOnWindowFocus: false,
         ...options
     })
 }

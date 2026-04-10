@@ -38,9 +38,18 @@ import Payment from './pages/booking/Payment'
 import CancelPayment from './pages/payment/CancelPayment'
 import MoviesBySearch from './pages/movies/MoviesBySearch'
 import PaymentSuccess from './pages/payment/PaymentSuccess'
+import { LoginAccess, RestrictLogin } from './components/RoleAcess'
+import VnpayPayment from './pages/payment/VnpayPayment'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
+     {
+      element: <LoginAccess />,
+      children: [
+        {path:"/signup",element: <Signup />},
+        {path:"/login", element: <Login />},
+      ]
+     },
      {
         path: "/",
         element: <Home />
@@ -62,46 +71,44 @@ const router = createBrowserRouter([
       element: <SpecficMovie />
      },
      {
-        path:"/signup",
-        element: <Signup />
-     },
-     {
-        path:  "/login",
-        element: <Login />
-     },
-     {
-      path:"/default/checkout/payment/:showTimeId",
-      element: <Payment />
-     },
-     {
-      path:"/payment",
-      children:[
-        {path: "complete", element: <PaymentSuccess />},
-        {path: "cancel", element: <CancelPayment />}
+      element: <RestrictLogin />,
+      children: [
+        {
+          path:"/default/checkout/payment/:showTimeId",
+          element: <Payment />
+        },
+        {
+          path: "/forgotpassword",
+          element: <Outlet />,
+          children: [
+            {index: true, element: <ForgotPassword />},
+            {path: "new-password", element: <ForgotNewPassword />}
+          ]
+        },
+        {
+          path: "/default/profile",
+          element: <Profile />,
+          children: [
+            { index: true, element: <GeneralInfo /> },
+            { path: "detailed", element: <DetailedInfo /> },
+            { path: "change-password", element: <ChangePassword />},
+            { path: "new-password", element: <NewPassword />},
+            { path: "booking-history", element: <p>Booking history</p>},
+          ]
+        },
       ]
      },
      {
-        path: "/forgotpassword",
-        element: <Outlet />,
-        children: [
-          {index: true, element: <ForgotPassword />},
-          {path: "new-password", element: <ForgotNewPassword />}
+        path:"/payment",
+        children:[
+          {path: "complete", element: <PaymentSuccess />},
+          {path: "cancel", element: <CancelPayment />},
+          {path: "vnpay", element: <VnpayPayment />}
         ]
-     },
+      },
      {
       path: "/default/cinema/:cinemaId/booking/ticket/:showTimeId",
       element: <SeatsDisplay />
-     },
-     {
-      path: "/default/profile",
-      element: <Profile />,
-      children: [
-        { index: true, element: <GeneralInfo /> },
-        { path: "detailed", element: <DetailedInfo /> },
-        { path: "change-password", element: <ChangePassword />},
-        { path: "new-password", element: <NewPassword />},
-        { path: "booking-history", element: <p>Booking history</p>},
-      ]
      },
      {
         element: <RoleAccess />,

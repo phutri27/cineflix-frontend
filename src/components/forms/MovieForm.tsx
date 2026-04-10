@@ -18,6 +18,7 @@ export default function MovieForm({onSubmit, isPending, admin_genres}: MovieForm
     const { register, handleSubmit, formState: { errors}, control, watch } = useForm<MovieFormInput>()
     
     const selectedPoster = watch("filename")
+    const selectedTrailer = watch("trailerUrl")
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,6 +57,13 @@ export default function MovieForm({onSubmit, isPending, admin_genres}: MovieForm
                     </div>
                 )}
                 {errors.filename && <p>{errors.filename.message}</p>}
+            </div>
+            <div>
+                <label htmlFor="filename">Trailer</label>
+                <input {...register("trailerUrl")}/>
+                <video width="320" height="400" muted>
+                    <source src={selectedTrailer}/>
+                </video>
             </div>
             <div>
                 <label htmlFor="genre_option">Genres</label>

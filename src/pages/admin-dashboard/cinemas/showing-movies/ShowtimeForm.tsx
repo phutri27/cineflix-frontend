@@ -2,6 +2,9 @@ import { useForm, useFieldArray, type SubmitHandler } from "react-hook-form";
 import { useAdminCreateShowtime, useAdminUpdateShowtime, useGetAdminScreens } from "@/hooks";
 import { type SpecificCinemaMoviesProps } from "./SpecificCinemaMovies";
 import { ErrorMessages } from "@/utils/error-messages";
+import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
+import type { ScreensProp } from "@/api";
 interface ShowtimeFormProps {
     cinemaId: string
     movieId: string
@@ -13,6 +16,7 @@ interface ShowtimeFormProps {
 }
 
 export default function ShowtimeForm({cinemaId, movieId, initialData, onCloseModal}: ShowtimeFormProps) {
+    const queryClient = useQueryClient()
     const isEditing = !!initialData;
     const { register, handleSubmit, control, reset } = useForm({
         defaultValues: {
@@ -26,32 +30,45 @@ export default function ShowtimeForm({cinemaId, movieId, initialData, onCloseMod
     const { data: screens } = useGetAdminScreens(cinemaId!)
     const { mutate: createShowtime, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminCreateShowtime(cinemaId, movieId)
     const { mutate: updateShowtime, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminUpdateShowtime(cinemaId, movieId)
-    
-    const onSubmit: SubmitHandler<SpecificCinemaMoviesProps> = (data) => {
+
+    const existingShowtime = screens?.flatMap((screen) => screen.showtimes)
+
+    const onSubmit: SubmitHandler<SpecificCinemaMoviesProps> = (dt) => {
         if (!isEditing){
-            const datas = data.showtime.map((time) => ({
-                screenId: data.screenId!,
+            const datas = dt.showtime.map((time) => ({
+                screenId: dt.screenId!,
                 movieId: movieId!,
                 startTime: time.time
             }))
+            console.log(datas)
             createShowtime(datas, {
             onSuccess: () => {
                 onCloseModal()
                 reset()
             }})
         } else {
-            const datas = data.showtime.map((time) => ({
-                screenId: data.screenId!,
-                cinemaId: cinemaId!,
-                movieId: movieId!,
-                startTime: time.time
+            const data = existingShowtime?.map((st) => ({
+                id: st.id,
+                startTime: st.startTime,
+                screenId: dt.screenId!,
+                movieId: movieId!
             }))
-            updateShowtime(datas, {
+            updateShowtime({data, cinemaId}, {
                 onSuccess: () => {
                     onCloseModal()
                 }
             })
         }
+    }
+
+    const handleDeleteTimeUpdate = (id: string) => {
+        queryClient.setQueryData(["admin_screens", cinemaId], (oldData: ScreensProp[]) => {
+            if (!oldData) return []
+            return oldData.map((screen) => ({
+                ...screen, 
+                showtimes: screen.showtimes.filter((st) => st.id !== id)
+            }));
+        })
     }
 
     return (
@@ -76,7 +93,19 @@ export default function ShowtimeForm({cinemaId, movieId, initialData, onCloseMod
                 </div>
                 <div>
                     <label>Showtimes:</label>
-                    {fields.map((field, index) => (
+                    {isEditing ? (
+                        existingShowtime?.map((st) => (
+                            <div key={st.id} style={{ display: 'flex', gap: '10px', marginBottom: '5px' }}>
+                            <input
+                                type="datetime-local"
+                                value={format(st.startTime, "yyyy-MM-dd'T'HH:mm")}
+                            />
+                            <button type="button" onClick={() => handleDeleteTimeUpdate(st.id)}>
+                                Delete This Time
+                            </button>
+                        </div>
+                        ))
+                    ):(fields.map((field, index) => (
                         <div key={field.id} style={{ display: 'flex', gap: '10px', marginBottom: '5px' }}>
                             
                             <input
@@ -89,7 +118,7 @@ export default function ShowtimeForm({cinemaId, movieId, initialData, onCloseMod
                                 </button>
                             )}
                         </div>
-                    ))}
+                    )))}
                     {isEditing ? null : (<button type="button" onClick={() => append({ time: "" })}>
                         + Add Another Showtime
                     </button>)}

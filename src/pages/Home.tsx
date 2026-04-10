@@ -4,9 +4,17 @@ import { Link } from "react-router";
 import Header from "@/components/Header";
 import SearchBar from "@/components/SearchBar";
 import Notification from "@/components/Notification";
+import { useUserRoleStore } from "@/utils/user-role-store";
+import { useGetUserInfo } from "@/hooks";
 import "@/styles/style.css"
 export default function Home(){
     const { data: movies, isError, isLoading, error } = useMovie()
+    const setUser = useUserRoleStore((state) => state.setUser)
+    const { data: userInfo, isSuccess } = useGetUserInfo()
+
+    if (isSuccess){
+        setUser(userInfo.user)
+    }
 
     return (
        <main className="p-5">

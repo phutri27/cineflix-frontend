@@ -1,12 +1,38 @@
-    import { Navigate } from "react-router";
-    import { useUserRoleStore } from "@/utils/user-role-store";
-    import { Outlet } from "react-router";
-    export default function RoleAccess() {
-        const { role } = useUserRoleStore()
+import { Navigate } from "react-router";
+import { useUserRoleStore } from "@/utils/user-role-store";
+import { useVerifyUser } from "@/hooks/user/use-user";
+import { Outlet } from "react-router";
+export default function RoleAccess() {
+    const { role } = useUserRoleStore()
 
-        if (role !== "ADMIN"){
-            return <Navigate to="/" replace={true} />
-        }
-
-        return <Outlet />
+    if (role !== "ADMIN"){
+        return <Navigate to="/" replace={true} />
     }
+
+    return <Outlet />
+}
+
+export function LoginAccess(){
+    const { id } = useUserRoleStore()
+    const { data } = useVerifyUser(id)
+
+    if (data?.isLogin){
+        return <Navigate to="/" replace={true} />
+    }
+
+    return <Outlet />
+}
+
+export function RestrictLogin(){
+    const { id } = useUserRoleStore()
+    const { data, isLoading } = useVerifyUser(id)
+
+    if (isLoading){
+        return <div>Loading...</div>
+    }
+    if (!data?.isLogin){
+        return <Navigate to="/" replace={true}/>
+    }
+
+    return <Outlet />
+}

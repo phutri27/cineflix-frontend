@@ -1,13 +1,16 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useNewPasswordForForgotPassword } from "@/hooks/user/use-forgot-password";
+
 interface NewPasswordForm {
     new_password: string,
     confirm_new_password: string
 }
 export default function ForgotNewPassword() {
     const location = useLocation()
+    const navigate = useNavigate()
+
     const { register, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: {
             new_password: "",
@@ -26,7 +29,7 @@ export default function ForgotNewPassword() {
         }
         newPassword(newData, {
             onSuccess: () => {
-                alert("Password changed successfully")
+                navigate("/login", {state: {message: "Change password successfully"}})
             }
         })
     }

@@ -9,7 +9,6 @@ export type SeatType = {
 export interface ScreenTypeProp {
     name: string
     cinema_id: string
-    cinema: {name: string}
     seats: SeatType[]
 }
 
@@ -25,7 +24,19 @@ export interface ScreenByMovieAndCinemaResponse {
     }[]
 }
 
-export const getAdminScreensByCinema = async (cinema_id: string) => {
+
+export interface ScreensProp {
+    id: string
+    name: string
+    cinemaId: string
+    showtimes: {
+        id: string,
+        startTime: Date
+    }[]
+}
+
+
+export const getAdminScreensByCinema = async (cinema_id: string): Promise<ScreensProp[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/screens", {
         params: {
             cinema_id,

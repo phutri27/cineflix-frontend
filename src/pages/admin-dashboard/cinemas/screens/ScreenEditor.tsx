@@ -6,6 +6,7 @@ import { useGetAdminSeatTypesByCinema } from "@/hooks/admin/cinemas/use-admin-se
 import { useNavigate } from "react-router";
 import SeatGridLayout from "./SeatGridLayout";
 import { ErrorMessages } from "@/utils/error-messages";
+import { type ScreenTypeProp } from "@/api";
 
 export interface ScreenFormData {
     rows: number,
@@ -19,17 +20,11 @@ export interface SeatDetailData{
     seat_typeId: {value: string, label: string}
 }
 
-interface ScreenData{
-    name: string
-    cinema_id: string
-    seats: {row: string, number: number, seat_typeId: string}[]
-}
-
 interface ScreenEditorProps {
     cinemaId: string
     initialName?: string
     initialSeats?: SeatDetailData[]
-    onSave: (data: ScreenData, onSuccess: () => void, id?: string) => void,
+    onSave: (data: ScreenTypeProp, onSuccess: () => void, id?: string) => void,
     screenId?: string
     isPending: boolean
     isError: boolean

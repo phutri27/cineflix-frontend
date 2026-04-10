@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 export const useGetProfile = (userId: string) => {
     return useQuery({
         queryKey: ["profile", userId],
-        queryFn: profiles.getProfile
+        queryFn: profiles.getProfile,
+        refetchOnWindowFocus: false
     })
 }
 

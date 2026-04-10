@@ -6,7 +6,8 @@ export const useGetActorsAdmin = (options?: Omit<UseQueryOptions<ActorResponse[]
     return useQuery<ActorResponse[]>({
         ...options,
         queryKey: ["admin_actor"],
-        queryFn: adminGetActorsApi
+        queryFn: adminGetActorsApi,
+        refetchOnWindowFocus: false
     })
 }
 

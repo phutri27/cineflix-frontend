@@ -25,7 +25,7 @@ export default function GeneralInfo() {
             </div>
             <div>
                 <p>Member's rank: {profile?.member_rank}</p>
-                <p>Total spending: {profile?.spending_total}</p>
+                <p>Total spending: {profile?.spending_total} VND</p>
             </div>
             <div>
                 <h3>Personal Information</h3>

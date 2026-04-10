@@ -27,7 +27,7 @@ export default function PricingDetail({cinemaName,
     handleBackToSeatSelection,
     totalAmountBeforeDiscount,
     totalAmount}: SeatDetailsProp){
-    const date = showTime ? format(new Date(showTime.toString().replace("Z", "")), "HH:mm dd/MM/y") : null
+    const date = showTime ? format(new Date(showTime), "HH:mm dd/MM/y") : null
 
     return (
         <>

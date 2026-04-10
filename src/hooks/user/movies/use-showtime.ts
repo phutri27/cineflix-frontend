@@ -9,7 +9,8 @@ export const useGetShowTime = (movieId: string, date: string, cityId: string) =>
     return useQuery<ShowTimeResponse[]>({
         queryKey: ["showtimes", movieId, date, cityId],
         queryFn: () => showTimeApi(movieId, date, cityId),
-        enabled: isReady
+        enabled: isReady,
+        refetchOnWindowFocus: false
     })
 }
 
@@ -18,5 +19,6 @@ export const useGetSpecificShowTime = (showTimeId: string, options?: Omit<UseQue
         ...options,
         queryKey: ["specificShowtime", showTimeId],
         queryFn: () => getSpecificShowTimeApi(showTimeId),
+        refetchOnWindowFocus: false
     })
 }

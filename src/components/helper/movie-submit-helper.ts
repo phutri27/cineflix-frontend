@@ -7,7 +7,7 @@ export const movieData = (data: MovieFormInput): FormData => {
     formData.append("duration", data.duration.toString()); 
     formData.append("premiere_date", data.premiere_date.toString());
     formData.append("rated", data.rated);
-
+    formData.append("trailerUrl", data.trailerUrl)
     if (data.filename && data.filename.length > 0) {
         formData.append("filename", data.filename[0]); 
     }

@@ -2,8 +2,12 @@ import { useParams } from "react-router";
 import { useSpecificMovie } from "@/hooks";
 import { format } from "date-fns";
 import Header from "@/components/Header";
-
+import ReactPlayer from 'react-player'
+import ModalComponent from "@/components/modal/Modal";
+import { useState } from "react";
+import BookingScreen from "../booking/BookingScreen";
 export default function SpecficMovie() {
+    const [isModalOpen, setModalOpen] = useState(false)
     const { movie_id } = useParams()
         
     const { data: movie, isError, isLoading, error } = useSpecificMovie(movie_id!)
@@ -11,6 +15,10 @@ export default function SpecficMovie() {
     const directorsName = movie?.directors.map((director) => director.name).join(", ")
     const actorsName = movie?.actors.map((actor) => actor.name).join(", ")
     const genresName = movie?.genres.map((genre) => genre.name).join(", ")
+
+    const openModal = () => {
+        setModalOpen(true)
+    }
 
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error: {error.message}</p>
@@ -32,7 +40,15 @@ export default function SpecficMovie() {
                         <p>Premiere's date: {format(new Date(movie?.premiereDate as Date), 'dd/MM/y')}</p>
                         <p>Duration: {movie?.durationMin + " " + "minutes"}</p>
                         <p>Rated: {movie?.rated}</p>
-                        <button>Book a ticket</button>
+                        <button onClick={openModal}>Book a ticket</button>
+                    </div>
+                    <div>
+                        <p>Trailer</p>
+                        <ReactPlayer
+                            src={movie?.trailerUrl}
+                            playing={false}
+                            controls={true}
+                        />
                     </div>
                     <div>
                         <p>Plot</p>
@@ -40,6 +56,9 @@ export default function SpecficMovie() {
                     </div>
                 </div>
             </div>
+            <ModalComponent openModal={isModalOpen} closeModal={() => setModalOpen(false)}>
+                <BookingScreen movieId={movie_id!}/>
+            </ModalComponent>
         </div>
     )
 }

@@ -5,7 +5,8 @@ export const useGetDirectorsAdmin = (options?: Omit<UseQueryOptions<DirectorResp
     return useQuery<DirectorResponse[]>({
         ...options,
         queryKey: ["admin_directors"],
-        queryFn: adminGetDirectorsApi
+        queryFn: adminGetDirectorsApi,
+        refetchOnWindowFocus: false
     })
 }
 

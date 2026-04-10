@@ -5,7 +5,8 @@ export const useAdminGetShowtimes = (screenId: string, movieId: string, options?
     return useQuery({
         ...options,
         queryKey: ["admin-showtimes", screenId, movieId],
-        queryFn: () => showtimes.getShowtimesByScreenId(screenId, movieId)
+        queryFn: () => showtimes.getShowtimesByScreenId(screenId, movieId),
+        refetchOnWindowFocus: false
     })
 }
 

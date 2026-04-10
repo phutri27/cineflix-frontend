@@ -4,6 +4,7 @@ import { getCity } from "@/api/user/city-api";
 export const useGetCities = () => {
     return useQuery({
         queryKey: ["cities"],
-        queryFn: getCity
+        queryFn: getCity,
+        refetchOnWindowFocus: false
     })
 }

@@ -1,15 +1,11 @@
 import * as screens from "@/api/admin/cinema/admin-screen-api"
 import { type UseQueryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-interface ScreensProp {
-    id: string
-    name: string
-    cinemaId: string
-}
-export function useGetAdminScreens(cinemaId: string, options?: Omit<UseQueryOptions<ScreensProp[]>, "queryKey" | "queryFn">) {
+export function useGetAdminScreens(cinemaId: string, options?: Omit<UseQueryOptions<screens.ScreensProp[]>, "queryKey" | "queryFn">) {
     return useQuery({
         queryKey: ["admin_screens", cinemaId],
         queryFn: () => screens.getAdminScreensByCinema(cinemaId),
+        refetchOnWindowFocus: false,
         ...options
     })
 }
@@ -18,6 +14,7 @@ export function useGetAdminScreenByMovie(cinema_id: string, movie_id: string,opt
     return useQuery({
         queryKey: ["admin_screen_specfic", cinema_id, movie_id],
         queryFn: () => screens.getAdminScreenByMovieAndCinema(cinema_id, movie_id),
+        refetchOnWindowFocus: false,
         ...options
     })
 }
@@ -26,6 +23,7 @@ export function useGetAdminSpecificScreen(screen_id: string, options?: Omit<UseQ
     return useQuery({
         queryKey: ["admin_screen", screen_id],
         queryFn: () => screens.getAdminSeatByScreen(screen_id),
+        refetchOnWindowFocus: false,
         ...options
     })
 }

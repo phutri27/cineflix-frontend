@@ -5,6 +5,7 @@ export const useAdminGetUsers = (options?: Omit<UseQueryOptions<UserResponse[]>,
     return useQuery({
         ...options,
         queryKey: ["admin-users"],
-        queryFn: getUsers
+        queryFn: getUsers,
+        refetchOnWindowFocus: false
     })
 }

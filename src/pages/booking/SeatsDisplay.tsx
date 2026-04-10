@@ -10,6 +10,9 @@ import { io } from "socket.io-client"
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useBookingStore } from "@/utils/booking-store";
+import { useUserRoleStore } from "@/utils/user-role-store";
+import { useVerifyUser } from "@/hooks/user/use-user";
+import Seats from "./Seats"
 
 const socket = io(import.meta.env.VITE_API_URL)
 export default function SeatsDisplay(){
@@ -21,13 +24,14 @@ export default function SeatsDisplay(){
     const setIsSnackVoucherScreen = useBookingStore((state) => state.setIsSnackVoucherScreen)
     const setTotalAmount = useBookingStore((state) => state.setTotalAmount)
     const clearBookingData = useBookingStore((state) => state.clearBookingData)
+    const id = useUserRoleStore((state) => state.id)
 
     const queryClient = useQueryClient()
 
     const navigate = useNavigate()
 
     const { cinemaId, showTimeId } = useParams()
-
+    const { data: user } = useVerifyUser(id)
     const { data: lockedSeats } = useGetLockedSeat(showTimeId!)
     const { data: seatTypes, isError: isSeatTypeError, error: seatTypeError } = useGetSeatType(cinemaId!)
     const { data: showTimeData, isError: isShowTimeError, error: showTimeError, isLoading } = useGetSpecificShowTime(showTimeId!)
@@ -37,6 +41,9 @@ export default function SeatsDisplay(){
     const totalAmount = totalAmountBeforeDiscount - ((totalDiscount / 100) * totalAmountBeforeDiscount)
 
     const handleGoToSnackVoucher = () => {
+        if (!user?.isLogin){
+            navigate("/login", {state: {message: "Please login first to buy a ticket"}})
+        }
         if (ticketDatas.length === 0){
             alert("Please pick a seat before continue")
             return
@@ -96,31 +103,10 @@ export default function SeatsDisplay(){
                 <>
                     {isLoading && <p>Loading seats...</p>}
                     {isShowTimeError && <ErrorMessages error={showTimeError} />}
-                    {Array.from(new Set(screen?.seats.map(seat => seat.row)))
-                        .map((rowLetter) => (
-                            <div>
-                                {screen?.seats.filter((seat) => seat.row === rowLetter)
-                                    .map((seat) => {
-                                        const isSeatDisabled = lockedSeats?.includes(seat.id)
-                                        let isPickedStyle = ""
-                                        if (isSeatDisabled){
-                                            isPickedStyle = "bg-gray-500 cursor-not-allowed"
-                                        } else if (ticketDatas.some((ticket) => ticket.row === seat.row && ticket.number == seat.number)){
-                                            isPickedStyle = "bg-red-500"
-                                        } else{
-                                            isPickedStyle = "bg-gray-200"
-                                        }
-                                        return (
-                                            <button className={isPickedStyle} disabled={isSeatDisabled}
-                                            onClick={() => handleSeatTypePrice(seat.seat_typeId, seat.id, seat.row, seat.number)}>
-                                                {seat.row + seat.number}
-                                            </button>
-                                        )
-                                    })
-                                }
-                            </div>
-                        ))
-                    }
+                    <Seats 
+                    screen={screen!} 
+                    lockedSeats={lockedSeats!}
+                    handleSeatTypePrice={handleSeatTypePrice}/>
                 </>
             )}
             <PricingDetail 

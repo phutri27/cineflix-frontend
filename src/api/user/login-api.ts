@@ -1,21 +1,31 @@
 import axiosClient from "../axios-client";
 
-const API_URL = import.meta.env.VITE_API_URL
+const GOOGLE_URL = import.meta.env.VITE_GOOGLE_URL
 
 interface LoginCredentials {
     email: string;
     pw: string;
 }
 
-interface LoginResponse {
-    message: string;
+interface UserInfoProps{
     user: {
-        id: string;
-        email: string;
-        first_name: string;
-        last_name: string;
+        id: string
+        email: string
+        first_name: string
+        last_name: string
         role: string
-    };
+    }
+}
+
+interface LoginResponse extends UserInfoProps{
+    message: string;
+}
+
+
+
+export const getUserInfo = async (): Promise<UserInfoProps> => {
+    const response = await axiosClient.get("/api/login/user/me")
+    return response.data
 }
 
 export const loginUser = async (credentials: LoginCredentials): Promise<LoginResponse> => {
@@ -28,5 +38,5 @@ export const loginUser = async (credentials: LoginCredentials): Promise<LoginRes
 };
 
 export const loginGoogle = async() => {
-    window.location.href = `${API_URL}/api/login/auth/google`;
+    window.location.href = `${GOOGLE_URL}`;
 }

@@ -7,6 +7,7 @@ export interface MovieFormInput{
     filename: File[]
     duration: number
     premiere_date: Date | string,
+    trailerUrl: string
     rated: string
     genre_option : {value: string, label: string}[]
     actors: {value: string, label: string}[]
@@ -33,6 +34,7 @@ export const adminInsertMovieApi = async (formData: FormData): Promise<MovieResp
 }
 
 export const adminUpdateMovieApi = async ({id, formData}: {id: string, formData: FormData}): Promise<MovieResponse> => {
+    console.log(formData.get("trailerUrl"))
     const response = await axiosClient.put(`/api/admin/dashboard/movies/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',

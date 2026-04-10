@@ -22,6 +22,7 @@ export interface SpecificShowTimeResponse {
             row: string
             number: number
             seat_typeId: string
+            seatTypeDetail: {seat_type: string}
         }[],
         cinema: {
             name: string

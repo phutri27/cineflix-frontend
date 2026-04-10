@@ -5,7 +5,8 @@ export const useGetAdminCinema = (city_id?: number, options?:  Omit<UseQueryOpti
     return useQuery<cinemasApi.CinemaResponse[]>({
         ...options,
         queryKey: ["admin-cinemas", city_id],
-        queryFn: () => cinemasApi.getAllCinemasApi(city_id)
+        queryFn: () => cinemasApi.getAllCinemasApi(city_id),
+        refetchOnWindowFocus: false
     })
 }
 
@@ -13,7 +14,8 @@ export const useGetSpecificAdminCinema = (cinemaId: string, options?:  Omit<UseQ
     return useQuery<cinemasApi.CinemaDetailResponse>({
         ...options,
         queryKey: ["admin-cinema", cinemaId],
-        queryFn: () => cinemasApi.getSpecificCinemaApi(cinemaId)
+        queryFn: () => cinemasApi.getSpecificCinemaApi(cinemaId),
+        refetchOnWindowFocus: false
     })
 }
 export const useAdminInsertCinema = () => {

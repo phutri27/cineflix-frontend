@@ -6,7 +6,8 @@ export const useGetMovieAdmin = (options?: Omit<UseQueryOptions<MovieResponse[]>
     return useQuery<MovieResponse[]>({
         ...options,
         queryKey: ["admin_movies"],
-        queryFn: adminGetMovieApi
+        queryFn: adminGetMovieApi,
+        refetchOnWindowFocus: false
     })
 }
 

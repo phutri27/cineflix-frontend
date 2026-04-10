@@ -5,7 +5,8 @@ export const useGetGenresAdmin = (options?: Omit<UseQueryOptions<GenreResponse[]
     return useQuery<GenreResponse[]>({
         ...options,
         queryKey: ["admin_genres"],
-        queryFn: getGenresAdmin
+        queryFn: getGenresAdmin,
+        refetchOnWindowFocus: false
     })
 }
 

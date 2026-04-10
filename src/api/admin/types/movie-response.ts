@@ -10,6 +10,7 @@ export interface MovieResponse {
     posterUrl: string
     durationMin: number
     premiereDate: Date
+    trailerUrl: string
     rated: string
     genres: Option[]
     directors: Option[]

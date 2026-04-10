@@ -6,6 +6,7 @@ import Select from "react-select"
 import { movieData } from "@/components/helper/movie-submit-helper";
 import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
+import ReactPlayer from 'react-player'
 
 const emptyMsg = "must not be empty"
 
@@ -26,6 +27,7 @@ export default function SingleMovieEdit(){
             filename: [] ,
             duration: admin_movie?.durationMin as number,
             premiere_date: admin_movie?.premiereDate.toString().split('T')[0] as string,
+            trailerUrl: admin_movie?.trailerUrl as string,
             rated: admin_movie?.rated as string,
             genre_option: admin_movie?.genres.map((g) => ({value: g.id, label: g.name})) || [],
             directors: admin_movie?.directors.map((d) => ({value: d.id, label: d.name})) || [],
@@ -34,6 +36,7 @@ export default function SingleMovieEdit(){
     })
 
     const selectedPoster = watch("filename")
+    const selectedTrailer = watch("trailerUrl")
 
     const onSubmit: SubmitHandler<MovieFormInput> = (data) => {
         const formData = movieData(data)
@@ -137,6 +140,18 @@ export default function SingleMovieEdit(){
                         <input 
                         {...register("rated", {required: `Rating ${emptyMsg}`})} 
                         placeholder="rating"/>
+                    </div>
+                    <div>
+                        <label htmlFor="trailer">Trailer</label>
+                        <input 
+                        {...register("trailerUrl")} 
+                        placeholder="trailer"/>
+                        <ReactPlayer 
+                            src={selectedTrailer}
+                            playing={false}
+                            controls={true}
+                            
+                        />
                     </div>
                 </div>
                 <div>

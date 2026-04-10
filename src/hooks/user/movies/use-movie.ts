@@ -7,7 +7,7 @@ export const useMovie = (status?: string, title?: string, genre?: string, option
         ...options,
         queryKey: ["movies"],
         queryFn: () => movieAPi(status, title, genre),
-        
+        refetchOnWindowFocus: false
     })
 }
 
@@ -15,6 +15,7 @@ export const useSpecificMovie = (id: string, options?: Omit<UseQueryOptions<Movi
     return useQuery<MovieResponse>({
         ...options,
         queryKey: ["movies", id],
-        queryFn: () => getSpecificMovie(id)
+        queryFn: () => getSpecificMovie(id),
+        refetchOnWindowFocus: false
     })
 }
