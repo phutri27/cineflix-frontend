@@ -32,6 +32,9 @@ export interface ScreensProp {
     showtimes: {
         id: string,
         startTime: Date
+        movie:{
+            id: string
+        }
     }[]
 }
 

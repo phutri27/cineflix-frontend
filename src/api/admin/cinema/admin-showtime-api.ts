@@ -6,6 +6,12 @@ export interface Showtime {
     movieId: string;
     startTime: Date;
 }
+
+export interface ShowTimeChange {
+    screenId: string
+    movieId: string
+    startTime: string
+}
 export const getShowtimesByScreenId = async (screenId: string, movieId: string): Promise<Showtime[]> => {
     const response = await axiosClient.get(`/api/admin/dashboard/showtimes`, {
         params: {
@@ -16,15 +22,13 @@ export const getShowtimesByScreenId = async (screenId: string, movieId: string):
     return response.data;
 }
 
-export const createShowtimeApi = async (data: { screenId: string, movieId: string, startTime: string }[]) => {
+export const createShowtimeApi = async (data: ShowTimeChange[]) => {
     const response = await axiosClient.post(`/api/admin/dashboard/showtimes`, {data});
     return response.data;
 }
 
-export const updateShowtimeApi = async ({data, cinemaId}: 
-    {data: {screenId: string, id: string, movieId: string, startTime: Date}[] | undefined, cinemaId: string}) => {
-        
-    const response = await axiosClient.put(`/api/admin/dashboard/showtimes?cinemaId=${cinemaId}&movieId=${data![0].movieId}`,{data});
+export const updateShowtimeApi = async ({id, data}: {id: string, data: ShowTimeChange}) => {
+    const response = await axiosClient.patch(`/api/admin/dashboard/showtimes/${id}`, {data})
     return response.data;
 }
 

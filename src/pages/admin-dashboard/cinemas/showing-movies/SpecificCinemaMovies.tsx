@@ -14,7 +14,7 @@ export interface SpecificCinemaMoviesProps {
 
 export default function SpecificCinemaMovies() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editData, setEditData] = useState<SpecificCinemaMoviesProps | null>(null)
+    const [editData, setEditData] = useState<string>("")
 
     const { cinemaId, movieId } = useParams();
 
@@ -33,15 +33,15 @@ export default function SpecificCinemaMovies() {
     });
 
     const moviedate = [...new Set(globallySortedShowtimes.map((st) => format(st.startTime, "dd/MM/y")))];
-    
-    const handleEditShowtime = (screenId: string, showtime: {time: string}[]) => {
-        setEditData({screenId, showtime});
+
+    const handleEdit = (id: string) => {
         setIsModalOpen(true);
+        setEditData(id)
     }
 
     const onCloseModal = () => {
         setIsModalOpen(false);
-        setEditData(null)
+        setEditData("")
     }
 
     return (
@@ -66,12 +66,13 @@ export default function SpecificCinemaMovies() {
                                 (st) => format(st.startTime, "dd/MM/y") === dateString
                             );
                             if (showtimesForDate.length === 0) return null;
-                            return <ShowtimeDisplay dateString={dateString} showtimesForDate={showtimesForDate} />
+                            return <ShowtimeDisplay 
+                            dateString={dateString} 
+                            showtimesForDate={showtimesForDate} 
+                            handleEdit={handleEdit}
+                            cinemaId={cinemaId!}
+                            movieId={movieId!}/>
                         })}
-                        <button onClick={() => handleEditShowtime(
-                            screen.id,
-                            screen.showtimes?.map((st) => ({time: format(st.startTime, "yyyy-MM-dd'T'HH:mm")})) || []
-                        )}>Edit</button>
                     </div>
                 ))}
             </div>
@@ -79,10 +80,7 @@ export default function SpecificCinemaMovies() {
                 <ShowtimeForm
                     cinemaId={cinemaId!}
                     movieId={movieId!}
-                    initialData={editData && screenByMovie ? {
-                        screenId: editData.screenId,
-                        showtimes: editData.showtime
-                    } : undefined}
+                    showTimeEditId={editData}
                     onCloseModal={onCloseModal} 
                 />
             </ModalComponent>
