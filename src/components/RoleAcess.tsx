@@ -14,9 +14,8 @@ export default function RoleAccess() {
 
 export function LoginAccess(){
     const { id } = useUserRoleStore()
-    const { data } = useVerifyUser(id)
 
-    if (data?.isLogin){
+    if (id){
         return <Navigate to="/" replace={true} />
     }
 

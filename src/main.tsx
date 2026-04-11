@@ -40,6 +40,7 @@ import MoviesBySearch from './pages/movies/MoviesBySearch'
 import PaymentSuccess from './pages/payment/PaymentSuccess'
 import { LoginAccess, RestrictLogin } from './components/RoleAcess'
 import VnpayPayment from './pages/payment/VnpayPayment'
+import CinemasUser from './pages/cinemas/CinemasUser'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
      {
       path: "/default/:movie_id",
       element: <SpecficMovie />
+     },
+     {
+      path: "/default/cinemas",
+      element: <CinemasUser />
      },
      {
       element: <RestrictLogin />,
