@@ -10,10 +10,16 @@ import "@/styles/style.css"
 export default function Home(){
     const { data: movies, isError, isLoading, error } = useMovie()
     const setUser = useUserRoleStore((state) => state.setUser)
+    const clearUser = useUserRoleStore((state) => state.clearUser)
     const { data: userInfo, isSuccess } = useGetUserInfo()
 
     if (isSuccess){
-        setUser(userInfo.user)
+        if (userInfo){
+            setUser(userInfo.user)
+        } else {
+            clearUser()
+            useUserRoleStore.persist.clearStorage()
+        }
     }
 
     return (

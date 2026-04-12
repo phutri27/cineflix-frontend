@@ -41,6 +41,10 @@ import PaymentSuccess from './pages/payment/PaymentSuccess'
 import { LoginAccess, RestrictLogin } from './components/RoleAcess'
 import VnpayPayment from './pages/payment/VnpayPayment'
 import CinemasUser from './pages/cinemas/CinemasUser'
+import CinemaChart from './pages/admin-dashboard/stats/CinemaChart'
+import Stats from './pages/admin-dashboard/stats/Stats'
+import UserChart from './pages/admin-dashboard/stats/UserChart'
+import MovieChart from './pages/admin-dashboard/stats/MovieChart'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -134,7 +138,17 @@ const router = createBrowserRouter([
               {path: "cinemas", element: <Cinemas />},
               {path: "snacks", element: <Snacks />},
               {path: "vouchers", element: <Vouchers />},
-              {path: "users", element: <User />}
+              {path: "users", element: <User />},
+              {
+                path: "stats",
+                element: <Stats />,
+                children: [
+                  {index: true, element: <CinemaChart />},
+                  {path: "cinemas", element: <CinemaChart />},
+                  {path: "users", element: <UserChart />},
+                  {path: "movies", element: <MovieChart />}
+                ]
+              }
             ]
           },
           {

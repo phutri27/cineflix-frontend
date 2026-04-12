@@ -13,6 +13,7 @@ export default function AdminDashboard(){
                     <Link to="snacks">Snacks</Link>
                     <Link to="vouchers">Vouchers</Link>
                     <Link to="users">Users</Link>
+                    <Link to="stats">Statistics</Link>
                 </div>
             </div>
             <Outlet />
