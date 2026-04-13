@@ -1,11 +1,20 @@
 import * as profiles from "@/api/user/profile-api"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-
-export const useGetProfile = (userId: string) => {
+import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
+export const useGetProfile = (userId: string, options?: Omit<UseQueryOptions<profiles.ProfileProps>, "queryKey" | "queryFn">) => {
     return useQuery({
         queryKey: ["profile", userId],
         queryFn: profiles.getProfile,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        ...options
+    })
+}
+
+export const useGetBookingHistory = (page: number, userId: string, options?: Omit<UseQueryOptions<profiles.BookingHistoryProps>, "queryKey" | "queryFn">) => {
+    return useQuery({
+        queryKey: ["booking_history", userId, page],
+        queryFn: () => profiles.getProfileBookingHistory(page),
+        refetchOnWindowFocus: false,
+        ...options
     })
 }
 

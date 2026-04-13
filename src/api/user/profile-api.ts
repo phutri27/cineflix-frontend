@@ -5,8 +5,62 @@ export interface ProfileProps{
     member_rank: string
 }
 
+export interface BookingHistoryProps{
+    data: {
+        id: string;
+        createdAt: Date;
+        showtime: {
+            startTime: Date;
+            movie: {
+                title: string;
+                posterUrl: string;
+            };
+            screen: {
+                name: string;
+                cinema: {
+                    name: string;
+                };
+            };
+        };
+        seats: {
+            number: number;
+            row: string;
+            seatTypeDetail: {
+                price: number;
+                seat_type: string;
+            };
+        }[];
+        vouchers: {
+            quantity: number;
+            voucher: {
+                name: string;
+                reduceAmount: number;
+            };
+        }[];
+        snacks: {
+            quantity: number;
+            snack: {
+                name: string;
+                price: number;
+            };
+        }[];
+        transaction: {
+            amount: number;
+        }[];
+    }[];
+    meta: {
+        currentPage: number;
+        totalPages: number;
+        totalItems: number;
+    };
+}
 export const getProfile = async (): Promise<ProfileProps> => {
     const response = await axiosClient.get("/api/customer/profile")
+    return response.data
+}
+
+export const getProfileBookingHistory = async (page: number): Promise<BookingHistoryProps> => {
+    const response = await axiosClient.get(`/api/customer/profile/booking_history/${page}`)
     return response.data
 }
 

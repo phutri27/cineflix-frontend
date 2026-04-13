@@ -45,6 +45,7 @@ import CinemaChart from './pages/admin-dashboard/stats/CinemaChart'
 import Stats from './pages/admin-dashboard/stats/Stats'
 import UserChart from './pages/admin-dashboard/stats/UserChart'
 import MovieChart from './pages/admin-dashboard/stats/MovieChart'
+import BookingHistory from './pages/profile/BookingHistory'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -102,7 +103,7 @@ const router = createBrowserRouter([
             { path: "detailed", element: <DetailedInfo /> },
             { path: "change-password", element: <ChangePassword />},
             { path: "new-password", element: <NewPassword />},
-            { path: "booking-history", element: <p>Booking history</p>},
+            { path: "booking-history", element: <BookingHistory />},
           ]
         },
       ]
