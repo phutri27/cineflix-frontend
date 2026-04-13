@@ -54,6 +54,14 @@ const router = createBrowserRouter([
       children: [
         {path:"/signup",element: <Signup />},
         {path:"/login", element: <Login />},
+         {
+          path: "/forgotpassword",
+          element: <Outlet />,
+          children: [
+            {index: true, element: <ForgotPassword />},
+            {path: "new-password", element: <ForgotNewPassword />}
+          ]
+        },
       ]
      },
      {
@@ -86,14 +94,6 @@ const router = createBrowserRouter([
         {
           path:"/default/checkout/payment/:showTimeId",
           element: <Payment />
-        },
-        {
-          path: "/forgotpassword",
-          element: <Outlet />,
-          children: [
-            {index: true, element: <ForgotPassword />},
-            {path: "new-password", element: <ForgotNewPassword />}
-          ]
         },
         {
           path: "/default/profile",

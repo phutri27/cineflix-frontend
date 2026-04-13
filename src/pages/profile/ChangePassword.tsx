@@ -22,7 +22,7 @@ export default function ChangePassword() {
     } 
 
     if (changePasswordSuccess){
-        return <ConfirmOTP />
+        return <ConfirmOTP password={password}/>
     }
 
     return (

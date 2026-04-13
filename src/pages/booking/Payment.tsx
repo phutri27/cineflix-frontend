@@ -1,16 +1,16 @@
 import { useParams } from "react-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { generateTimer } from "@/utils/timer";
 import { format } from "date-fns";
 import { useStripeCheckout, useVnpayCheckout } from "@/hooks/user/use-payment-checkout";
 import { useBookingStore } from "@/utils/booking-store";
 import { useGetSpecificShowTime } from "@/hooks/user/movies/use-showtime";
 import { useSearchParams } from "react-router";
-
+import { useSetTimer } from "@/hooks/user/use-set-timer";
 export default function Payment() {
     const [searchParams, setSearchParams] = useSearchParams()
-    const [remainingTimes, setRemainingTimes] = useState<number>(0)
     const [paymentPick, setPaymentPick] = useState<string>('')
+    const remainingTimes = useSetTimer(300, true)
 
     const { showTimeId } = useParams()
     const bookingId = searchParams.get("booking") || ""
@@ -92,21 +92,6 @@ export default function Payment() {
     //         window.removeEventListener("storage", handleCrossTabSync);
     //     };
     // }, [clearAllData]);
-
-    useEffect(() => {
-        const deadline = (Date.now() + 300 * 1000)
-
-        const timer = setInterval(() => {
-            const remains = deadline - Date.now()
-            if (remains <= 0){
-                clearInterval(timer)
-                setRemainingTimes(0)
-            } else{
-                setRemainingTimes(Math.floor(remains / 1000))
-            }
-        }, 1000)
-        return () => clearInterval(timer)
-    }, [])
 
     if (ticketDatas.length == 0){
         return <div>Click here to return to homepage</div>
