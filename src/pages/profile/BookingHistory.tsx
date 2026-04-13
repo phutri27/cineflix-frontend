@@ -57,6 +57,15 @@ export default function BookingHistory() {
                     <p>{booking.transaction[0].amount}</p>
                 </div>
             ))}
+            <div>
+                {Array.from({ length: bookingHistory?.meta.totalPages as number}, (_, index) => (
+                    <button 
+                    key={index + 1} 
+                    onClick={() => handleChoosePage(index + 1)}>
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
         </div>
     )
 }
