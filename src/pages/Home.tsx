@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import Header from "@/components/Header";
 import { useUserRoleStore } from "@/utils/user-role-store";
 import { useGetUserInfo } from "@/hooks";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import "@/styles/style.css"
@@ -12,18 +12,18 @@ export default function Home(){
     const { data: movies, isError, isLoading, error } = useMovie()
     const setUser = useUserRoleStore((state) => state.setUser)
     const clearUser = useUserRoleStore((state) => state.clearUser)
-    const { data: userInfo, isSuccess } = useGetUserInfo()
+    const { data: userInfo } = useGetUserInfo()
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
-    if (isSuccess){
+    useEffect(() => {
         if (userInfo){
             setUser(userInfo.user)
         } else {
             clearUser()
             useUserRoleStore.persist.clearStorage()
         }
-    }
+    }, [userInfo, setUser, clearUser])
 
     const scroll = (direction: "left" | "right") => {
         if (carouselRef.current) {

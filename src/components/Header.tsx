@@ -5,9 +5,11 @@ import LogoutBtn from "./LogoutBtn";
 import { Film, Menu as MenuIcon, X, PlayCircle, CalendarClock, CircleUser, Bell, Search } from "lucide-react";
 import Notification from "./Notification";
 import SearchBar from "./SearchBar";
+import { useGetUnreadNoti } from "@/hooks/user/use-notification";
 
 export default function Header() {
     const { id, first_name, last_name } = useUserRoleStore();
+    const { data: unreadNoti } = useGetUnreadNoti(id)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isNotiOpen, setIsNotiOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -75,6 +77,11 @@ export default function Header() {
                                     className="text-gray-300 hover:text-white transition-colors relative pt-1"
                                 >
                                     <Bell className="w-6 h-6" />
+                                    {unreadNoti! > 0 && (
+                                        <span className="absolute -top-1 -right-1.5 bg-red-600 text-white text-[10px] font-bold h-4 min-w-[16px] px-1 flex items-center justify-center rounded-full">
+                                            {unreadNoti}
+                                        </span>
+                                    )}
                                 </button>
                                 {isNotiOpen && (
                                     <div className="absolute right-0 top-full mt-4 w-80 bg-gray-950 border border-gray-800 rounded-lg shadow-2xl z-50 overflow-hidden">

@@ -1,19 +1,36 @@
-import { getNotifications, updateNotificationStatus, deleteNotification, getNotificationsByPage, type Notification } from "@/api/user/notification-api";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getNotifications, 
+    updateNotificationStatus, 
+    deleteNotification, 
+    getNotificationsByPage, 
+    type Notification,
+    type PaginatedNotifications,
+    getUnreadNoti } from "@/api/user/notification-api";
+import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
 
-export const useNotifications = (userId: string, page: number) => {
+export const useNotifications = (userId: string, page: number, options?: Omit<UseQueryOptions<Notification[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["notifications", userId, page],
         queryFn: () => getNotifications(page),
         refetchOnWindowFocus: false,
+        ...options
     })
 }
 
-export const useGetNotificationsByPage = (userId: string, page: number) => {
+export const useGetUnreadNoti = (userId: string, options?: Omit<UseQueryOptions<number>, 'queryKey' | 'queryFn'>) => {
+    return useQuery({
+        queryKey: ["notifications", "unread-notis", userId],
+        queryFn: getUnreadNoti,
+        refetchOnWindowFocus: false,
+        ...options
+    })
+}
+
+export const useGetNotificationsByPage = (userId: string, page: number, options?: Omit<UseQueryOptions<PaginatedNotifications>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["notifications-pagination", userId, page],
         queryFn: () => getNotificationsByPage(page),
         refetchOnWindowFocus: false,
+        ...options
     })
 }   
 

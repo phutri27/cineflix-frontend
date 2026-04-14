@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { type Notification as NotificationType } from "@/api/user/notification-api";
 import { io } from "socket.io-client";
 import { X } from "lucide-react"; // Using Lucide icon for the delete button
+import { format } from 'date-fns'
 
 const socket = io(import.meta.env.VITE_API_URL);
 
@@ -18,13 +19,13 @@ export default function Notification(){
     const { mutate: updateNoti } = useUpdateNotificationStatus(userId, pageNumber);
     const { mutate: deleteNoti } = useDeleteNotification(userId, pageNumber);
 
-    // Keep all your existing socket and handler logic completely untouched...
     const handleUpdate = (id: string) => updateNoti(id);
     const handleDelete = (id: string) => deleteNoti(id);
 
     useEffect(() => {
         socket.emit("join-room", userId);
         const handleNewNotification = (noti: NotificationType) => {
+            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
             queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return [...oldData, noti];
                 return [noti];
@@ -32,12 +33,14 @@ export default function Notification(){
         };
 
         const handleUpdateNotification = (notiId: string) => {
+            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
             queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return oldData.map((n) => n.id === notiId ? { ...n, readStatus: true } : n);
             });
         };
 
         const handleDeleteNotification = (notiId: string) => {
+            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
             queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return oldData.filter((n) => n.id !== notiId);
             });
@@ -63,8 +66,7 @@ export default function Notification(){
         <div className="flex flex-col max-h-96">
             <div className="px-4 py-3 border-b border-gray-800 bg-gray-900/50">
                 <h2 className="text-sm font-bold tracking-widest text-gray-200 uppercase">Notifications</h2>
-            </div>
-            
+            </div>  
             <div className="flex-1 overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
                 {notifications && notifications.length > 0 ? (
                     <ul className="space-y-1">
@@ -83,11 +85,9 @@ export default function Notification(){
                                     </h3>
                                     <p className="text-xs mt-1 line-clamp-2">{noti.content}</p>
                                     <span className="text-[10px] mt-2 block opacity-70">
-                                        {new Date(noti.createdAt).toLocaleString()}
+                                        {format(noti.createdAt, "HH:mm dd/MM/yyyy")}
                                     </span>
                                 </div>
-                                
-                                {/* Delete button only shows on hover for a cleaner UI */}
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); handleDelete(noti.id); }}
                                     className="absolute right-2 top-3 p-1 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded opacity-0 group-hover:opacity-100 transition-all"
@@ -103,8 +103,6 @@ export default function Notification(){
                     </div>
                 )}
             </div>
-
-            {/* Pagination block */}
             {paginationData && paginationData.totalPages > 1 && (
                 <div className="px-4 py-2 border-t border-gray-800 bg-gray-900/50 flex justify-center gap-1">
                     {Array.from({ length: paginationData.totalPages}, (_, index) => (

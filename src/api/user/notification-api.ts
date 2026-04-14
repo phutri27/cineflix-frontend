@@ -9,7 +9,7 @@ export interface Notification {
     userId: string
 }
 
-interface PaginatedNotifications {
+export interface PaginatedNotifications {
     totalItems: number
     totalPages: number
     currentPage: number
@@ -23,6 +23,11 @@ export const getNotifications = async (page: number): Promise<Notification[]> =>
         }
     })
     return response.data.data
+}
+
+export const getUnreadNoti = async (): Promise<number> => {
+    const response = await axiosClient.get("/api/notifications/unread-noti")
+    return response.data
 }
 
 export const getNotificationsByPage = async (page: number): Promise<PaginatedNotifications> => {

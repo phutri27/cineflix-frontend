@@ -3,7 +3,6 @@ import { movieAPi, getSpecificMovie } from "@/api/user/movie-api";
 import { type MovieResponse } from "@/api/admin/types/movie-response";
 
 export const useMovie = (status?: string, title?: string, genre?: string, options?: Omit<UseQueryOptions<MovieResponse[]>, 'queryKey' | 'queryFn'>) => {
-    console.log(status)
     return useQuery<MovieResponse[]>({
         ...options,
         queryKey: ["movies", status],
