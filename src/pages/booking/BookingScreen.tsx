@@ -23,7 +23,7 @@ export default function BookingScreen({movieId}: {movieId: string}) {
         error: cityError } = useGetCities()
     
     const calendar = createCalendar()
-    
+
     const selectDate = (date: Date) => {
         setSelectedDate(date.toString())
     }

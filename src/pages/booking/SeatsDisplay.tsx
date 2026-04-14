@@ -13,6 +13,7 @@ import { useBookingStore } from "@/utils/booking-store";
 import { useUserRoleStore } from "@/utils/user-role-store";
 import { useVerifyUser } from "@/hooks/user/use-user";
 import Seats from "./Seats"
+import Footer from "@/components/Footer";
 
 const socket = io(import.meta.env.VITE_API_URL)
 export default function SeatsDisplay(){
@@ -95,34 +96,48 @@ export default function SeatsDisplay(){
     const screen = showTimeData?.screen
 
     return (
-        <>
-            <Header />
-            {isSnackVoucherScreen ?  
-            <SnackVoucherScreen 
-            snackQuantities={snackQuantities} 
-            /> : (
-                <>
-                    {isLoading && <p>Loading seats...</p>}
-                    {isShowTimeError && <ErrorMessages error={showTimeError} />}
-                    <Seats 
-                    screen={screen!} 
-                    lockedSeats={lockedSeats!}
-                    handleSeatTypePrice={handleSeatTypePrice}/>
-                </>
-            )}
-            <PricingDetail 
-                ticketDatas={ticketDatas}
-                cinemaName={screen?.cinema.name}
-                showTime={showTimeData?.startTime}
-                screenName={screen?.name}
-                movie={showTimeData?.movie}
-                isSeatTypeError={isSeatTypeError}
-                seatTypeError={seatTypeError!}
-                handleGoToSnackVoucher={handleGoToSnackVoucher}
-                handleBackToSeatSelection={handleBackToSeatSelection}
-                totalAmountBeforeDiscount={totalAmountBeforeDiscount}
-                totalAmount={totalDiscount > 0 ? totalAmount : undefined}
-            />
-        </>
-    )
+    <>
+        <Header />
+        <div className="bg-[#141414] flex flex-col h-[calc(100vh-/* header height, e.g. 64px */)]">
+            {/* Scrollable seat area */}
+            <div className="flex-1 overflow-y-auto">
+                <div className="max-w-5xl mx-auto">
+                    {isSnackVoucherScreen ?  
+                    <SnackVoucherScreen 
+                    snackQuantities={snackQuantities} 
+                    /> : (
+                        <div>
+                            {isLoading && <p>Loading seats...</p>}
+                            {isShowTimeError && <ErrorMessages error={showTimeError} />}
+                            <Seats 
+                            screen={screen!} 
+                            lockedSeats={lockedSeats!}
+                            handleSeatTypePrice={handleSeatTypePrice}/>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Pinned pricing — always visible at the bottom */}
+            <div className="shrink-0 border-t border-neutral-700">
+                <div className="max-w-5xl mx-auto">
+                    <PricingDetail 
+                        ticketDatas={ticketDatas}
+                        cinemaName={screen?.cinema.name}
+                        showTime={showTimeData?.startTime}
+                        screenName={screen?.name}
+                        movie={showTimeData?.movie}
+                        isSeatTypeError={isSeatTypeError}
+                        seatTypeError={seatTypeError!}
+                        handleGoToSnackVoucher={handleGoToSnackVoucher}
+                        handleBackToSeatSelection={handleBackToSeatSelection}
+                        totalAmountBeforeDiscount={totalAmountBeforeDiscount}
+                        totalAmount={totalDiscount > 0 ? totalAmount : undefined}
+                    />
+                </div>
+            </div>
+        </div>
+        <Footer />
+    </>
+)
 }
