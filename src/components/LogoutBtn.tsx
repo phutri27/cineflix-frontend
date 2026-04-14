@@ -9,5 +9,5 @@ export default function LogoutBtn(){
         logout()
     }
 
-    return <button onClick={handleLogout}>Logout</button>
+    return <button className="text-gray-200" onClick={handleLogout} >Logout</button>
 }

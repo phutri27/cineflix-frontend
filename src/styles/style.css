@@ -1,1 +1,27 @@
-@import "tailwindcss"
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+}
+.footer-info{
+    @apply text-white text-sm font-bold uppercase tracking-widest border-b border-gray-800 pb-2 inline-block w-max
+}
+
+.footer-items{
+    @apply w-5 h-5 mr-3 text-red-500 flex-shrink-0
+}
+
+.footer-support{
+    @apply block text-gray-500 text-xs uppercase tracking-wider
+}
+
+.footer-rule{
+    @apply w-1.5 h-1.5 bg-gray-600 rounded-full mr-2
+}
+
+.footer-policies{
+    @apply hover:text-white transition-colors w-max
+}

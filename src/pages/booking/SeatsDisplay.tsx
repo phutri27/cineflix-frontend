@@ -67,6 +67,7 @@ export default function SeatsDisplay(){
 
     useEffect(() => {
         clearBookingData()
+        useBookingStore.persist.clearStorage()
     }, [clearBookingData])
 
     useEffect(() => {

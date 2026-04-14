@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useChangePassword } from "@/hooks/user/use-profile";
 import { useSetTimer } from "@/hooks/user/use-set-timer";
+import { useEffect } from "react";
 export default function ConfirmOTP({password}: {password: string}) {
     const [otp, setOtp] = useState<string>("")
     const [otpResend, setOtpResend] = useState<boolean>(false)
@@ -30,6 +31,12 @@ export default function ConfirmOTP({password}: {password: string}) {
             },
         })
     }
+
+    useEffect(() => {
+        if (remainingTimes === 0 && otpResend){
+            setOtpResend(false)
+        }
+    }, [remainingTimes, otpResend])
 
     return (
         <div>

@@ -46,6 +46,11 @@ import Stats from './pages/admin-dashboard/stats/Stats'
 import UserChart from './pages/admin-dashboard/stats/UserChart'
 import MovieChart from './pages/admin-dashboard/stats/MovieChart'
 import BookingHistory from './pages/profile/BookingHistory'
+import TermsOfService from './pages/policies/TermOfService'
+import PrivacyPolicy from './pages/policies/Privacy'
+import TicketingPolicy from './pages/policies/TicketingPolicy'
+import MemberBenefits from './pages/policies/MemberBenifits'
+import FAQ from './pages/policies/Faq'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -87,6 +92,26 @@ const router = createBrowserRouter([
      {
       path: "/default/cinemas",
       element: <CinemasUser />
+     },
+     {
+      path: "/default/terms",
+      element: <TermsOfService />
+     },
+     {
+      path :"/default/privacy",
+      element: <PrivacyPolicy />
+     },
+     {
+      path: "/default/ticketing-policy",
+      element: <TicketingPolicy />
+     },
+     {
+      path: "/default/member-benefits",
+      element: <MemberBenefits />
+     },
+     {
+      path: "/default/faq",
+      element: <FAQ />
      },
      {
       element: <RestrictLogin />,

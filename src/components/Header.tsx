@@ -14,7 +14,7 @@ export default function Header() {
 
     return (
         <>
-        <header className="sticky top-0 z-50 bg-gray-950/95 backdrop-blur-md border-b border-red-900/30 shadow-2xl">
+        <header className="sticky top-0 z-100 bg-gray-950/95 backdrop-blur-md border-b border-red-900/30 shadow-2xl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
                 <div className="flex-shrink-0">
                     <Link to="/" className="flex items-center text-3xl font-black tracking-tighter text-red-600 hover:text-red-500 transition-colors uppercase group">
