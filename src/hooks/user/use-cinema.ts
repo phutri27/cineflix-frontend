@@ -13,6 +13,7 @@ export const useGetCinemaByCity = (city_id: number, options?: Omit<UseQueryOptio
 
 export const useGetCinemaSpecificInfo = (city_id: number, cinemaId: string, date: string, 
     options?: Omit<UseQueryOptions<CinemaSpecificProps>, 'queryKey' | 'queryFn'>) => {
+        console.log(options)
         return useQuery({
             queryKey: ["cinema_specfiic", cinemaId, date],
             queryFn: () => getCinemaSpecificInfo(city_id, cinemaId, date),
