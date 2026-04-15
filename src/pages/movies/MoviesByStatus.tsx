@@ -8,18 +8,13 @@ import BookingScreen from "../booking/BookingScreen"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Film } from "lucide-react"
+import { bookingMovieStyle } from "@/utils/modal-style"
 interface MoviesByStatusProps {
     status: string
     title: string
     genre: string
 }
 
-const style = {
-    top: "5%",
-    bottom: "5%",
-    left: '10%',
-    right: '10%'
-}
 export default function MoviesByStatus({status, title, genre} : MoviesByStatusProps) {
     const { data: movies, isError, isLoading, error } = useMovie(status, title, genre)
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
@@ -111,7 +106,7 @@ export default function MoviesByStatus({status, title, genre} : MoviesByStatusPr
                     </div>
                 )}
             </main>
-            <ModalComponent style={style} openModal={isModalOpen} closeModal={() => setIsModalOpen(false)}>
+            <ModalComponent style={bookingMovieStyle} openModal={isModalOpen} closeModal={() => setIsModalOpen(false)}>
                 <BookingScreen movieId={selectedMovie}/>
             </ModalComponent>
             <Footer />

@@ -117,9 +117,7 @@ export default function SeatsDisplay(){
                     )}
                 </div>
             </div>
-
-            {/* Pinned pricing — always visible at the bottom */}
-            <div className="shrink-0 border-t border-neutral-700">
+            <div className="shrink-0 h-full border-t border-neutral-700">
                 <div className="max-w-5xl mx-auto">
                     <PricingDetail 
                         ticketDatas={ticketDatas}
@@ -136,8 +134,8 @@ export default function SeatsDisplay(){
                     />
                 </div>
             </div>
+            <Footer />
         </div>
-        <Footer />
     </>
-)
+    )
 }
