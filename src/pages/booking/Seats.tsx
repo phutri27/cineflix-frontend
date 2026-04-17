@@ -47,12 +47,9 @@ export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsP
                 {Array.from(new Set(screen?.seats.map(seat => seat.row)))
                     .map((rowLetter) => (
                         <div key={rowLetter} className="flex items-center gap-3">
-                            {/* Row Header */}
                             <div className="text-neutral-500 font-bold text-lg w-[40px] text-right">
                                 {rowLetter}
                             </div>
-                            
-                            {/* Individual Seats */}
                             <div className="flex gap-1">
                                 {screen?.seats.filter((seat) => seat.row === rowLetter)
                                     .map((seat) => {

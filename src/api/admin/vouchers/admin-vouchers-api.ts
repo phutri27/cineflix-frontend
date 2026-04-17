@@ -7,6 +7,7 @@ export interface VoucherProp{
     startAt: string,
     expireAt: string,
     activationCode: string
+    maxUsed: number
 }
 
 export interface VoucherResponse{
@@ -15,7 +16,8 @@ export interface VoucherResponse{
     reduceAmount: number,
     quantity: number,
     startAt: Date,
-    expireAt: Date
+    expireAt: Date,
+    maxUsed: number
 }
 
 export const getVouchers = async (): Promise<VoucherResponse[]> => {

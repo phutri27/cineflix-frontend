@@ -1,23 +1,29 @@
 import { useNotifications, useUpdateNotificationStatus, useDeleteNotification, useGetNotificationsByPage } from "@/hooks/user/use-notification";
 import { useUserRoleStore } from "@/utils/user-role-store";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { type Notification as NotificationType } from "@/api/user/notification-api";
 import { io } from "socket.io-client";
-import { X } from "lucide-react"; // Using Lucide icon for the delete button
+import { X } from "lucide-react"; 
 import { format } from 'date-fns'
+import { useGetPages } from "@/hooks/user/use-pages";
+import Page from "./Page";
 
 const socket = io(import.meta.env.VITE_API_URL);
 
 export default function Notification(){
-    const [pageNumber, setPageNumber] = useState<number>(1);
+    const { page,
+        pageGroup, 
+        handleChoosePage,
+        incrementPageGroup,
+        decrementPageGroup } = useGetPages()
 
     const queryClient = useQueryClient();
     const { id: userId } = useUserRoleStore();
-    const { data: notifications, isLoading: notiLoading } = useNotifications(userId, pageNumber);
-    const { data: paginationData, isLoading: pagiLoading } = useGetNotificationsByPage(userId, pageNumber);
-    const { mutate: updateNoti } = useUpdateNotificationStatus(userId, pageNumber);
-    const { mutate: deleteNoti } = useDeleteNotification(userId, pageNumber);
+    const { data: notifications, isLoading: notiLoading } = useNotifications(userId, page);
+    const { data: paginationData, isLoading: pagiLoading } = useGetNotificationsByPage(userId, page);
+    const { mutate: updateNoti } = useUpdateNotificationStatus(userId, page);
+    const { mutate: deleteNoti } = useDeleteNotification(userId, page);
 
     const handleUpdate = (id: string) => updateNoti(id);
     const handleDelete = (id: string) => deleteNoti(id);
@@ -26,7 +32,7 @@ export default function Notification(){
         socket.emit("join-room", userId);
         const handleNewNotification = (noti: NotificationType) => {
             queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
+            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return [...oldData, noti];
                 return [noti];
             });
@@ -34,14 +40,14 @@ export default function Notification(){
 
         const handleUpdateNotification = (notiId: string) => {
             queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
+            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return oldData.map((n) => n.id === notiId ? { ...n, readStatus: true } : n);
             });
         };
 
         const handleDeleteNotification = (notiId: string) => {
             queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, pageNumber], (oldData: NotificationType[] | undefined) => {
+            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
                 if (oldData) return oldData.filter((n) => n.id !== notiId);
             });
         };
@@ -56,7 +62,7 @@ export default function Notification(){
             socket.off("delete-notification", handleDeleteNotification);
             socket.emit("leave-room", userId);
         };
-    }, [userId, queryClient, pageNumber]);
+    }, [userId, queryClient, page]);
 
     if (notiLoading || pagiLoading) {
         return <div className="p-4 text-center text-gray-400 text-sm animate-pulse">Loading notifications...</div>;
@@ -105,21 +111,17 @@ export default function Notification(){
             </div>
             {paginationData && paginationData.totalPages > 1 && (
                 <div className="px-4 py-2 border-t border-gray-800 bg-gray-900/50 flex justify-center gap-1">
-                    {Array.from({ length: paginationData.totalPages}, (_, index) => (
-                        <button 
-                            key={index + 1} 
-                            onClick={() => setPageNumber(index + 1)}
-                            className={`w-6 h-6 text-xs rounded flex items-center justify-center transition-colors
-                                ${pageNumber === index + 1 
-                                    ? 'bg-red-600 text-white' 
-                                    : 'text-gray-400 hover:bg-gray-800'
-                                }`}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
+                    <Page
+                        totalPages={paginationData.totalPages}
+                        page={page}
+                        pageGroup={pageGroup}
+                        handleChoosePage={handleChoosePage}
+                        incrementPageGroup={incrementPageGroup}
+                        decrementPageGroup={decrementPageGroup}
+                    />
                 </div> 
             )}
         </div>
     );
 }
+

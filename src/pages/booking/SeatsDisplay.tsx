@@ -99,7 +99,6 @@ export default function SeatsDisplay(){
     <>
         <Header />
         <div className="bg-[#141414] flex flex-col h-[calc(100vh-/* header height, e.g. 64px */)]">
-            {/* Scrollable seat area */}
             <div className="flex-1 overflow-y-auto">
                 <div className="max-w-5xl mx-auto">
                     {isSnackVoucherScreen ?  

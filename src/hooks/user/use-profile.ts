@@ -45,3 +45,9 @@ export const useNewPassword = () => {
         mutationFn: profiles.newPassword
     })
 }
+
+export const useInsertProfileVoucher = () => {
+    return useMutation({
+        mutationFn: profiles.insertVoucher
+    })
+}

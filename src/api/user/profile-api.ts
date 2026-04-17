@@ -83,3 +83,9 @@ export const newPassword = async (data: {pw: string, confirm_pw: string, resetTo
     const response = await axiosClient.post("/api/password/new", data)
     return response.data
 }
+
+export const insertVoucher = async (voucher_code: string) => {
+    const response = await axiosClient.post("/api/customer/profile/vouchers", {voucher_code})
+    return response.data
+}
+

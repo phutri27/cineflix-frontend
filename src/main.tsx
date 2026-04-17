@@ -51,6 +51,8 @@ import PrivacyPolicy from './pages/policies/Privacy'
 import TicketingPolicy from './pages/policies/TicketingPolicy'
 import MemberBenefits from './pages/policies/MemberBenifits'
 import FAQ from './pages/policies/Faq'
+import NotFound from './pages/wildcard/NotFound'
+import ProfileVoucher from './pages/profile/ProfileVoucher'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -129,6 +131,7 @@ const router = createBrowserRouter([
             { path: "change-password", element: <ChangePassword />},
             { path: "new-password", element: <NewPassword />},
             { path: "booking-history", element: <BookingHistory />},
+            { path: "vouchers", element: <ProfileVoucher /> }
           ]
         },
       ]
@@ -198,6 +201,10 @@ const router = createBrowserRouter([
             element: <SpecificCinemaMovies />
           },
         ]
+     },
+     {
+      path: "*",
+      element: <NotFound />
      }
 ])
 

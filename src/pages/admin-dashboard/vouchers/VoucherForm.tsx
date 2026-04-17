@@ -17,7 +17,8 @@ export default function VoucherForm({initialData, onClose}: VoucherFormProps){
             quantity: initialData?.quantity || 0,
             startAt: initialData ? new Date(initialData.startAt).toISOString().split("T")[0] : "",
             expireAt: initialData ? new Date(initialData.expireAt).toISOString().split("T")[0] : "",
-            activationCode: ""
+            activationCode: "",
+            maxUsed: initialData?.maxUsed
         },
         mode: "onChange"
     })
@@ -85,6 +86,11 @@ export default function VoucherForm({initialData, onClose}: VoucherFormProps){
                         {errors.activationCode && <p>{errors.activationCode.message}</p>}
                     </div>
                 )}
+                <div>
+                    <label htmlFor="maxUsed">Maximum used per booking</label>
+                    <input type="number" {...register("maxUsed", {required: `Maximum time used ${filledMsg}`})}/>
+                    {errors.maxUsed && <p>{errors.maxUsed.message}</p>}
+                </div>
                 {isEditing 
                 ? <button type="submit" disabled={updatePending}>{updatePending ? "Updating..." : "Update"}</button> 
                 : <button type="submit" disabled={insertPending}>{insertPending ? "Creating..." : "Create"}</button>}

@@ -19,7 +19,10 @@ export interface SnackData {
 export interface VoucherData {
     voucherId: string
     reduceAmount: number
+    name: string
     quantity: number
+    maxUsed: number
+    voucherType: string
 }
 
 type State = {
@@ -34,10 +37,11 @@ type Action = {
     setSeatTypePrice: (seatType: SeatTypeDetail, seatId: string, row: string, number: number) => void
     incrementSnackQuantities: (snackId: string, price: number) => void
     decrementSnackQuantites: (snackId: string) => void
-    setVoucherQuantity: (voucherId: string, reduceAmount: number) => void 
+    setVoucherQuantity: (voucherId: string, reduceAmount: number, name: string, maxUsed: number, voucherType: string) => void 
     setIsSnackVoucherScreen: (isVoucherScreen: boolean) => void
     clearBookingData: () => void
     setTotalAmount: (totalAmount: number) => void
+    removeVoucher: (voucherId: string) => void
 }
 
 export const useBookingStore = create<State & Action>()( 
@@ -81,8 +85,18 @@ export const useBookingStore = create<State & Action>()(
                 }
                 return {snackQuantities: state.snackQuantities}
             }),
-            setVoucherQuantity: (voucherId, reduceAmount) => set((state) => {
-                return {voucherQuantity: [...state.voucherQuantity, {voucherId, reduceAmount, quantity: 1}]}
+            setVoucherQuantity: (voucherId, reduceAmount, name, maxUsed, voucherType) => set((state) => {
+                const voucherIndex = state.voucherQuantity.findIndex((voucher) => voucher.voucherId === voucherId)
+                if (voucherIndex !== -1){
+                    const newVouchers = [...state.voucherQuantity]
+                    newVouchers[voucherIndex].quantity += 1
+                    return {voucherQuantity: newVouchers}
+                }
+                return {voucherQuantity: [...state.voucherQuantity, {name, maxUsed, voucherId, reduceAmount, quantity: 1, voucherType}]}
+            }),
+            removeVoucher: (voucherId) => set((state) => {
+                const newVoucher = state.voucherQuantity.filter((voucher) => voucher.voucherId !== voucherId)
+                return {voucherQuantity: newVoucher}
             }),
             setIsSnackVoucherScreen: (isVoucherScreen) => set(() => ({isSnackVoucherScreen: isVoucherScreen})),
             clearBookingData: () => set(() => ({ticketDatas: [], snackQuantities: [], voucherQuantity: [], isSnackVoucherScreen: false, totalAmount: 0})),
