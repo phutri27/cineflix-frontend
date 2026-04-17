@@ -59,7 +59,7 @@ export default function PricingDetail({cinemaName,
                 </div>
                 <div className="text-sm text-right shrink-0">
                     <p className={totalAmount ? "text-neutral-500 line-through" : "text-white font-bold"}>
-                        {totalAmount ? "Old price: " : "Total: "}{totalAmountBeforeDiscount.toLocaleString()}
+                        {totalAmount ? "Old price: " : "Total: "}{totalAmountBeforeDiscount.toLocaleString()} VND
                     </p>
                     {totalAmount && (
                         <p className="text-green-400 font-bold">

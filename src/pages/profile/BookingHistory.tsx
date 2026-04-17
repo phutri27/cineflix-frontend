@@ -183,7 +183,7 @@ export default function BookingHistory() {
                         <div className="shrink-0 flex md:flex-col items-end justify-end">
                             <p className="text-xs text-neutral-500 font-medium">Total</p>
                             <p className="text-white text-lg font-bold ml-2 md:ml-0">
-                                {booking.transaction[0].amount.toLocaleString()}
+                                {booking.transaction[0].amount.toLocaleString()} VND
                             </p>
                         </div>
                     </div>

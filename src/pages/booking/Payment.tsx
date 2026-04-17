@@ -28,7 +28,6 @@ export default function Payment() {
     const snacks = useBookingStore((state) => state.snackQuantities)
     const vouchers = useBookingStore((state) => state.voucherQuantity)
     const totalAmount = useBookingStore((state) => state.totalAmount)
-    const clearAllData = useBookingStore((state) => state.clearBookingData)
 
     const handlePayment = () => {
         const datas = {

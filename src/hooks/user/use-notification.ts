@@ -12,6 +12,8 @@ export const useNotifications = (userId: string, page: number, options?: Omit<Us
         queryKey: ["notifications", userId, page],
         queryFn: () => getNotifications(page),
         refetchOnWindowFocus: false,
+        staleTime: 60 * 1000 * 60,
+        gcTime: 60 * 1000 * 70,
         ...options
     })
 }

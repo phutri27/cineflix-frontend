@@ -12,6 +12,8 @@ export const useGetProfileVoucher = (userId: string, page: number, options?: Omi
         queryKey: ["profile_voucher", userId],
         queryFn: () => getProfileVoucher(page),
         refetchOnWindowFocus: false,
+        gcTime: 60 * 1000 * 70,
+        staleTime: 60 * 1000 * 60,
         ...options
     })
 }

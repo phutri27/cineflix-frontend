@@ -5,6 +5,8 @@ export const useGetProfile = (userId: string, options?: Omit<UseQueryOptions<pro
         queryKey: ["profile", userId],
         queryFn: profiles.getProfile,
         refetchOnWindowFocus: false,
+        staleTime: 60 * 1000 * 60,  
+        gcTime: 60 * 1000 * 70,
         ...options
     })
 }
@@ -14,6 +16,8 @@ export const useGetBookingHistory = (page: number, userId: string, options?: Omi
         queryKey: ["booking_history", userId, page],
         queryFn: () => profiles.getProfileBookingHistory(page),
         refetchOnWindowFocus: false,
+        staleTime: 60 * 1000 * 60,
+        gcTime: 60 * 1000 * 70,
         ...options
     })
 }
