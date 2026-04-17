@@ -9,6 +9,13 @@ export interface BookingHistoryProps{
     data: {
         id: string;
         createdAt: Date;
+        tickets: {
+            ticketUrl: string | null;
+            seat: {
+                number: number;
+                row: string;
+            };
+        }[];
         showtime: {
             startTime: Date;
             movie: {

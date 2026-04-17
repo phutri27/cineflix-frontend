@@ -3,8 +3,14 @@ import { useUserRoleStore } from "@/utils/user-role-store"
 import { format } from "date-fns"
 import { useGetPages } from "@/hooks/user/use-pages"
 import Page from "@/components/Page"
+import { useState } from "react"
+import ModalComponent from "@/components/modal/Modal"
 
 export default function BookingHistory() {
+    const [expandedBooking, setExpandedBooking] = useState<string | null>(null)
+    const [openModal, setOpenModal] = useState<boolean>(false)
+    const [choosenTicket, setChoosenTicket] = useState<string>("")
+
     const {  page,
         pageGroup, 
         handleChoosePage,
@@ -13,6 +19,20 @@ export default function BookingHistory() {
 
     const userId = useUserRoleStore((state) => state.id)
     const { data: bookingHistory, isLoading, error } = useGetBookingHistory(page, userId)
+
+    const toggleTickets = (bookingId: string) => {
+        setExpandedBooking((prev) => prev === bookingId ? null : bookingId)
+    }
+
+    const closeModal = () => {
+        setOpenModal(false)
+        setChoosenTicket("")
+    }
+
+    const chooseTicket = (url: string) => {
+        setOpenModal(true)
+        setChoosenTicket(url)
+    }
 
     if (isLoading) {
         return <div className="p-6 md:p-8 text-neutral-400">Loading...</div>
@@ -98,7 +118,68 @@ export default function BookingHistory() {
                                     </div>
                                 </div>
                             )}
+                            {booking.tickets.length > 0 && (
+                                <div className="border-t border-neutral-700 pt-2 mb-2">
+                                    <button
+                                        onClick={() => toggleTickets(booking.id)}
+                                        className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-neutral-500 font-bold mb-1 hover:text-neutral-300 transition-colors"
+                                    >
+                                        Tickets ({booking.tickets.length})
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className={`h-3 w-3 transition-transform ${
+                                                expandedBooking === booking.id ? "rotate-180" : ""
+                                            }`}
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <polyline points="6 9 12 15 18 9" />
+                                        </svg>
+                                    </button>
+                                    {expandedBooking === booking.id && (
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            {booking.tickets.map((ticket, i) => (   
+                                                <>
+                                                    <div key={i} className="flex flex-col items-center gap-1">
+                                                        {ticket.ticketUrl && (
+                                                            <img
+                                                                src={ticket.ticketUrl}
+                                                                alt={`${ticket.seat.row + ticket.seat.number} ticket`}
+                                                                className="h-20 w-20 rounded object-cover border border-neutral-700"
+                                                                onClick={() => chooseTicket(ticket.ticketUrl!)}
+                                                            />
+                                                        )}
+                                                        <span className="text-[10px] text-neutral-400 font-semibold">
+                                                            {ticket.seat.row + ticket.seat.number}
+                                                        </span>
+                                                    </div>
+                                                </>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
+                        <ModalComponent 
+                            style={{
+                                top: "10%",
+                                bottom: "10%",
+                                left: '30%',
+                                right: '30%',
+                                backgroundColor: 'rgba(16, 24, 40)',
+                            }}
+                            openModal={openModal}
+                            closeModal={closeModal}
+                        >
+                            <img
+                                src={choosenTicket}
+                                className="h-full w-full rounded object-cover border border-neutral-700"
+                            />
+                        </ModalComponent>
                         <div className="shrink-0 flex md:flex-col items-end justify-end">
                             <p className="text-xs text-neutral-500 font-medium">Total</p>
                             <p className="text-white text-lg font-bold ml-2 md:ml-0">
