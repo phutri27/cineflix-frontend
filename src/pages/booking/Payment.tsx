@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import React, { useState } from "react";
 import { generateTimer } from "@/utils/timer";
 import { format } from "date-fns";
@@ -8,6 +8,8 @@ import { useGetSpecificShowTime } from "@/hooks/user/movies/use-showtime";
 import { useSearchParams } from "react-router";
 import { useSetTimer } from "@/hooks/user/use-set-timer";
 import LoadingScreen from "./LoadingScreen";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function Payment() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -89,7 +91,7 @@ export default function Payment() {
     if (ticketDatas.length == 0){
         return (
             <div className="bg-[#141414] text-white min-h-screen flex items-center justify-center font-sans">
-                <p className="text-neutral-400">No tickets selected. Click here to return to homepage.</p>
+                <p className="text-neutral-400">No tickets selected. <Link to="/">Click here to return to homepage.</Link></p>
             </div>
         )
     }
@@ -99,11 +101,12 @@ export default function Payment() {
     const formattedStartTime = bookingInfo?.startTime ? format(bookingInfo?.startTime as Date, "HH:mm dd/MM/y") : null
 
     return (
-        <div className="bg-[#141414] text-white min-h-screen p-6 md:p-10 font-sans">
+        <div className="flex flex-col min-h-screen bg-[#141414] text-white font-sans">
+        <Header />
+        <main className="p-6 md:p-10 font-sans">
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-center mb-10 border-b border-neutral-700 pb-6">
                 Payment
             </h1>
-
             <div className="max-w-2xl mx-auto flex flex-col gap-6">
                 <div className="bg-red-950/40 border border-red-800 rounded-lg px-5 py-3 flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -224,6 +227,8 @@ export default function Payment() {
                     Pay Now
                 </button>
             </div>
+        </main>
+        <Footer />  
         </div>
     )
 }

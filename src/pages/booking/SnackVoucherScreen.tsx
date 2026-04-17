@@ -38,11 +38,7 @@ export default function SnackVoucherScreen({snackQuantities}: SnackVoucherScreen
          error: redeemError, 
           } = useRedeemVoucher()
     
-    const { data: vouchers, 
-        isLoading: voucherLoading, 
-        isError: isVoucherError, 
-        error: voucherError,
-        isFetched} = useGetProfileVoucher(userId, page)
+    const { data: vouchers, isFetched} = useGetProfileVoucher(userId, page)
 
     const handleVoucherCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoucherCode(e.target.value)
