@@ -6,9 +6,10 @@ import { Film, Menu as MenuIcon, X, PlayCircle, CalendarClock, CircleUser, Bell,
 import Notification from "./Notification";
 import SearchBar from "./SearchBar";
 import { useGetUnreadNoti } from "@/hooks/user/use-notification";
+import { LayoutDashboard } from "lucide-react"
 
 export default function Header() {
-    const { id, first_name, last_name } = useUserRoleStore();
+    const { id, first_name, last_name, role } = useUserRoleStore();
     const { data: unreadNoti } = useGetUnreadNoti(id)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isNotiOpen, setIsNotiOpen] = useState(false)
@@ -89,6 +90,15 @@ export default function Header() {
                                     </div>
                                 )}
                             </div>  
+                             {role === "ADMIN" && (
+                                <Link 
+                                    to="/admin/dashboard" 
+                                    className="flex items-center gap-2 text-sm font-semibold text-red-500 hover:text-red-400 transition-colors"
+                                >
+                                    <LayoutDashboard className="h-4 w-4" />
+                                    Admin
+                                </Link>
+                            )}
                             <Link to="/default/profile" className="group text-amber-500 hover:text-amber-400 font-medium tracking-wide flex items-center gap-2 transition-colors">
                                 <CircleUser className="w-5 h-5 text-amber-600 group-hover:text-amber-400 transition-colors" />
                                 <span className="text-gray-400 text-sm font-normal">Welcome,</span>
@@ -99,9 +109,14 @@ export default function Header() {
                             </div>
                         </div>
                     ) : (
-                        <Link to="/login" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.6)]">
-                            Login
-                        </Link>
+                        <div className="flex gap-5">
+                            <Link to="/login" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.6)]">
+                                Login
+                            </Link>
+                            <Link to="/signup" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.6)]">
+                                Sign Up
+                            </Link>
+                        </div>
                     )}
                 </div>
                 <div className="md:hidden flex items-center">
@@ -177,13 +192,22 @@ export default function Header() {
                                     </div>
                                 </div>
                             ) : (
-                                <Link 
-                                    to="/login" 
-                                    onClick={() => setIsMobileMenuOpen(false)} 
-                                    className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] w-full"
-                                >
-                                    Login
-                                </Link>
+                                <div className="flex flex-col gap-5">
+                                    <Link 
+                                        to="/login" 
+                                        onClick={() => setIsMobileMenuOpen(false)} 
+                                        className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] w-full"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link 
+                                        to="/signup" 
+                                        onClick={() => setIsMobileMenuOpen(false)} 
+                                        className="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-bold uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] w-full"
+                                    >
+                                        Sign up
+                                    </Link>
+                                </div>
                             )}
                         </div>
                     </div>
