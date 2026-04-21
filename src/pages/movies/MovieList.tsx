@@ -12,7 +12,7 @@ export default function MovieList({movie, genresName, onOpen, selectMovie}: Movi
     const navigate = useNavigate()
 
     const handleSpecificMovie = () => {
-        navigate(`/default/${movie.id}`)
+        navigate(`/default/movie/${movie.id}`)
     }
 
     const handleSelectMovie = () => {
@@ -22,6 +22,7 @@ export default function MovieList({movie, genresName, onOpen, selectMovie}: Movi
 
     return (
         <div>
+            <div>
             <div 
                 onClick={handleSpecificMovie}
                 key={movie.id} 
@@ -64,6 +65,7 @@ export default function MovieList({movie, genresName, onOpen, selectMovie}: Movi
             > 
                 Book a ticket
             </button>
+            </div>
         </div>
     )
 }

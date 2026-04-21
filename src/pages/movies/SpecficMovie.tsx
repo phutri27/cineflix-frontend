@@ -20,6 +20,7 @@ export default function SpecficMovie() {
     const actorsName = movie?.actors.map((actor) => actor.name).join(", ")
     const genresName = movie?.genres.map((genre) => genre.name).join(", ")
 
+    const formattedDate = movie?.premiereDate ? format(new Date(movie?.premiereDate as Date), 'dd/MM/y') : ""
     const openModal = () => {
         setModalOpen(true)
     }
@@ -74,7 +75,7 @@ export default function SpecficMovie() {
                                 <p>{directorsName}</p>
                                 <p>{actorsName}</p>
                                 <p>{genresName}</p>
-                                <p>{format(new Date(movie?.premiereDate as Date), 'dd/MM/y')}</p>
+                                <p>{formattedDate}</p>
                                 <p>{movie?.durationMin} minutes</p>
                             </div>
                         </div>

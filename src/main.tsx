@@ -53,6 +53,9 @@ import MemberBenefits from './pages/policies/MemberBenifits'
 import FAQ from './pages/policies/Faq'
 import NotFound from './pages/wildcard/NotFound'
 import ProfileVoucher from './pages/profile/ProfileVoucher'
+import CineflixSpecial from './pages/navbar-pages/CineflixSpecial'
+import ContactCineflix from './pages/navbar-pages/ContactCineflix'
+import NewsAndOffers from './pages/navbar-pages/NewsAndOffer'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -88,7 +91,7 @@ const router = createBrowserRouter([
       element: <MoviesBySearch />
      },
      {
-      path: "/default/:movie_id",
+      path: "/default/movie/:movie_id",
       element: <SpecficMovie />
      },
      {
@@ -114,6 +117,18 @@ const router = createBrowserRouter([
      {
       path: "/default/faq",
       element: <FAQ />
+     },
+     {
+      path: "/default/special",
+      element: <CineflixSpecial />
+     },
+     {
+      path: "/default/contact",
+      element: <ContactCineflix />
+     },
+     {
+      path: "/default/news",
+      element: <NewsAndOffers />
      },
      {
       element: <RestrictLogin />,
