@@ -1,5 +1,6 @@
     import { format } from "date-fns";
     import { useNavigate } from "react-router";
+
     interface CinemaMovieProps{
         id: string
         title: string;
@@ -18,6 +19,10 @@ export default function CinemaMovies({movies, cinemaId}: {movies: CinemaMoviePro
     const navigate = useNavigate()
     const handleBooking = (showTimeId: string) => {
         navigate(`/default/cinema/${cinemaId}/booking/ticket/${showTimeId}`)
+    }
+
+    const handleMovieDetail = (movieId: string) => {
+        navigate(`/default/movie/${movieId}`)
     }
 
     if (!movies || movies.length === 0) {
@@ -43,7 +48,8 @@ export default function CinemaMovies({movies, cinemaId}: {movies: CinemaMoviePro
                             <img 
                                 src={movie.posterUrl} 
                                 alt={movie.title} 
-                                className="w-full h-auto object-cover rounded-lg shadow-md border border-neutral-800"
+                                className="w-full h-auto object-cover rounded-lg shadow-md border border-neutral-800 cursor-pointer"
+                                onClick={() => handleMovieDetail(movie.id)}
                             />
                         </div>
                         <div className="flex-1">

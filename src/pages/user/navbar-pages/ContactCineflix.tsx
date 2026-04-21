@@ -97,7 +97,7 @@ export default function ContactCineflix() {
                 {/* Office info */}
                 <div style={{ marginTop: "32px", padding: "20px", borderRadius: "10px", backgroundColor: "#111", border: "1px solid rgba(255,255,255,0.06)", textAlign: "center" }}>
                     <p style={{ margin: "0 0 4px", fontSize: "13px", fontWeight: 700, color: "#fff" }}>Cineflix Headquarters</p>
-                    <p style={{ margin: "0 0 8px", fontSize: "12px", color: "#737373" }}>123 Le Loi Street, District 1, Ho Chi Minh City</p>
+                    <p style={{ margin: "0 0 8px", fontSize: "12px", color: "#737373" }}>100 Ve Ho, Tay Ho Ward, Ha Noi City</p>
                     <p style={{ margin: 0, fontSize: "12px", color: "#737373" }}>Office: Mon-Fri 9AM-6PM · Hotline: Daily 8AM-10PM</p>
                 </div>
             </div>

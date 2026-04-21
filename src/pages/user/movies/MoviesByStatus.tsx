@@ -9,6 +9,8 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Film } from "lucide-react"
 import { bookingMovieStyle } from "@/utils/modal-style"
+import { darkSelectGenreStyle } from "@/utils/react-select-style"
+
 interface MoviesByStatusProps {
     status: string
     title: string
@@ -83,6 +85,7 @@ export default function MoviesByStatus({status, title, genre} : MoviesByStatusPr
                             onChange={(option) => setSelectedGenre(option?.label as string)}
                             options={genreSelect}
                             isSearchable={false}
+                            styles={darkSelectGenreStyle}
                         />
                     </div>
                 </div>

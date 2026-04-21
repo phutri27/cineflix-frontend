@@ -65,7 +65,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
     }
 
     const methods = useForm({
-        defaultValues: {
+        values: {
             screenName: initialName,
             seats: initialSeats
         }

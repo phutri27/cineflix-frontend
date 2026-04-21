@@ -18,7 +18,8 @@ const options = [
     {value: "VIP", label: "VIP"},
     {value: "REGULAR", label: "REGULAR"},
     {value: "COUPLE", label: "COUPLE"},
-    {value: "EMPTY", label: "EMPTY"}
+    {value: "EMPTY", label: "EMPTY"},
+    {value: "REPAIR", label: "REPAIR"}
 ]
 
 const modalStyle = {
@@ -39,6 +40,7 @@ const seatTypeColors: Record<string, string> = {
     REGULAR: "bg-red-900/30 border-red-700 text-red-400",
     COUPLE: "bg-fuchsia-900/30 border-fuchsia-700 text-fuchsia-400",
     EMPTY: "bg-neutral-800/50 border-neutral-600 text-neutral-400",
+    REPAIR: "bg-neutral-800/50 border-neutral-600 text-neutral-400 line-through decoration-gray-300"
 }
 
 export default function SeatTypeList({cinemaId, seatTypes}: {cinemaId: string, seatTypes: {id: string, seat_type: string, price: number}[]}) {
@@ -108,8 +110,8 @@ export default function SeatTypeList({cinemaId, seatTypes}: {cinemaId: string, s
                     {isEditing ? "Edit Seat Type" : "Add Seat Type"}
                 </h2>
 
-                {isInsertError && <div className="mb-4"><ErrorMessages error={insertError}/></div>}
-                {isUpdateError && <div className="mb-4"><ErrorMessages error={updateError}/></div>}
+                {isInsertError && <div className="mb-4 text-red-500"><ErrorMessages error={insertError}/></div>}
+                {isUpdateError && <div className="mb-4 text-red-500"><ErrorMessages error={updateError}/></div>}
 
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
                     <div>

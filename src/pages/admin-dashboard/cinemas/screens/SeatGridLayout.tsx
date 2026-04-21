@@ -15,6 +15,7 @@ const seatBorderColors: Record<string, string> = {
     REGULAR: "border-red-400",
     COUPLE: "border-fuchsia-400",
     EMPTY: "border-sky-500 opacity-40",
+    REPAIR: "border-neutral-600 bg-neutral-700/50"
 }
 
 export default function SeatGridLayout({ seats, seat_type, setSeats }: SeatGridLayoutProps) {
@@ -81,6 +82,7 @@ export default function SeatGridLayout({ seats, seat_type, setSeats }: SeatGridL
                                 .map((seat) => {
                                     const seatLabel = seat.seat_typeId.label
                                     const isEmpty = seatLabel === "EMPTY"
+                                    const isRepair = seatLabel === "REPAIR"
                                     const borderColor = seatBorderColors[seatLabel] || "border-neutral-600"
                                     const isEditing = isEditingSeat && selectedSeat?.number === seat.number && selectedSeat?.row === seat.row
 
@@ -89,7 +91,33 @@ export default function SeatGridLayout({ seats, seat_type, setSeats }: SeatGridL
                                             <div
                                                 className={`relative border bg-transparent rounded-sm flex items-center justify-center h-9 w-9 text-[10px] font-bold select-none ${borderColor} ${isEmpty ? "text-neutral-600" : "text-neutral-300"}`}
                                             >
-                                                {!isEmpty && (
+                                                {isRepair && (
+                                                    <div
+                                                        style={{
+                                                            position: "absolute",
+                                                            inset: 0,
+                                                            overflow: "hidden",
+                                                            borderRadius: "2px",
+                                                        }}
+                                                        className="flex justify-center items-center"
+                                                    >
+                                                        <span>{seat.row}{seat.number}</span>
+                                                        <div
+                                                            style={{
+                                                                position: "absolute",
+                                                                top: "50%",
+                                                                left: "-10%",
+                                                                width: "120%",
+                                                                height: "2px",
+                                                                backgroundColor: "#737373",
+                                                                transform: "rotate(-45deg)",
+                                                                transformOrigin: "center",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+
+                                                {!isEmpty && !isRepair && (
                                                     <span>{seat.row}{seat.number}</span>
                                                 )}
                                                 <button

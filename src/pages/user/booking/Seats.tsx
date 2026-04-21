@@ -75,10 +75,16 @@ export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsP
                                             seatTypeStyle = "border-red-400"
                                         } else if (seatType === "COUPLE"){
                                             seatTypeStyle = "border-fuchsia-400"
+                                        } else if (seatType === "REPAIR"){
+                                            seatTypeStyle = `border-neutral-600 bg-neutral-700/50 
+                                            cursor-not-allowed overflow-hidden before:absolute 
+                                            before:w-[140%] before:h-[2px] before:bg-neutral-400 
+                                            before:top-1/2 before:left-[-20%] before:-rotate-45 
+                                            before:origin-center`
                                         }
 
                                         const finalStyle = clsx(
-                                            "border flex items-center justify-center font-semibold text-[10px] h-6 w-6 md:h-7 md:w-7 rounded-sm cursor-pointer select-none",
+                                            "relative border flex items-center justify-center font-semibold text-[10px] h-6 w-6 md:h-7 md:w-7 rounded-sm cursor-pointer select-none",
                                             isPickedStyle,
                                             seatTypeStyle
                                         )
@@ -87,11 +93,11 @@ export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsP
                                             <button 
                                                 key={seat.id}
                                                 className={finalStyle} 
-                                                disabled={isSeatDisabled}
+                                                disabled={isSeatDisabled || seatType == "REPAIR"}
                                                 onClick={() => handleSeatTypePrice(seat.seat_typeId, seat.id, seat.row, seat.number)}
                                                 title={`${seatType} SEAT: ${seat.row}${seat.number}`}
                                             >
-                                                {seat.row + seat.number}
+                                                {seatType !== "EMPTY" && (seat.row + seat.number)}
                                             </button>
                                         )
                                     })
@@ -120,6 +126,9 @@ export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsP
                         } else if (st === "COUPLE") {
                             swatchClasses += " border-fuchsia-400"
                             label = "Couple Seat"
+                        } else if (st === "REPAIR") {
+                            swatchClasses = "relative border border-neutral-600 bg-neutral-700/50 h-6 w-6 rounded-sm overflow-hidden before:absolute before:w-[140%] before:h-[2px] before:bg-neutral-400 before:top-1/2 before:left-[-20%] before:-rotate-45 before:origin-center"
+                            label = "Under Repair"
                         }
 
                         return (
