@@ -1,9 +1,5 @@
 import axiosClient from "@/api/axios-client"
-
-export interface ActorResponse{
-    id: string
-    name: string
-}
+import type { ActorResponse } from "@/types/admin/movies/actors-type"
 
 export const adminGetActorsApi = async (): Promise<ActorResponse[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/actors")

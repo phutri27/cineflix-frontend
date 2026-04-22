@@ -1,17 +1,6 @@
 import axiosClient from "@/api/axios-client";
+import type { ShowTimeChange, Showtime } from "@/types/admin/cinema/admin-showtime-type";
 
-export interface Showtime {
-    id: string;
-    screenId: string;
-    movieId: string;
-    startTime: Date;
-}
-
-export interface ShowTimeChange {
-    screenId: string
-    movieId: string
-    startTime: string
-}
 export const getShowtimesByScreenId = async (screenId: string, movieId: string): Promise<Showtime[]> => {
     const response = await axiosClient.get(`/api/admin/dashboard/showtimes`, {
         params: {

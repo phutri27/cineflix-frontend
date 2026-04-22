@@ -1,5 +1,6 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { showTimeApi, type ShowTimeResponse, type SpecificShowTimeResponse, getSpecificShowTimeApi } from "@/api/user/showtime-api";
+import { showtimeApi } from "@/api";
+import type { ShowTimeResponse, SpecificShowTimeResponse } from "@/types/user/showtime-type";
 
 export const useGetShowTime = (movieId: string, date: string, cityId: string) => {
     const isReady = 
@@ -8,7 +9,7 @@ export const useGetShowTime = (movieId: string, date: string, cityId: string) =>
         Boolean(cityId) && cityId !== "null" && cityId !== "undefined";
     return useQuery<ShowTimeResponse[]>({
         queryKey: ["showtimes", movieId, date, cityId],
-        queryFn: () => showTimeApi(movieId, date, cityId),
+        queryFn: () => showtimeApi.showTimeApi(movieId, date, cityId),
         enabled: isReady,
         refetchOnWindowFocus: false
     })
@@ -18,7 +19,7 @@ export const useGetSpecificShowTime = (showTimeId: string, options?: Omit<UseQue
     return useQuery<SpecificShowTimeResponse>({
         ...options,
         queryKey: ["specificShowtime", showTimeId],
-        queryFn: () => getSpecificShowTimeApi(showTimeId),
+        queryFn: () => showtimeApi.getSpecificShowTimeApi(showTimeId),
         refetchOnWindowFocus: false
     })
 }

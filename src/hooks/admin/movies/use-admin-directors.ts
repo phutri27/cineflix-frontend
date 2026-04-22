@@ -1,11 +1,12 @@
-import { type DirectorResponse, adminGetDirectorsApi, adminInsertDirectorApi, adminDeleteDirectorApi, adminUpdateDirectorApi} from "@/api";
 import { useQuery, useMutation, type UseQueryOptions } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { adminDirectorApi } from "@/api";
+import type { DirectorResponse } from "@/types/admin/movies/directors-type";
 export const useGetDirectorsAdmin = (options?: Omit<UseQueryOptions<DirectorResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<DirectorResponse[]>({
         ...options,
         queryKey: ["admin_directors"],
-        queryFn: adminGetDirectorsApi,
+        queryFn: adminDirectorApi.adminGetDirectorsApi,
         refetchOnWindowFocus: false
     })
 }
@@ -13,7 +14,7 @@ export const useGetDirectorsAdmin = (options?: Omit<UseQueryOptions<DirectorResp
 export const useInsertDirectorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminInsertDirectorApi,
+        mutationFn: adminDirectorApi.adminInsertDirectorApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin_directors"]})
         }
@@ -23,7 +24,7 @@ export const useInsertDirectorAdmin = () => {
 export const useDeleteDirectorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminDeleteDirectorApi,
+        mutationFn: adminDirectorApi.adminDeleteDirectorApi,
         onMutate: async (deletedDirectorId) => {
             await queryClient.cancelQueries({ queryKey: ['admin_directors'] })
             const previousTodos = queryClient.getQueryData(['admin_directors'])
@@ -44,7 +45,7 @@ export const useDeleteDirectorAdmin = () => {
 export const useUpdateDirectorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminUpdateDirectorApi,
+        mutationFn: adminDirectorApi.adminUpdateDirectorApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin_directors"]})
         }

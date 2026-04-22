@@ -1,20 +1,5 @@
 import axiosClient from "../axios-client";
-
-export interface Notification {
-    id: string
-    title: string
-    content: string
-    readStatus: boolean
-    createdAt: string
-    userId: string
-}
-
-export interface PaginatedNotifications {
-    totalItems: number
-    totalPages: number
-    currentPage: number
-}
-
+import type { Notification, PaginatedNotifications } from "@/types/user/notifications-type";
 export const getNotifications = async (page: number): Promise<Notification[]> => {
     const response = await axiosClient.get("/api/notifications", {
         params:{

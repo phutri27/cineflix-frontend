@@ -1,16 +1,17 @@
 import { useMutation, useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { redeemVoucher, getProfileVoucher, type ProfileVoucher } from "@/api/user/voucher-api";
+import type { ProfileVoucher } from "@/types/user/voucher-type";
+import { voucherApi } from "@/api";
 
 export const useRedeemVoucher = () => {
     return useMutation({
-        mutationFn: redeemVoucher
+        mutationFn: voucherApi.redeemVoucher
     })
 } 
 
 export const useGetProfileVoucher = (userId: string, page: number, options?: Omit<UseQueryOptions<ProfileVoucher>, 'queryFn' | 'queryKey'>) => {
     return useQuery({
         queryKey: ["profile_voucher", userId],
-        queryFn: () => getProfileVoucher(page),
+        queryFn: () => voucherApi.getProfileVoucher(page),
         refetchOnWindowFocus: false,
         gcTime: 60 * 1000 * 70,
         staleTime: 60 * 1000 * 60,

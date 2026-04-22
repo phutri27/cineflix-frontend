@@ -1,19 +1,5 @@
 import axiosClient from "@/api/axios-client";
-
-export interface CinemaRevenueProp {
-    cinemaName: string
-    totalRevenue: number
-}
-
-export interface MovieRevenueProp {
-    movieTitle: string
-    totalRevenue: number
-}
-
-export interface UserRevenueProp {
-    email: string
-    totalSpent: number
-}
+import type { CinemaRevenueProp, MovieRevenueProp, UserRevenueProp } from "@/types/admin/transaction/transaction-type";
 
 export const getCinemaRevenue = async (): Promise<CinemaRevenueProp[]> => {
     const response = await axiosClient.get("/api/transaction/cinemas")

@@ -1,10 +1,9 @@
-import * as vouchers from "@/api/admin/vouchers/admin-vouchers-api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-
+import { adminVoucherApi } from "@/api"
 export const useAdminGetVouchers = () => {
     return useQuery({
         queryKey: ["admin-vouchers"],
-        queryFn: vouchers.getVouchers,
+        queryFn: adminVoucherApi.getVouchers,
         refetchOnWindowFocus: false
     })
 }
@@ -12,7 +11,7 @@ export const useAdminGetVouchers = () => {
 export const useAdminInsertVoucher = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: vouchers.insertVoucher,
+        mutationFn: adminVoucherApi.insertVoucher,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-vouchers"]})
         }
@@ -22,7 +21,7 @@ export const useAdminInsertVoucher = () => {
 export const useAdminUpdateVoucher = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: vouchers.updateVoucher,
+        mutationFn: adminVoucherApi.updateVoucher,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-vouchers"]})
         }
@@ -32,7 +31,7 @@ export const useAdminUpdateVoucher = () => {
 export const useAdminDeleteVoucher = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: vouchers.deleteVoucher,
+        mutationFn: adminVoucherApi.deleteVoucher,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-vouchers"]})
         }

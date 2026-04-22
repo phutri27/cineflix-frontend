@@ -1,11 +1,12 @@
-import * as snacks from "@/api/admin/snacks/admin-snacks-api"
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
+import type { SnackResponse } from "@/types/admin/snacks/snacks-type"
+import { adminSnackApi } from "@/api"
 
-export const useAdminGetSnacks = (options?: Omit<UseQueryOptions<snacks.SnackResponse[]>, 'queryKey' | 'queryFn'>) => {
+export const useAdminGetSnacks = (options?: Omit<UseQueryOptions<SnackResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         ...options,
         queryKey: ["admin-snacks"],
-        queryFn: snacks.getSnacks,
+        queryFn: adminSnackApi.getSnacks,
         refetchOnWindowFocus: false
     })
 }
@@ -13,7 +14,7 @@ export const useAdminGetSnacks = (options?: Omit<UseQueryOptions<snacks.SnackRes
 export const useAdminCreateSnack = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: snacks.createSnack,
+        mutationFn: adminSnackApi.createSnack,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin-snacks"] })
         }
@@ -23,7 +24,7 @@ export const useAdminCreateSnack = () => {
 export const useAdminUpdateSnack = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: snacks.updateSnack,
+        mutationFn: adminSnackApi.updateSnack,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin-snacks"] })
         }
@@ -33,7 +34,7 @@ export const useAdminUpdateSnack = () => {
 export const useAdminDeleteSnack = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: snacks.deleteSnack,
+        mutationFn: adminSnackApi.deleteSnack,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin-snacks"] })
         }

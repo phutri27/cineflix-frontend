@@ -1,9 +1,10 @@
-import * as profiles from "@/api/user/profile-api"
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
-export const useGetProfile = (userId: string, options?: Omit<UseQueryOptions<profiles.ProfileProps>, "queryKey" | "queryFn">) => {
+import { profileApi } from "@/api"
+import type { ProfileProps, BookingHistoryProps } from "@/types/user/profile-type"
+export const useGetProfile = (userId: string, options?: Omit<UseQueryOptions<ProfileProps>, "queryKey" | "queryFn">) => {
     return useQuery({
         queryKey: ["profile", userId],
-        queryFn: profiles.getProfile,
+        queryFn: profileApi.getProfile,
         refetchOnWindowFocus: false,
         staleTime: 60 * 1000 * 60,  
         gcTime: 60 * 1000 * 70,
@@ -11,10 +12,10 @@ export const useGetProfile = (userId: string, options?: Omit<UseQueryOptions<pro
     })
 }
 
-export const useGetBookingHistory = (page: number, userId: string, options?: Omit<UseQueryOptions<profiles.BookingHistoryProps>, "queryKey" | "queryFn">) => {
+export const useGetBookingHistory = (page: number, userId: string, options?: Omit<UseQueryOptions<BookingHistoryProps>, "queryKey" | "queryFn">) => {
     return useQuery({
         queryKey: ["booking_history", userId, page],
-        queryFn: () => profiles.getProfileBookingHistory(page),
+        queryFn: () => profileApi.getProfileBookingHistory(page),
         refetchOnWindowFocus: false,
         staleTime: 60 * 1000 * 60,
         gcTime: 60 * 1000 * 70,
@@ -25,7 +26,7 @@ export const useGetBookingHistory = (page: number, userId: string, options?: Omi
 export const useUpdateProfile = (userId: string) => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: profiles.updateProfile,
+        mutationFn: profileApi.updateProfile,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["profile", userId] })
         }
@@ -34,24 +35,24 @@ export const useUpdateProfile = (userId: string) => {
 
 export const useChangePassword = () => {
     return useMutation({
-        mutationFn: profiles.changePassword
+        mutationFn: profileApi.changePassword
     })
 }   
 
 export const useConfirmChangePasswordOTP = () => {
     return useMutation({
-        mutationFn: profiles.confirmChangePasswordOTP
+        mutationFn: profileApi.confirmChangePasswordOTP
     })
 }
 
 export const useNewPassword = () => {
     return useMutation({
-        mutationFn: profiles.newPassword
+        mutationFn: profileApi.newPassword
     })
 }
 
 export const useInsertProfileVoucher = () => {
     return useMutation({
-        mutationFn: profiles.insertVoucher
+        mutationFn: profileApi.insertUserVoucher
     })
 }

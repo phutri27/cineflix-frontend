@@ -1,15 +1,5 @@
 import axiosClient from "../axios-client";
-import type { SnackData, VoucherData } from "@/utils/booking-store";
-import type { PricingDetailProp } from "@/utils/booking-store";
-
-export interface BookingData {
-    movieId: string | undefined
-    showtimeId: string
-    seats: PricingDetailProp[]
-    snacks: SnackData[]
-    vouchers: VoucherData[]
-    bookingId: string
-}
+import type { BookingData } from "@/types/user/booking-type";
 
 interface VnPayCheckoutResponse {
     success: boolean

@@ -1,10 +1,6 @@
 import axiosClient from "../axios-client";
+import type { SeatTypeDetail } from "@/types/user/seatType-type";
 
-export interface SeatTypeDetail {
-    id: string
-    price: string
-    seat_type: string
-}
 export const getSeatType = async (cinema_id: string): Promise<SeatTypeDetail[]> => {
     const response = await axiosClient.get(`api/seat-type/`, {
         params:{

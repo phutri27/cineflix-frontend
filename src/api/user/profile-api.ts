@@ -1,66 +1,6 @@
 import axiosClient from "../axios-client";
+import type { ProfileProps, BookingHistoryProps } from "@/types/user/profile-type";
 
-export interface ProfileProps{
-    spending_total : number;
-    member_rank: string
-}
-
-export interface BookingHistoryProps{
-    data: {
-        id: string;
-        createdAt: Date;
-        tickets: {
-            ticketUrl: string | null;
-            seat: {
-                number: number;
-                row: string;
-            };
-        }[];
-        showtime: {
-            startTime: Date;
-            movie: {
-                title: string;
-                posterUrl: string;
-            };
-            screen: {
-                name: string;
-                cinema: {
-                    name: string;
-                };
-            };
-        };
-        seats: {
-            number: number;
-            row: string;
-            seatTypeDetail: {
-                price: number;
-                seat_type: string;
-            };
-        }[];
-        vouchers: {
-            quantity: number;
-            voucher: {
-                name: string;
-                reduceAmount: number;
-            };
-        }[];
-        snacks: {
-            quantity: number;
-            snack: {
-                name: string;
-                price: number;
-            };
-        }[];
-        transaction: {
-            amount: number;
-        }[];
-    }[];
-    meta: {
-        currentPage: number;
-        totalPages: number;
-        totalItems: number;
-    };
-}
 export const getProfile = async (): Promise<ProfileProps> => {
     const response = await axiosClient.get("/api/customer/profile")
     return response.data
@@ -91,7 +31,7 @@ export const newPassword = async (data: {pw: string, confirm_pw: string, resetTo
     return response.data
 }
 
-export const insertVoucher = async (voucher_code: string) => {
+export const insertUserVoucher = async (voucher_code: string) => {
     const response = await axiosClient.post("/api/customer/profile/vouchers", {voucher_code})
     return response.data
 }

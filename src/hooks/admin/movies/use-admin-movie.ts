@@ -1,12 +1,12 @@
-import { adminGetMovieApi, adminDeleteMovieApi, adminInsertMovieApi, adminUpdateMovieApi, adminGetSpecificMovie } from "@/api";
 import { useQuery, useMutation, type UseQueryOptions, useQueryClient } from "@tanstack/react-query";
-import type { MovieResponse } from "@/api/admin/types/movie-response";
+import { adminMovieApi } from "@/api";
+import type { MovieResponse } from "@/types/admin/movies/movie-type";
 
 export const useGetMovieAdmin = (options?: Omit<UseQueryOptions<MovieResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<MovieResponse[]>({
         ...options,
         queryKey: ["admin_movies"],
-        queryFn: adminGetMovieApi,
+        queryFn: adminMovieApi.adminGetMovieApi,
         refetchOnWindowFocus: false
     })
 }
@@ -15,14 +15,14 @@ export const useGetSpecificMovieAdmin = (id: string, options?: Omit<UseQueryOpti
     return useQuery<MovieResponse>({
         ...options,
         queryKey: ["admin_movie", id],
-        queryFn: () => adminGetSpecificMovie(id)
+        queryFn: () => adminMovieApi.adminGetSpecificMovie(id)
     })
 }
 
 export const useInsertMovieAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminInsertMovieApi,
+        mutationFn: adminMovieApi.adminInsertMovieApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin_movies"]})
         }
@@ -32,7 +32,7 @@ export const useInsertMovieAdmin = () => {
 export const useUpdateMovieAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminUpdateMovieApi,
+        mutationFn: adminMovieApi.adminUpdateMovieApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin_movies"]})
         }
@@ -42,7 +42,7 @@ export const useUpdateMovieAdmin = () => {
 export const useDeleteMovieAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminDeleteMovieApi,
+        mutationFn: adminMovieApi.adminDeleteMovieApi,
         onMutate: async (deletedMovieId) => {
             await queryClient.cancelQueries({ queryKey: ['admin_movies'] })
             const previousTodos = queryClient.getQueryData(['admin_movies'])

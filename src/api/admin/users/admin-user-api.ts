@@ -1,14 +1,5 @@
 import axiosClient from "@/api/axios-client";
-
-export interface UserResponse {
-    email: string,
-    first_name: string,
-    last_name: string,
-    profile: {
-        spending_total: number,
-        member_rank: string
-    }
-}
+import type { UserResponse } from "@/types/admin/users/user-type";
 
 export const getUsers = async (): Promise<UserResponse[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/users")

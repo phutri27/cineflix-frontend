@@ -1,9 +1,5 @@
 import axiosClient from "@/api/axios-client";
-
-export interface DirectorResponse{
-    id: string
-    name: string
-}
+import type { DirectorResponse } from "@/types/admin/movies/directors-type";
 
 export const adminGetDirectorsApi = async (): Promise<DirectorResponse[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/directors")

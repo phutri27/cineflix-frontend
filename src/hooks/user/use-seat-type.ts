@@ -1,12 +1,12 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { getSeatType } from "@/api";
-import type { SeatTypeDetail } from "@/api";
+import type { SeatTypeDetail } from "@/types/user/seatType-type";
+import { seatTypeApi } from "@/api";
 
 export const useGetSeatType = (cinemaId: string, options?: Omit<UseQueryOptions<SeatTypeDetail[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         ...options,
         queryKey: ["seat-type", cinemaId],
-        queryFn: () => getSeatType(cinemaId),
+        queryFn: () => seatTypeApi.getSeatType(cinemaId),
         refetchOnWindowFocus: false
     })
 }

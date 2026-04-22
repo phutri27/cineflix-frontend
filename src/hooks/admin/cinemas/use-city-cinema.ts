@@ -1,10 +1,11 @@
-import * as cities from "@/api/admin/cinema/admin-city-api";
+import { adminCityApi } from "@/api";
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
-export const useGetAdminCities = (options?: Omit<UseQueryOptions<cities.CityResponse[]>, 'queryKey'| 'queryFn'>) => {
+import type { CityResponse } from "@/types/admin/cinema/city-type";
+export const useGetAdminCities = (options?: Omit<UseQueryOptions<CityResponse[]>, 'queryKey'| 'queryFn'>) => {
     return useQuery({
         ...options,
         queryKey: ["admin-cities"],
-        queryFn: cities.getAllCitiesApi,
+        queryFn: adminCityApi.getAllCitiesApi,
         refetchOnWindowFocus: false
     })
 }
@@ -12,7 +13,7 @@ export const useGetAdminCities = (options?: Omit<UseQueryOptions<cities.CityResp
 export const useInsertAdminCity = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: cities.insertCityApi,
+        mutationFn: adminCityApi.insertCityApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-cities"]})
         }
@@ -22,7 +23,7 @@ export const useInsertAdminCity = () => {
 export const useUpdateAdminCity = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: cities.updateCityApi,
+        mutationFn: adminCityApi.updateCityApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-cities"]})
         }
@@ -32,7 +33,7 @@ export const useUpdateAdminCity = () => {
 export const useDeleteAdminCity = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: cities.deleteCityApi,
+        mutationFn: adminCityApi.deleteCityApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin-cities"]})
         }

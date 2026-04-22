@@ -1,29 +1,11 @@
 import axiosClient from "../axios-client";
+import type { ProfileVoucher } from "@/types/user/voucher-type";
 
 interface RedeemVoucherProps{
     id: string,
     name: string,
     reduceAmount: number,
     maxUsed: number
-}
-
-export interface ProfileVoucher{
-    data: {
-        quantity: number;
-        voucher: {
-            id: string;
-            name: string;
-            reduceAmount: number;
-            startAt: Date;
-            expireAt: Date;
-            maxUsed: number
-        };
-    }[];
-    meta: {
-        currentPage: number;
-        totalPages: number;
-        totalItems: number;
-    };
 }
 
 export const redeemVoucher = async ({voucher_code, voucherIds}: {voucher_code: string, voucherIds: {id: string, quantity: number}[]}): Promise<RedeemVoucherProps> => {

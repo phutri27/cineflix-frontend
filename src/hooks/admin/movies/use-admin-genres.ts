@@ -1,11 +1,11 @@
 import {useQuery, useMutation, type UseQueryOptions, useQueryClient} from "@tanstack/react-query"
-import { type GenreResponse, getGenresAdmin, insertGenreAdmin, updateGenreAdmin, deleteGenreAdmin } from "@/api"
-
+import type { GenreResponse } from "@/types/admin/movies/genres-type"
+import { adminGenreApi } from "@/api"
 export const useGetGenresAdmin = (options?: Omit<UseQueryOptions<GenreResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<GenreResponse[]>({
         ...options,
         queryKey: ["admin_genres"],
-        queryFn: getGenresAdmin,
+        queryFn: adminGenreApi.getGenresAdmin,
         refetchOnWindowFocus: false
     })
 }
@@ -13,7 +13,7 @@ export const useGetGenresAdmin = (options?: Omit<UseQueryOptions<GenreResponse[]
 export const useInsertGenreAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: insertGenreAdmin,
+        mutationFn: adminGenreApi.insertGenreAdmin,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_genres"] })
         }
@@ -23,7 +23,7 @@ export const useInsertGenreAdmin = () => {
 export const useUpdateGenreAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: updateGenreAdmin,
+        mutationFn: adminGenreApi.updateGenreAdmin,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_genres"] })
         }
@@ -33,7 +33,7 @@ export const useUpdateGenreAdmin = () => {
 export const useDeleteGenreAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: deleteGenreAdmin,
+        mutationFn: adminGenreApi.deleteGenreAdmin,
         onMutate: async (genreId) => {
             await queryClient.cancelQueries({ queryKey: ['admin_genres'] })
             const previousGenres = queryClient.getQueryData(['admin_genres'])

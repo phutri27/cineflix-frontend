@@ -1,9 +1,8 @@
 import { useMutation, useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { loginUser, loginGoogle, getUserInfo } from "@/api";
-
+import { loginApi } from "@/api";
 export const useLogin = () => {
     return useMutation({
-        mutationFn: loginUser
+        mutationFn: loginApi.loginUser
     });
 };
 
@@ -11,7 +10,7 @@ export const useLoginGoogle = (options?: Omit<UseQueryOptions, 'queryKey' | 'que
     return useQuery({
         ...options,
         queryKey: ["google"],
-        queryFn: loginGoogle,
+        queryFn: loginApi.loginGoogle,
         refetchOnWindowFocus: false
     })
 }
@@ -19,6 +18,6 @@ export const useLoginGoogle = (options?: Omit<UseQueryOptions, 'queryKey' | 'que
 export const useGetUserInfo = () => {
     return useQuery({
         queryKey: ["login-session"],
-        queryFn: getUserInfo
+        queryFn: loginApi.getUserInfo
     })
 }

@@ -1,5 +1,5 @@
 import axiosClient from "@/api/axios-client";
-import type { MovieResponse } from "@/api/admin/types/movie-response";
+import type { MovieResponse } from "@/types/admin/movies/movie-type";
 
 export const movieAPi = async (status?: string, title?: string, genre?: string): Promise<MovieResponse[]> => {
     const response = await axiosClient.get("/api/movies", {

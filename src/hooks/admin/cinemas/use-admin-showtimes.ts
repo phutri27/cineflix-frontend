@@ -1,11 +1,12 @@
-import * as showtimes from "@/api/admin/cinema/admin-showtime-api"
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query"
+import { adminShowtimeApi } from "@/api"
+import type { Showtime } from "@/types/admin/cinema/admin-showtime-type"
 
-export const useAdminGetShowtimes = (screenId: string, movieId: string, options?: Omit<UseQueryOptions<showtimes.Showtime[]>, 'queryKey' | 'queryFn'> ) => {
+export const useAdminGetShowtimes = (screenId: string, movieId: string, options?: Omit<UseQueryOptions<Showtime[]>, 'queryKey' | 'queryFn'> ) => {
     return useQuery({
         ...options,
         queryKey: ["admin-showtimes", screenId, movieId],
-        queryFn: () => showtimes.getShowtimesByScreenId(screenId, movieId),
+        queryFn: () => adminShowtimeApi.getShowtimesByScreenId(screenId, movieId),
         refetchOnWindowFocus: false
     })
 }
@@ -13,7 +14,7 @@ export const useAdminGetShowtimes = (screenId: string, movieId: string, options?
 export const useAdminCreateShowtime = (cinemaId: string, movieId: string) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: showtimes.createShowtimeApi,
+        mutationFn: adminShowtimeApi.createShowtimeApi,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screen_specfic", cinemaId, movieId] });
         }
@@ -23,7 +24,7 @@ export const useAdminCreateShowtime = (cinemaId: string, movieId: string) => {
 export const useAdminUpdateShowtime = (cinemaId: string, movieId: string) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: showtimes.updateShowtimeApi,
+        mutationFn: adminShowtimeApi.updateShowtimeApi,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screen_specfic", cinemaId, movieId] });
         }
@@ -33,7 +34,7 @@ export const useAdminUpdateShowtime = (cinemaId: string, movieId: string) => {
 export const useAdminDeleteShowtime = (cinemaId: string, movieId: string) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: showtimes.deleteShowtimeApi,
+        mutationFn: adminShowtimeApi.deleteShowtimeApi,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screen_specfic", cinemaId, movieId] });
         }

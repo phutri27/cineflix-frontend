@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCity } from "@/api/user/city-api";
-
+import { cityApi } from "@/api";
 export const useGetCities = () => {
     return useQuery({
         queryKey: ["cities"],
-        queryFn: getCity,
+        queryFn: cityApi.getCity,
         refetchOnWindowFocus: false
     })
 }

@@ -1,12 +1,12 @@
-import { type ActorResponse, adminGetActorsApi, adminInsertActorApi, adminUpdateActorApi, adminDeleteActorApi } from "@/api";
-import { useQuery, useMutation, type UseQueryOptions } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, type UseQueryOptions, useQueryClient } from "@tanstack/react-query";
+import type { ActorResponse } from "@/types/admin/movies/actors-type";
+import { adminActorApi } from "@/api";
 
 export const useGetActorsAdmin = (options?: Omit<UseQueryOptions<ActorResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<ActorResponse[]>({
         ...options,
         queryKey: ["admin_actor"],
-        queryFn: adminGetActorsApi,
+        queryFn: adminActorApi.adminGetActorsApi,
         refetchOnWindowFocus: false
     })
 }
@@ -14,7 +14,7 @@ export const useGetActorsAdmin = (options?: Omit<UseQueryOptions<ActorResponse[]
 export const useInsertActorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminInsertActorApi,
+        mutationFn: adminActorApi.adminInsertActorApi,
         onSuccess: () => queryClient.invalidateQueries({queryKey: ["admin_actor"]})
     })
 }
@@ -22,7 +22,7 @@ export const useInsertActorAdmin = () => {
 export const useUpdateActorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminUpdateActorApi,
+        mutationFn: adminActorApi.adminUpdateActorApi,
         onSuccess: () => queryClient.invalidateQueries({queryKey: ["admin_actor"]})
     })
 }
@@ -30,7 +30,7 @@ export const useUpdateActorAdmin = () => {
 export const useDeleteActorAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: adminDeleteActorApi,
+        mutationFn: adminActorApi.adminDeleteActorApi,
         onMutate: async (deletedActorId) => {
             await queryClient.cancelQueries({ queryKey: ['admin_actor'] })
             const previousTodos = queryClient.getQueryData(['admin_actor'])

@@ -1,16 +1,11 @@
-import { getNotifications, 
-    updateNotificationStatus, 
-    deleteNotification, 
-    getNotificationsByPage, 
-    type Notification,
-    type PaginatedNotifications,
-    getUnreadNoti } from "@/api/user/notification-api";
 import { useQuery, useMutation, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
+import type { Notification, PaginatedNotifications } from "@/types/user/notifications-type";
+import { notificationApi } from "@/api";
 
 export const useNotifications = (userId: string, page: number, options?: Omit<UseQueryOptions<Notification[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["notifications", userId, page],
-        queryFn: () => getNotifications(page),
+        queryFn: () => notificationApi.getNotifications(page),
         refetchOnWindowFocus: false,
         staleTime: 60 * 1000 * 60,
         gcTime: 60 * 1000 * 70,
@@ -21,7 +16,7 @@ export const useNotifications = (userId: string, page: number, options?: Omit<Us
 export const useGetUnreadNoti = (userId: string, options?: Omit<UseQueryOptions<number>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["notifications", "unread-notis", userId],
-        queryFn: getUnreadNoti,
+        queryFn: notificationApi.getUnreadNoti,
         refetchOnWindowFocus: false,
         ...options
     })
@@ -30,7 +25,7 @@ export const useGetUnreadNoti = (userId: string, options?: Omit<UseQueryOptions<
 export const useGetNotificationsByPage = (userId: string, page: number, options?: Omit<UseQueryOptions<PaginatedNotifications>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["notifications-pagination", userId, page],
-        queryFn: () => getNotificationsByPage(page),
+        queryFn: () => notificationApi.getNotificationsByPage(page),
         refetchOnWindowFocus: false,
         ...options
     })
@@ -39,7 +34,7 @@ export const useGetNotificationsByPage = (userId: string, page: number, options?
 export const useUpdateNotificationStatus = (userId: string, page: number) => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: updateNotificationStatus,
+        mutationFn: notificationApi.updateNotificationStatus,
         onMutate: async (notiId) => {
             await queryClient.cancelQueries({ queryKey: ['notifications', userId, page] })
             const previousNotis = queryClient.getQueryData(['notifications', userId, page])
@@ -65,7 +60,7 @@ export const useUpdateNotificationStatus = (userId: string, page: number) => {
 export const useDeleteNotification = (userId: string, page: number) => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: deleteNotification,
+        mutationFn: notificationApi.deleteNotification,
         onMutate: async (notiId) => {
             await queryClient.cancelQueries({ queryKey: ['notifications', userId, page] })
             const previousNotis = queryClient.getQueryData(['notifications', userId, page])

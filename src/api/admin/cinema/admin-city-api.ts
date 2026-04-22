@@ -1,9 +1,6 @@
 import axiosClient from "@/api/axios-client";
+import type { CityResponse } from "@/types/admin/cinema/city-type";
 
-export interface CityResponse{
-    id: number
-    name: string
-}
 
 export const getAllCitiesApi = async (): Promise<CityResponse[]> => {
     const response = await axiosClient.get<CityResponse[]>("/api/admin/dashboard/cities")

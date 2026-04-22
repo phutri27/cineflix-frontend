@@ -1,14 +1,5 @@
 import axiosClient from "@/api/axios-client";
-
-interface SeatType {
-    price: number,
-    seat_type: string,
-    cinemaId: string
-}
-
-export interface SeatTypeProp extends SeatType {
-    id: string
-}
+import type { SeatTypeProp, SeatType } from "@/types/admin/cinema/seat-type";
 
 export const getAdminSeatTypesByCinema = async (cinema_id: string): Promise<SeatTypeProp[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/seat-type", {

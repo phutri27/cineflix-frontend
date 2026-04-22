@@ -1,28 +1,29 @@
-import * as screens from "@/api/admin/cinema/admin-screen-api"
+import { adminScreenApi} from "@/api"
 import { type UseQueryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { ScreensProp, ScreenByMovieAndCinemaResponse, ScreenTypeProp } from "@/types/admin/cinema/screen-type"
 
-export function useGetAdminScreens(cinemaId: string, options?: Omit<UseQueryOptions<screens.ScreensProp[]>, "queryKey" | "queryFn">) {
+export function useGetAdminScreens(cinemaId: string, options?: Omit<UseQueryOptions<ScreensProp[]>, "queryKey" | "queryFn">) {
     return useQuery({
         queryKey: ["admin_screens", cinemaId],
-        queryFn: () => screens.getAdminScreensByCinema(cinemaId),
+        queryFn: () => adminScreenApi.getAdminScreensByCinema(cinemaId),
         refetchOnWindowFocus: false,
         ...options
     })
 }
 
-export function useGetAdminScreenByMovie(cinema_id: string, movie_id: string,options?: Omit<UseQueryOptions<screens.ScreenByMovieAndCinemaResponse[]>, "queryKey" | "queryFn">) {
+export function useGetAdminScreenByMovie(cinema_id: string, movie_id: string,options?: Omit<UseQueryOptions<ScreenByMovieAndCinemaResponse[]>, "queryKey" | "queryFn">) {
     return useQuery({
         queryKey: ["admin_screen_specfic", cinema_id, movie_id],
-        queryFn: () => screens.getAdminScreenByMovieAndCinema(cinema_id, movie_id),
+        queryFn: () => adminScreenApi.getAdminScreenByMovieAndCinema(cinema_id, movie_id),
         refetchOnWindowFocus: false,
         ...options
     })
 }
 
-export function useGetAdminSpecificScreen(screen_id: string, options?: Omit<UseQueryOptions<screens.ScreenTypeProp>, "queryKey" | "queryFn">) {
+export function useGetAdminSpecificScreen(screen_id: string, options?: Omit<UseQueryOptions<ScreenTypeProp>, "queryKey" | "queryFn">) {
     return useQuery({
         queryKey: ["admin_screen", screen_id],
-        queryFn: () => screens.getAdminSeatByScreen(screen_id),
+        queryFn: () => adminScreenApi.getAdminSeatByScreen(screen_id),
         refetchOnWindowFocus: false,
         ...options
     })
@@ -31,7 +32,7 @@ export function useGetAdminSpecificScreen(screen_id: string, options?: Omit<UseQ
 export function useInsertAdminScreen(cinemaId: string) {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: screens.insertAdminScreen,
+        mutationFn: adminScreenApi.insertAdminScreen,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screens", cinemaId] })
         }
@@ -41,7 +42,7 @@ export function useInsertAdminScreen(cinemaId: string) {
 export function useUpdateAdminScreen(cinemaId: string) {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: screens.updateAdminScreen,
+        mutationFn: adminScreenApi.updateAdminScreen,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screens", cinemaId] })
         }
@@ -51,7 +52,7 @@ export function useUpdateAdminScreen(cinemaId: string) {
 export function useDeleteAdminScreen(cinemaId: string) {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: screens.deleteAdminScreen,
+        mutationFn: adminScreenApi.deleteAdminScreen,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin_screens", cinemaId] })
         }

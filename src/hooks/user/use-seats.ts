@@ -1,10 +1,9 @@
-import { expireSeatPayment, getLockedSeat } from "@/api/user/seat-api";
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-
+import { seatApi } from "@/api";
 export const useExpireSeatPayment = (sessionId: string) => {
     return useQuery({
         queryKey: ["expireSeatPayment", sessionId],
-        queryFn: () => expireSeatPayment(sessionId),
+        queryFn: () => seatApi.expireSeatPayment(sessionId),
         enabled: false
     })
 }
@@ -13,7 +12,7 @@ export const useGetLockedSeat = (showTimeId: string, options?: Omit<UseQueryOpti
     return useQuery({
         refetchOnWindowFocus:false,
         queryKey: ["lockedSeats", showTimeId],
-        queryFn: () => getLockedSeat(showTimeId),
+        queryFn: () => seatApi.getLockedSeat(showTimeId),
         ...options
     })
 }

@@ -1,25 +1,5 @@
 import axiosClient from "@/api/axios-client";
-
-export interface VoucherProp{
-    name: string,
-    reduceAmount: number,
-    quantity: number,
-    startAt: string,
-    expireAt: string,
-    activationCode: string
-    maxUsed: number
-}
-
-export interface VoucherResponse{
-    id: string,
-    name: string,
-    reduceAmount: number,
-    quantity: number,
-    startAt: Date,
-    expireAt: Date,
-    maxUsed: number
-}
-
+import type { VoucherProp, VoucherResponse } from "@/types/admin/vouchers/vouchers-type";
 export const getVouchers = async (): Promise<VoucherResponse[]> => {
     const res = await axiosClient.get("/api/admin/dashboard/vouchers")
     return res.data

@@ -1,15 +1,11 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { getCinemaRevenue, 
-    getMoviesRevenue, 
-    getUsersRevenue, 
-    type UserRevenueProp,
-    type MovieRevenueProp, 
-    type CinemaRevenueProp } from "@/api/admin/transaction/admin-transaction-api";
+import type { CinemaRevenueProp, MovieRevenueProp,UserRevenueProp } from "@/types/admin/transaction/transaction-type";
+import { adminTransactionApi } from "@/api";
 
 export const useGetCinemaRevenue = (options?: Omit<UseQueryOptions<CinemaRevenueProp[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["cinema_revenue"],
-        queryFn: getCinemaRevenue,
+        queryFn: adminTransactionApi.getCinemaRevenue,
         refetchOnWindowFocus: false,
         ...options
     })
@@ -18,7 +14,7 @@ export const useGetCinemaRevenue = (options?: Omit<UseQueryOptions<CinemaRevenue
 export const useGetMovieRevenue = (options?: Omit<UseQueryOptions<MovieRevenueProp[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["movie_revenue"],
-        queryFn: getMoviesRevenue,
+        queryFn: adminTransactionApi.getMoviesRevenue,
         refetchOnWindowFocus: false,
         ...options
     })
@@ -27,7 +23,7 @@ export const useGetMovieRevenue = (options?: Omit<UseQueryOptions<MovieRevenuePr
 export const useGetUserRevenue = (options?: Omit<UseQueryOptions<UserRevenueProp[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery({
         queryKey: ["user_revenue"],
-        queryFn: getUsersRevenue,
+        queryFn: adminTransactionApi.getUsersRevenue,
         refetchOnWindowFocus: false,
         ...options
     })

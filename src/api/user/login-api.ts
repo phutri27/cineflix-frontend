@@ -21,8 +21,6 @@ interface LoginResponse extends UserInfoProps{
     message: string;
 }
 
-
-
 export const getUserInfo = async (): Promise<UserInfoProps> => {
     const response = await axiosClient.get("/api/login/user/me")
     return response.data

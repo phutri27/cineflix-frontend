@@ -1,18 +1,6 @@
 import axiosClient from "../../axios-client";
-import type { MovieResponse } from "../types/movie-response";
+import type { MovieResponse } from "@/types/admin/movies/movie-type";
 
-export interface MovieFormInput{
-    title: string
-    plot: string
-    filename: File[]
-    duration: number
-    premiere_date: Date | string,
-    trailerUrl: string
-    rated: string
-    genre_option : {value: string, label: string}[]
-    actors: {value: string, label: string}[]
-    directors: {value: string, label: string}[]
-}
 
 export const adminGetMovieApi = async (): Promise<MovieResponse[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/movies")

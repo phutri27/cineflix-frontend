@@ -1,9 +1,6 @@
 import axiosClient from "@/api/axios-client";
+import type { GenreResponse } from "@/types/admin/movies/genres-type";
 
-export type GenreResponse = {
-    id: string
-    name: string
-}
 export const getGenresAdmin = async (): Promise<GenreResponse[]> => {
     const response = await axiosClient.get("/api/admin/dashboard/genres")
     return response.data
