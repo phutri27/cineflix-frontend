@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { format } from "date-fns";
-import { useAdminDeleteShowtime } from "@/hooks";
+import { useAdminShowtime } from "@/hooks";
 import { Pencil, Trash2 } from "lucide-react";
 
 interface ShowtimeDisplayProps {
@@ -18,7 +18,7 @@ export const ShowtimeDisplay = memo(function ShowtimeDisplay({
     cinemaId,
     movieId
 }: ShowtimeDisplayProps) {
-    const { mutate: deleteShowtime, isPending } = useAdminDeleteShowtime(cinemaId, movieId)
+    const { mutate: deleteShowtime, isPending } = useAdminShowtime.useAdminDeleteShowtime(cinemaId, movieId)
 
     const handleDelete = (id: string) => {
         deleteShowtime(id)

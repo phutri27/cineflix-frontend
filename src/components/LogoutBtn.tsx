@@ -1,8 +1,7 @@
-import { useLogout } from "@/hooks/user/use-logout";
-import { useUserRoleStore } from "@/utils/user-role-store";
+import { useUserStore, useLogout } from "@/hooks";
 export default function LogoutBtn(){
-    const { mutate: logout } = useLogout()
-    const clearUserInfo = useUserRoleStore((state) => state.clearUser)
+    const { mutate: logout } = useLogout.useLogout()
+    const clearUserInfo = useUserStore.useUserRoleStore((state) => state.clearUser)
 
     const handleLogout = () => {
         clearUserInfo()

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
-import * as cinemasApi from '@/hooks/admin/cinemas/use-admin-cinema';
+import { useAdminCinema } from '@/hooks';
 import CinemaScreensList from './screens/CinemaScreensList';
 import SeatTypeList from './seat-types/SeatTypeList';
 import { useNavigate } from 'react-router';
@@ -26,8 +26,8 @@ export default function EditCinemaPage() {
     const navigate = useNavigate()
     const { cinemaId } = useParams<{ cinemaId: string }>();
 
-    const { data: cinema, isLoading, isError } = cinemasApi.useGetSpecificAdminCinema(cinemaId as string);
-    const { mutate: updateCinema, isPending, isError: isUpdateError, error: updateError } = cinemasApi.useAdminUpdateCinema();
+    const { data: cinema, isLoading, isError } = useAdminCinema.useGetSpecificAdminCinema(cinemaId as string);
+    const { mutate: updateCinema, isPending, isError: isUpdateError, error: updateError } = useAdminCinema.useAdminUpdateCinema();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CinemaGeneralFormData>();
 

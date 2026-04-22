@@ -1,11 +1,10 @@
-import { useUserRoleStore } from "@/utils/user-role-store"
-import { useGetProfile } from "@/hooks/user/use-profile"
 import { ErrorMessages } from "@/utils/error-messages"
 import { Award, CreditCard, User, Mail } from "lucide-react"
+import { useProfile, useUserStore } from "@/hooks"
 
 export default function GeneralInfo() {
-    const { id, first_name, last_name, email } = useUserRoleStore()
-    const { data: profile, isLoading, isError, error } = useGetProfile(id!)
+    const { id, first_name, last_name, email } = useUserStore.useUserRoleStore()
+    const { data: profile, isLoading, isError, error } = useProfile.useGetProfile(id!)
 
     if (isLoading) {
         return (

@@ -1,10 +1,10 @@
 import { useForm, useFieldArray, type SubmitHandler } from "react-hook-form";
-import { useAdminCreateShowtime, useAdminUpdateShowtime, useGetAdminScreens } from "@/hooks";
+import { useAdminShowtime, useAdminScreen } from "@/hooks";
 import { type SpecificCinemaMoviesProps } from "./SpecificCinemaMovies";
 import { ErrorMessages } from "@/utils/error-messages";
 import { format } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
-import type { ScreensProp } from "@/api";
+import type { ScreensProp } from "@/types/admin/cinema/screen-type";
 import type React from "react";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -30,9 +30,9 @@ export default function ShowtimeForm({ cinemaId, movieId, showTimeEditId, onClos
 
     const { fields, append, remove } = useFieldArray({ control, name: "showtime" });
 
-    const { data: screens } = useGetAdminScreens(cinemaId!)
-    const { mutate: createShowtime, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminCreateShowtime(cinemaId, movieId)
-    const { mutate: updateShowtime, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminUpdateShowtime(cinemaId, movieId)
+    const { data: screens } = useAdminScreen.useGetAdminScreens(cinemaId!)
+    const { mutate: createShowtime, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminShowtime.useAdminCreateShowtime(cinemaId, movieId)
+    const { mutate: updateShowtime, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminShowtime.useAdminUpdateShowtime(cinemaId, movieId)
 
     const pickedScreen = screens?.find((screen) =>
         screen.showtimes.some((st) => st.id === showTimeEditId)

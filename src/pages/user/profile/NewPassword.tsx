@@ -1,4 +1,4 @@
-import { useNewPassword } from "@/hooks/user/use-profile";
+import { useProfile } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useSearchParams } from "react-router";
@@ -18,7 +18,7 @@ export default function NewPassword() {
         }
     })
 
-    const { mutate: newPassword, isPending, isError, error } = useNewPassword()
+    const { mutate: newPassword, isPending, isError, error } = useProfile.useNewPassword()
 
     const onSubmit: SubmitHandler<NewPasswordForm> = (data) => {
         const newData = {

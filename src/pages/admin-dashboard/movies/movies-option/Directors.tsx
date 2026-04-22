@@ -1,10 +1,10 @@
-import { useGetDirectorsAdmin, useInsertDirectorAdmin, useDeleteDirectorAdmin, useUpdateDirectorAdmin} from "@/hooks";
+import { useAdminDirector } from "@/hooks";
 import MoviesOptionEntity from "../MoviesOptionEntity";
 export default function Directors() {
-    const { data: admin_director, isLoading, isError, error} = useGetDirectorsAdmin()
-    const { mutate : insertDirector, isPending: insertPending, isError: isInsertError, error: insertError } = useInsertDirectorAdmin()
-    const { mutate : updateDirector, isPending: updatePending, isError: isUpdateError, error: updateError } = useUpdateDirectorAdmin()
-    const { mutate : deleteDirector } = useDeleteDirectorAdmin()
+    const { data: admin_director, isLoading, isError, error} = useAdminDirector.useGetDirectorsAdmin()
+    const { mutate : insertDirector, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminDirector.useInsertDirectorAdmin()
+    const { mutate : updateDirector, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminDirector.useUpdateDirectorAdmin()
+    const { mutate : deleteDirector } = useAdminDirector.useDeleteDirectorAdmin()
 
     return <MoviesOptionEntity 
             entityName="director"

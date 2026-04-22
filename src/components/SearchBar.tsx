@@ -10,7 +10,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
     const [movieSearch, setMovieSearch] = useState<string>("");
-    const { data: movies } = useMovie("", movieSearch, "");
+    const { data: movies } = useMovie.useGetMovie("", movieSearch, "");
     const navigate = useNavigate();
 
     useEffect(() => {

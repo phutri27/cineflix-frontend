@@ -1,9 +1,8 @@
 import { createCalendar } from "@/utils/create-calendar";
-import { useGetCities } from "@/hooks/user/movies/use-city";
 import { ErrorMessages } from "@/utils/error-messages";
 import { format } from 'date-fns'
 import { useState } from "react";
-import { useGetShowTime } from "@/hooks/user/movies/use-showtime";
+import { useCity, useShowtime } from "@/hooks";
 import SpecficTimeSeat from "./SpecficTimeSeat";
 
 export default function BookingScreen({movieId}: {movieId: string}) {
@@ -12,15 +11,13 @@ export default function BookingScreen({movieId}: {movieId: string}) {
     const [selectedDate, setSelectedDate] = useState<string>(defaultDate.toString())
     const [selectedCity, setSelectedCity] = useState<number | null>(null)
 
-    const { data: showTimes, 
-        isError: isShowtimeError, 
-        isLoading: showtimeLoading, 
-        error: showtimeError } = useGetShowTime(movieId, selectedDate, String(selectedCity))
+    const { data: showTimes,
+        isLoading: showtimeLoading } = useShowtime.useGetShowTime(movieId, selectedDate, String(selectedCity))
 
     const { data: cities, 
         isError: isCityError, 
         isLoading: cityLoading, 
-        error: cityError } = useGetCities()
+        error: cityError } = useCity.useGetCities()
     
     const calendar = createCalendar()
 

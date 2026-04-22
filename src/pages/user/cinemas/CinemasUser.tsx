@@ -1,15 +1,14 @@
-import { useGetCities } from "@/hooks/user/movies/use-city";
 import Header from "@/components/Header";
 import { useState } from "react";
-import { useGetCinemaByCity } from "@/hooks/user/use-cinema";
+import { useCinema, useCity } from "@/hooks";
 import CinemaSpecificUser from "./CinemaSpecificUser";
 import Footer from "@/components/Footer";
 export default function CinemasUser() {
     const [pickedCity, setPickedCity] = useState<number | null>(null)
     const [pickedCinema, setPickedCinema] = useState<string>("")
     
-    const { data: cities , isLoading, isError, isFetched: citiesFetched } = useGetCities();
-    const { data: cinemas, isLoading: cinemaLoading, isError: isErrorCinema, isFetched: cinemaFetched} = useGetCinemaByCity(pickedCity!, {enabled: !!pickedCity})
+    const { data: cities , isLoading, isError, isFetched: citiesFetched } = useCity.useGetCities();
+    const { data: cinemas, isLoading: cinemaLoading, isError: isErrorCinema, isFetched: cinemaFetched} = useCinema.useGetCinemaByCity(pickedCity!, {enabled: !!pickedCity})
 
     const handleCityClick = (city_id: number) => {
         setPickedCity(city_id)

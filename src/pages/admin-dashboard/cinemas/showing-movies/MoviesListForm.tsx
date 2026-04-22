@@ -1,5 +1,5 @@
 import ModalComponent from "@/components/modal/Modal";
-import { useGetMovieAdmin, useAdminInsertMovieInCinema } from "@/hooks";
+import { useAdminMovie, useAdminCinema } from "@/hooks";
 import Select from 'react-select'
 import { useState } from "react";
 import { ErrorMessages } from "@/utils/error-messages";
@@ -34,8 +34,8 @@ const modalStyle = {
 export default function MoviesListForm({ cinemaId, openModal, onClose, movies }: MoviesListFormProps) {
     const [selectedMovies, setSelectedMovies] = useState<SelectedMoviesProps[]>([])
 
-    const { data: moviesData, isLoading, isError, error } = useGetMovieAdmin({ enabled: openModal })
-    const { mutate: insertMovieInCinema, isPending } = useAdminInsertMovieInCinema(cinemaId)
+    const { data: moviesData, isLoading, isError, error } = useAdminMovie.useGetMovieAdmin({ enabled: openModal })
+    const { mutate: insertMovieInCinema, isPending } = useAdminCinema.useAdminInsertMovieInCinema(cinemaId)
 
     const displayDataSelect = moviesData?.filter((movie) => !movies.includes(movie.id)).map((movie) => ({
         value: movie.id,

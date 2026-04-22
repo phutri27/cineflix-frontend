@@ -1,4 +1,4 @@
-import type { Option } from "@/api/admin/types/movie-response";
+import type { Option } from "@/types/admin/movies/movie-type";
 import { Pencil, Trash2, ChevronRight } from "lucide-react";
 import { useState } from "react";
 

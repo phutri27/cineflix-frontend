@@ -1,12 +1,12 @@
-import type { MovieResponse } from "@/api/admin/types/movie-response";
+import type { MovieResponse } from "@/types/admin/movies/movie-type";
 import { useNavigate } from "react-router";
 import { format } from 'date-fns'
-import { useDeleteMovieAdmin } from "@/hooks";
+import { useAdminMovie } from "@/hooks";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function SingleMovie({movie}: {movie: MovieResponse}) {
     const navigate = useNavigate()
-    const { mutate, isPending } = useDeleteMovieAdmin()
+    const { mutate, isPending } = useAdminMovie.useDeleteMovieAdmin()
 
     const onDelete = () => {
         mutate(movie.id)

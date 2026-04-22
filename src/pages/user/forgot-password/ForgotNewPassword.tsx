@@ -1,7 +1,7 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useLocation, useNavigate } from "react-router";
-import { useNewPasswordForForgotPassword } from "@/hooks/user/use-forgot-password";
+import { useForgotPassword } from "@/hooks";
 
 interface NewPasswordForm {
     new_password: string,
@@ -18,7 +18,7 @@ export default function ForgotNewPassword() {
         }
     })
 
-    const { mutate: newPassword, isPending, isError, error } = useNewPasswordForForgotPassword()
+    const { mutate: newPassword, isPending, isError, error } = useForgotPassword.useNewPasswordForForgotPassword()
 
     const onSubmit: SubmitHandler<NewPasswordForm> = (data) => {
         const newData = {

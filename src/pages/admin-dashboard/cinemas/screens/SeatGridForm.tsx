@@ -1,5 +1,5 @@
 import { useFormContext, type SubmitHandler, Controller } from "react-hook-form";
-import { type ScreenFormData, type SeatDetailData } from "./ScreenEditor";
+import type { ScreenFormData, SeatDetailData } from "./ScreenEditor";
 import Select from 'react-select'
 import { darkSelectGenreStyle } from "@/utils/react-select-style";
 interface SeatGridFormProps {

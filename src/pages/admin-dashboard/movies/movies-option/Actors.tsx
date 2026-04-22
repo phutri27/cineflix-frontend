@@ -1,10 +1,10 @@
-import { useGetActorsAdmin, useInsertActorAdmin, useUpdateActorAdmin, useDeleteActorAdmin } from "@/hooks";
+import { useAdminActor } from "@/hooks";
 import MoviesOptionEntity from "../MoviesOptionEntity";
 export default function Actors() {
-    const { data: admin_actor, isLoading, isError, error} = useGetActorsAdmin()
-    const { mutate : insertActor, isPending: insertPending, isError: isInsertError, error: insertError } = useInsertActorAdmin()
-    const { mutate : updateActor, isPending: updatePending, isError: isUpdateError, error: updateError} = useUpdateActorAdmin()
-    const { mutate : deleteActor } = useDeleteActorAdmin()
+    const { data: admin_actor, isLoading, isError, error} = useAdminActor.useGetActorsAdmin()
+    const { mutate : insertActor, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminActor.useInsertActorAdmin()
+    const { mutate : updateActor, isPending: updatePending, isError: isUpdateError, error: updateError} = useAdminActor.useUpdateActorAdmin()
+    const { mutate : deleteActor } = useAdminActor.useDeleteActorAdmin()
 
     return <MoviesOptionEntity 
             entityName="actor"

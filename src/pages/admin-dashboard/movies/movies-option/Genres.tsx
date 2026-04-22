@@ -1,10 +1,10 @@
-import { useGetGenresAdmin, useInsertGenreAdmin, useUpdateGenreAdmin, useDeleteGenreAdmin } from "@/hooks";
+import { useAdminGenre } from "@/hooks";
 import MoviesOptionEntity from "../MoviesOptionEntity";
 export default function Genres() {
-    const { data: admin_genres, isLoading, isError, error} = useGetGenresAdmin()
-    const { mutate: insertGenre, isPending: insertPending, isError: isInsertError, error: insertError } = useInsertGenreAdmin()
-    const { mutate: updateGenre, isPending: updatePending, isError: isUpdateError, error: updateError} = useUpdateGenreAdmin()
-    const { mutate: deleteGenre} = useDeleteGenreAdmin()
+    const { data: admin_genres, isLoading, isError, error} = useAdminGenre.useGetGenresAdmin()
+    const { mutate: insertGenre, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminGenre.useInsertGenreAdmin()
+    const { mutate: updateGenre, isPending: updatePending, isError: isUpdateError, error: updateError} = useAdminGenre.useUpdateGenreAdmin()
+    const { mutate: deleteGenre} = useAdminGenre.useDeleteGenreAdmin()
 
     return <MoviesOptionEntity 
             entityName="genre"

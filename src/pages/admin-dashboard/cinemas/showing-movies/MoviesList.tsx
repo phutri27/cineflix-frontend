@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import { useState } from "react"
-import { useAdminDeleteMovieInCinema } from "@/hooks"
+import { useAdminCinema } from "@/hooks"
 import { ErrorMessages } from "@/utils/error-messages"
 import MoviesListForm from "./MoviesListForm"
 import { Plus, Pencil, Trash2 } from "lucide-react"
@@ -14,7 +14,7 @@ interface MoviesListProps {
 export default function MoviesList({ cinemaId, movies }: { cinemaId: string, movies: MoviesListProps[] }) {
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-    const { mutate: deleteMovieInCinema, isPending, isError, error } = useAdminDeleteMovieInCinema(cinemaId)
+    const { mutate: deleteMovieInCinema, isPending, isError, error } = useAdminCinema.useAdminDeleteMovieInCinema(cinemaId)
 
     const selectedMovies = movies.map((movie) => movie.id)
 

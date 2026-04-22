@@ -1,12 +1,12 @@
-import type { screenOption } from "@/api/admin/cinema/admin-cinema-api"
-import { useDeleteAdminScreen } from "@/hooks/admin/cinemas/use-admin-screen"
+import type { screenOption } from "@/types/admin/cinema/cinema-type"
+import { useAdminScreen } from "@/hooks"
 import { ErrorMessages } from "@/utils/error-messages"
 import { useNavigate } from "react-router"
 import { Eye, Trash2, Monitor } from "lucide-react"
 
 export default function CinemaScreensList({cinemaId, screens}: {cinemaId: string, screens: screenOption[]}) {
     const navigate = useNavigate()
-    const { mutate: deleteScreen, isError: isDeleteError, error: deleteError } = useDeleteAdminScreen(cinemaId)
+    const { mutate: deleteScreen, isError: isDeleteError, error: deleteError } = useAdminScreen.useDeleteAdminScreen(cinemaId)
 
     const handleViewScreen = (screenId: string) => {
         navigate(`/admin/cinemas/${cinemaId}/screens/${screenId}`)

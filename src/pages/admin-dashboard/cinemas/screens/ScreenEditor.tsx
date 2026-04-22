@@ -2,11 +2,11 @@ import { useForm, FormProvider } from "react-hook-form";
 import SeatGridForm from "./SeatGridForm";
 import ModalComponent from "@/components/modal/Modal";
 import { useState } from "react";
-import { useGetAdminSeatTypesByCinema } from "@/hooks/admin/cinemas/use-admin-seat-type";
+import { useAdminSeatType } from "@/hooks";
 import { useNavigate } from "react-router";
 import SeatGridLayout from "./SeatGridLayout";
 import { ErrorMessages } from "@/utils/error-messages";
-import { type ScreenTypeProp } from "@/api";
+import type { ScreenTypeProp } from "@/types/admin/cinema/screen-type";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ArrowLeft, LayoutGrid, Save } from "lucide-react";
@@ -53,7 +53,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
     const [screenName, setScreenName] = useState<string>(initialName)
     const [isOpenModal, setModal] = useState<boolean>(false)
 
-    const { data: seat_type, isLoading, isError: isSeatTypeError, error: seatTypeError } = useGetAdminSeatTypesByCinema(cinemaId!)
+    const { data: seat_type, isLoading, isError: isSeatTypeError, error: seatTypeError } = useAdminSeatType.useGetAdminSeatTypesByCinema(cinemaId!)
     const navigate = useNavigate()
 
     const handleScreenNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

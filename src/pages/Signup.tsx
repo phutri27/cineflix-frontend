@@ -1,8 +1,7 @@
-import { useSignup } from "@/hooks";
+import { useSignup, useOtp } from "@/hooks";
 import OTPInput from "@/components/OTPInput";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useOTP } from "@/hooks";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Header from "@/components/Header";
@@ -20,9 +19,9 @@ export default function Signup(){
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
-    const {mutate: signUpMutate, isPending, isError: isSignupError, error: signupError, isSuccess: signupSuccess} = useSignup()
+    const {mutate: signUpMutate, isPending, isError: isSignupError, error: signupError, isSuccess: signupSuccess} = useSignup.useSignup()
     const { register, handleSubmit, watch, formState: {errors}} = useForm<State>()
-    const { mutate: OTPMutate, isError: isOTPError, error: OTPError } = useOTP()
+    const { mutate: OTPMutate, isError: isOTPError, error: OTPError } = useOtp.useOTP()
 
     const email = watch("email") 
 

@@ -1,10 +1,9 @@
 import ScreenEditor from "./ScreenEditor";
 import { useParams } from "react-router";
-import { useInsertAdminScreen } from "@/hooks/admin/cinemas/use-admin-screen";
-
+import { useAdminScreen } from "@/hooks";
 export default function ScreenCreate(){
     const { cinemaId } = useParams<{ cinemaId: string }>();
-    const { mutate: insertScreen, isPending, isError, error } = useInsertAdminScreen(cinemaId!)
+    const { mutate: insertScreen, isPending, isError, error } = useAdminScreen.useInsertAdminScreen(cinemaId!)
 
     return (
         <ScreenEditor 

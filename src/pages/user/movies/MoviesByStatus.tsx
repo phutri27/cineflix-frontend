@@ -18,7 +18,7 @@ interface MoviesByStatusProps {
 }
 
 export default function MoviesByStatus({status, title, genre} : MoviesByStatusProps) {
-    const { data: movies, isError, isLoading, error } = useMovie(status, title, genre)
+    const { data: movies, isError, isLoading, error } = useMovie.useGetMovie(status, title, genre)
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [selectedMovie, setSelectedMovie] = useState<string>("")

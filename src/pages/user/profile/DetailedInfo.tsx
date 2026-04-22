@@ -1,5 +1,4 @@
-import { useUpdateProfile } from "@/hooks/user/use-profile";
-import { useUserRoleStore } from "@/utils/user-role-store";
+import { useProfile, useUserStore } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useState } from "react";
@@ -14,9 +13,9 @@ const fieldMsg = "must not be empty"
 export default function DetailedInfo() {
     const [successMessage, setSuccessMessage] = useState<string>("")
 
-    const { id, first_name, last_name, email } = useUserRoleStore()
-    const setFirstName = useUserRoleStore(state => state.setFirstName)
-    const setLastName = useUserRoleStore(state => state.setLastName)
+    const { id, first_name, last_name, email } = useUserStore.useUserRoleStore()
+    const setFirstName = useUserStore.useUserRoleStore(state => state.setFirstName)
+    const setLastName = useUserStore.useUserRoleStore(state => state.setLastName)
 
     const { register, handleSubmit, formState: {errors}, reset } = useForm({
         defaultValues: {
@@ -25,7 +24,7 @@ export default function DetailedInfo() {
             password: ""
         }
     })
-    const { mutate: updateProfile, isPending, isError, error, } = useUpdateProfile(id!)
+    const { mutate: updateProfile, isPending, isError, error, } = useProfile.useUpdateProfile(id!)
 
     const onSubmit:SubmitHandler<FormData> = (data) => {    
         updateProfile(data, {

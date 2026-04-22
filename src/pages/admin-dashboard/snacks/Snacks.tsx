@@ -1,8 +1,8 @@
 import ModalComponent from "@/components/modal/Modal";
-import { useAdminGetSnacks, useAdminDeleteSnack } from "@/hooks";
+import { useAdminSnack } from "@/hooks";
 import { useState } from "react";
 import { ErrorMessages } from "@/utils/error-messages";
-import type { SnackResponse } from "@/api/admin/snacks/admin-snacks-api";
+import type { SnackResponse } from "@/types/admin/snacks/snacks-type";
 import SnackForm from "./SnackForm";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 
@@ -23,8 +23,8 @@ export default function Snacks(){
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState<SnackResponse | null>(null)
 
-    const { data: snacks, isLoading, isError: isQueryError, error: queryError } = useAdminGetSnacks()
-    const { mutate: deleteSnack, isPending, isError: isDeleteError, error: deleteError } = useAdminDeleteSnack()
+    const { data: snacks, isLoading, isError: isQueryError, error: queryError } = useAdminSnack.useAdminGetSnacks()
+    const { mutate: deleteSnack, isPending, isError: isDeleteError, error: deleteError } = useAdminSnack.useAdminDeleteSnack()
 
     const handleDelete = (id: string) => {
         deleteSnack(id)

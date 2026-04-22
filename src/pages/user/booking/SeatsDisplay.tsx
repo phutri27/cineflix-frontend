@@ -1,41 +1,36 @@
-import { useGetSpecificShowTime } from "@/hooks/user/movies/use-showtime";
 import { useParams, useNavigate } from "react-router";
-import { useGetSeatType } from "@/hooks/user/use-seat-type";
 import PricingDetail from "./PricingDetail";
 import { ErrorMessages } from "@/utils/error-messages";
 import Header from "@/components/Header";
 import SnackVoucherScreen from "./SnackVoucherScreen";
-import { useGetLockedSeat } from "@/hooks/user/use-seats";
 import { io } from "socket.io-client"
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useBookingStore } from "@/utils/booking-store";
-import { useUserRoleStore } from "@/utils/user-role-store";
-import { useVerifyUser } from "@/hooks/user/use-user";
+import { useShowtime, useSeatType, useSeats, useBookedStore, useUserStore, useUser } from "@/hooks";
 import Seats from "./Seats"
 import Footer from "@/components/Footer";
 
 const socket = io(import.meta.env.VITE_API_URL)
 export default function SeatsDisplay(){
-    const ticketDatas = useBookingStore((state) => state.ticketDatas)
-    const snackQuantities = useBookingStore((state) => state.snackQuantities)
-    const voucherQuantity = useBookingStore((state) => state.voucherQuantity)
-    const isSnackVoucherScreen = useBookingStore((state) => state.isSnackVoucherScreen)
-    const setSeatTypePrice = useBookingStore((state) => state.setSeatTypePrice)
-    const setIsSnackVoucherScreen = useBookingStore((state) => state.setIsSnackVoucherScreen)
-    const setTotalAmount = useBookingStore((state) => state.setTotalAmount)
-    const clearBookingData = useBookingStore((state) => state.clearBookingData)
-    const id = useUserRoleStore((state) => state.id)
+    const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
+    const snackQuantities = useBookedStore.useBookingStore((state) => state.snackQuantities)
+    const voucherQuantity = useBookedStore.useBookingStore((state) => state.voucherQuantity)
+    const isSnackVoucherScreen = useBookedStore.useBookingStore((state) => state.isSnackVoucherScreen)
+    const setSeatTypePrice = useBookedStore.useBookingStore((state) => state.setSeatTypePrice)
+    const setIsSnackVoucherScreen = useBookedStore.useBookingStore((state) => state.setIsSnackVoucherScreen)
+    const setTotalAmount = useBookedStore.useBookingStore((state) => state.setTotalAmount)
+    const clearBookingData = useBookedStore.useBookingStore((state) => state.clearBookingData)
+    const id = useUserStore.useUserRoleStore((state) => state.id)
 
     const queryClient = useQueryClient()
 
     const navigate = useNavigate()
 
     const { cinemaId, showTimeId } = useParams()
-    const { data: user } = useVerifyUser(id)
-    const { data: lockedSeats } = useGetLockedSeat(showTimeId!)
-    const { data: seatTypes, isError: isSeatTypeError, error: seatTypeError } = useGetSeatType(cinemaId!)
-    const { data: showTimeData, isError: isShowTimeError, error: showTimeError, isLoading } = useGetSpecificShowTime(showTimeId!)
+    const { data: user } = useUser.useVerifyUser(id)
+    const { data: lockedSeats } = useSeats.useGetLockedSeat(showTimeId!)
+    const { data: seatTypes, isError: isSeatTypeError, error: seatTypeError } = useSeatType.useGetSeatType(cinemaId!)
+    const { data: showTimeData, isError: isShowTimeError, error: showTimeError, isLoading } = useShowtime.useGetSpecificShowTime(showTimeId!)
 
     const totalAmountBeforeDiscount = ticketDatas.reduce((total, ticket) => total + parseInt(ticket.price), 0) + snackQuantities.reduce((total, snack) => total + (snack.price * snack.quantity), 0)
     const totalDiscount = voucherQuantity.reduce((total, voucher) => total + (voucher.reduceAmount * voucher.quantity), 0)
@@ -68,7 +63,7 @@ export default function SeatsDisplay(){
 
     useEffect(() => {
         clearBookingData()
-        useBookingStore.persist.clearStorage()
+        useBookedStore.useBookingStore.persist.clearStorage()
     }, [clearBookingData])
 
     useEffect(() => {

@@ -2,32 +2,29 @@ import { useParams, Link } from "react-router";
 import React, { useState } from "react";
 import { generateTimer } from "@/utils/timer";
 import { format } from "date-fns";
-import { useStripeCheckout, useVnpayCheckout } from "@/hooks/user/use-payment-checkout";
-import { useBookingStore } from "@/utils/booking-store";
-import { useGetSpecificShowTime } from "@/hooks/user/movies/use-showtime";
 import { useSearchParams } from "react-router";
-import { useSetTimer } from "@/hooks/user/use-set-timer";
 import LoadingScreen from "./LoadingScreen";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePaymentCheckout, useBookedStore, useShowtime, useTimer  } from "@/hooks";
 
 export default function Payment() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [paymentPick, setPaymentPick] = useState<string>('')
-    const remainingTimes = useSetTimer(300, true)
+    const remainingTimes = useTimer.useSetTimer(300, true)
 
     const { showTimeId } = useParams()
     const bookingId = searchParams.get("booking") || ""
 
-    const {data: bookingInfo, isLoading} = useGetSpecificShowTime(showTimeId!)
-    const { mutate: stripeCheckout } = useStripeCheckout()
-    const { mutate: vnpayCheckout } = useVnpayCheckout()
+    const {data: bookingInfo, isLoading} = useShowtime.useGetSpecificShowTime(showTimeId!)
+    const { mutate: stripeCheckout } = usePaymentCheckout.useStripeCheckout()
+    const { mutate: vnpayCheckout } = usePaymentCheckout.useVnpayCheckout()
 
-    const seats = useBookingStore((state) => state.ticketDatas)
-    const ticketDatas = useBookingStore((state) => state.ticketDatas)
-    const snacks = useBookingStore((state) => state.snackQuantities)
-    const vouchers = useBookingStore((state) => state.voucherQuantity)
-    const totalAmount = useBookingStore((state) => state.totalAmount)
+    const seats = useBookedStore.useBookingStore((state) => state.ticketDatas)
+    const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
+    const snacks = useBookedStore.useBookingStore((state) => state.snackQuantities)
+    const vouchers = useBookedStore.useBookingStore((state) => state.voucherQuantity)
+    const totalAmount = useBookedStore.useBookingStore((state) => state.totalAmount)
 
     const handlePayment = () => {
         const datas = {

@@ -1,15 +1,15 @@
 import { useSearchParams, Link } from 'react-router'
-import { useDeleteStripeCheckout } from '@/hooks/user/use-payment-checkout'
+import { usePaymentCheckout } from '@/hooks';
 import { ErrorMessages } from '@/utils/error-messages'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { XCircle } from "lucide-react"; // Make sure lucide-react is installed
+import { XCircle } from "lucide-react";
 
 export default function CancelPayment() {
     const [searchParams] = useSearchParams()
     const sessionId = searchParams.get("session_id")
 
-    const { isLoading, isError, error } = useDeleteStripeCheckout(sessionId || "")
+    const { isLoading, isError, error } = usePaymentCheckout.useDeleteStripeCheckout(sessionId || "")
 
     if (isLoading) {
         return (

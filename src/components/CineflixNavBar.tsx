@@ -1,6 +1,6 @@
 import { Building2, Clapperboard, Sparkles, Phone, Newspaper, UserPlus } from "lucide-react"
 import { Link } from "react-router"
-import { useUserRoleStore } from "@/utils/user-role-store"
+import { useUserRoleStore } from "@/hooks/user/use-user-role-store"
 
 const navItems = [
     {

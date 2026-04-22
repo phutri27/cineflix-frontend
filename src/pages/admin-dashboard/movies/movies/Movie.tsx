@@ -1,9 +1,9 @@
 import SingleMovie from "./SingleMovie"
-import { useGetMovieAdmin, useInsertMovieAdmin, useGetGenresAdmin } from "@/hooks"
+import { useAdminMovie, useAdminGenre } from "@/hooks"
 import ModalComponent from "../../../../components/modal/Modal"
 import { useModalStore } from "../../../../components/modal/modal-store"
 import { type SubmitHandler } from "react-hook-form"
-import { type MovieFormInput } from "@/api"
+import type { MovieFormInput } from "@/types/admin/movies/movie-type"
 import MovieForm from "@/components/forms/MovieForm"
 import { movieData } from "@/components/helper/movie-submit-helper"
 import Select from "react-select"
@@ -25,9 +25,9 @@ const modalStyle = {
 }
 
 export default function Movie(){
-    const {data: admin_movies, isLoading, isError, error} = useGetMovieAdmin()
-    const {data: genres} = useGetGenresAdmin()
-    const { mutate, isPending, isError: isInsertError, error: insertError } = useInsertMovieAdmin()
+    const {data: admin_movies, isLoading, isError, error} = useAdminMovie.useGetMovieAdmin()
+    const {data: genres} = useAdminGenre.useGetGenresAdmin()
+    const { mutate, isPending, isError: isInsertError, error: insertError } = useAdminMovie.useInsertMovieAdmin()
 
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
 

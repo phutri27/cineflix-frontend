@@ -1,5 +1,5 @@
-import { useBookingStore } from "@/utils/booking-store"
 import { clsx } from 'clsx'
+import { useBookedStore } from '@/hooks';
 interface SeatsProp{
     handleSeatTypePrice: (seat_typeId: string, seatId: string, row: string, number: number) => void
     screen: {
@@ -22,7 +22,7 @@ interface SeatsProp{
 }
 
 export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsProp){
-    const ticketDatas = useBookingStore((state) => state.ticketDatas)
+    const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
     const seatTypes = Array.from(new Set(screen?.seats.map((st) => st.seatTypeDetail.seat_type)))
 
     return (
@@ -138,8 +138,6 @@ export default function Seats({screen, lockedSeats, handleSeatTypePrice}: SeatsP
                             </div>
                         )
                     })}
-                    
-                    {/* Status Legend Entries */}
                     <div className="flex items-center gap-3">
                         <div className="border border-red-700 bg-red-600 h-6 w-6 rounded-sm"></div>
                         <p className="text-neutral-300 font-semibold">Selected Seat</p>

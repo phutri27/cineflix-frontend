@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
-import { useGetUserRevenue } from '@/hooks/admin/transaction/use-admin-transaction';
+import { useAdminTransaction } from '@/hooks';
 import { optionsPick } from "./options"
 
 ChartJS.register(
@@ -24,7 +24,7 @@ ChartJS.register(
 );
 
 export default function UserChart(){
-    const { data: datas, isLoading } = useGetUserRevenue()
+    const { data: datas, isLoading } = useAdminTransaction.useGetUserRevenue()
 
     const labels = datas?.map((d) => d.email) || []
     const revenue = datas?.map((d) => d.totalSpent) || []

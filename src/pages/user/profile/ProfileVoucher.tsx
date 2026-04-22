@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import { useGetProfileVoucher } from '@/hooks/user/use-voucher'
-import { useInsertProfileVoucher } from '@/hooks/user/use-profile'
 import Page from '@/components/Page'
-import { useGetPages } from '@/hooks/user/use-pages'
-import { useUserRoleStore } from '@/utils/user-role-store'
+import { useUserStore, usePages, useProfile, useVoucher } from '@/hooks'
 import { useQueryClient } from '@tanstack/react-query'
 import {ErrorMessages} from '@/utils/error-messages'
 import { Ticket } from 'lucide-react'
@@ -14,12 +11,12 @@ export default function ProfileVoucher(){
     pageGroup, 
     handleChoosePage,
     incrementPageGroup,
-    decrementPageGroup } = useGetPages()
+    decrementPageGroup } = usePages.useGetPages()
 
-    const userId = useUserRoleStore((state) => state.id)
+    const userId = useUserStore.useUserRoleStore((state) => state.id)
 
-    const { data: vouchers, isLoading, isError, error } = useGetProfileVoucher(userId, page)
-    const { mutate: insertVoucher, isPending, isError: isInsertError, error: insertError } = useInsertProfileVoucher()
+    const { data: vouchers, isLoading, isError, error } = useVoucher.useGetProfileVoucher(userId, page)
+    const { mutate: insertVoucher, isPending, isError: isInsertError, error: insertError } = useProfile.useInsertProfileVoucher()
 
     const handleVoucherCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoucherCode(e.target.value)

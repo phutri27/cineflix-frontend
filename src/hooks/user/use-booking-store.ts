@@ -1,29 +1,7 @@
 import { create } from 'zustand'
-import type { SeatTypeDetail } from '@/api'
+import type { SeatTypeDetail } from '@/types/user/seatType-type'
 import { persist, createJSONStorage } from 'zustand/middleware'
-export interface PricingDetailProp {
-    id: string
-    seat_id: string
-    price: string
-    seat_type: string
-    row: string
-    number: number
-}
-
-export interface SnackData {
-    snackId: string
-    price: number
-    quantity: number
-}
-
-export interface VoucherData {
-    voucherId: string
-    reduceAmount: number
-    name: string
-    quantity: number
-    maxUsed: number
-    voucherType: string
-}
+import type { PricingDetailProp, SnackData, VoucherData } from '@/types/user/booking-type'
 
 type State = {
     ticketDatas: PricingDetailProp[] 

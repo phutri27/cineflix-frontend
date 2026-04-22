@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useSetTimer } from "@/hooks/user/use-set-timer";
-import { useForgotPassword } from "@/hooks/user/use-forgot-password";
+import { useTimer, useForgotPassword } from "@/hooks";
 
 interface ResponseData {
     message: string
@@ -22,10 +21,10 @@ interface OTPInputProps {
 export default function OTPInput({onMutate, email, isError, error, navigateURL}: OTPInputProps) {
     const [otp, setOTP] = useState<string>('')
     const [otpResend, setOtpResend] = useState<boolean>(false)
-    const remainingTimes = useSetTimer(60, otpResend)
+    const remainingTimes = useTimer.useSetTimer(60, otpResend)
 
     const navigate = useNavigate()
-    const { mutate: resendOTP, isError: isResendOtpError, error: resendOtpError } = useForgotPassword()
+    const { mutate: resendOTP, isError: isResendOtpError, error: resendOtpError } = useForgotPassword.useForgotPassword()
     
     const handleOTP = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOTP(e.target.value)

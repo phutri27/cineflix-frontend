@@ -1,7 +1,8 @@
-import type { MovieResponse } from "@/api/admin/types/movie-response"
+import type { MovieResponse } from "@/types/admin/movies/movie-type"
 import { format } from "date-fns"
 import { Film, Clock, CalendarDays } from 'lucide-react'
 import { useNavigate } from "react-router"
+
 interface MovieListProp {
     movie: MovieResponse
     genresName: string[]

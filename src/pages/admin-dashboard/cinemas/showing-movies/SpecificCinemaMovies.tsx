@@ -1,4 +1,4 @@
-import { useGetSpecificMovieAdmin, useGetAdminScreenByMovie } from "@/hooks";
+import { useAdminScreen, useAdminMovie } from "@/hooks";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import ModalComponent from "@/components/modal/Modal";
@@ -35,8 +35,8 @@ export default function SpecificCinemaMovies() {
 
     const { cinemaId, movieId } = useParams();
 
-    const { data: movie, isLoading: movieLoading, isError: isMovieError, error: movieError } = useGetSpecificMovieAdmin(movieId!)
-    const { data: screenByMovie, isLoading: screenLoading, isError: isScreenError, error: screenError } = useGetAdminScreenByMovie(cinemaId!, movieId!)
+    const { data: movie, isLoading: movieLoading, isError: isMovieError, error: movieError } = useAdminMovie.useGetSpecificMovieAdmin(movieId!)
+    const { data: screenByMovie, isLoading: screenLoading, isError: isScreenError, error: screenError } = useAdminScreen.useGetAdminScreenByMovie(cinemaId!, movieId!)
 
     const handleCreateShowtime = () => {
         setIsModalOpen(true);

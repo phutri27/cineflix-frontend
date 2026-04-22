@@ -1,4 +1,4 @@
-import type { SnackInput } from "@/api/admin/snacks/admin-snacks-api";
+import type { SnackInput } from "@/types/admin/snacks/snacks-type"
 
 export const snackData = (data: SnackInput) => {
     const formData = new FormData()

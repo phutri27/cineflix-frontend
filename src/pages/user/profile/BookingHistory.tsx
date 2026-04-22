@@ -1,10 +1,10 @@
-import { useGetBookingHistory } from "@/hooks/user/use-profile"
-import { useUserRoleStore } from "@/utils/user-role-store"
+
 import { format } from "date-fns"
 import { useGetPages } from "@/hooks/user/use-pages"
 import Page from "@/components/Page"
 import { useState } from "react"
 import ModalComponent from "@/components/modal/Modal"
+import { useUserStore, useProfile } from "@/hooks"
 
 export default function BookingHistory() {
     const [expandedBooking, setExpandedBooking] = useState<string | null>(null)
@@ -17,8 +17,8 @@ export default function BookingHistory() {
         incrementPageGroup,
         decrementPageGroup } = useGetPages()
 
-    const userId = useUserRoleStore((state) => state.id)
-    const { data: bookingHistory, isLoading, error } = useGetBookingHistory(page, userId)
+    const userId = useUserStore.useUserRoleStore((state) => state.id)
+    const { data: bookingHistory, isLoading, error } = useProfile.useGetBookingHistory(page, userId)
 
     const toggleTickets = (bookingId: string) => {
         setExpandedBooking((prev) => prev === bookingId ? null : bookingId)

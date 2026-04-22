@@ -1,19 +1,17 @@
-import { useConfirmChangePasswordOTP } from "@/hooks/user/use-profile";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useChangePassword } from "@/hooks/user/use-profile";
-import { useSetTimer } from "@/hooks/user/use-set-timer";
 import { useEffect } from "react";
+import { useTimer, useProfile } from "@/hooks";
 
 export default function ConfirmOTP({password}: {password: string}) {
     const [otp, setOtp] = useState<string>("")
     const [otpResend, setOtpResend] = useState<boolean>(false)
-    const remainingTimes = useSetTimer(60, otpResend)
+    const remainingTimes = useTimer.useSetTimer(60, otpResend)
 
     const navigate = useNavigate()
-    const { mutate: confirmOTP, isPending, isError, error } = useConfirmChangePasswordOTP()
-    const { mutate: resendOTP, isError: isResendOtpError, error: resendOtpError } = useChangePassword()
+    const { mutate: confirmOTP, isPending, isError, error } = useProfile.useConfirmChangePasswordOTP()
+    const { mutate: resendOTP, isError: isResendOtpError, error: resendOtpError } = useProfile.useChangePassword()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOtp(e.target.value)

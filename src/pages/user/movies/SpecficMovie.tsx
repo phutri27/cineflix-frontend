@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useSpecificMovie } from "@/hooks";
+import { useMovie } from "@/hooks";
 import { format } from "date-fns";
 import Header from "@/components/Header";
 import ReactPlayer from 'react-player'
@@ -14,7 +14,7 @@ export default function SpecficMovie() {
     const [activeTab, setActiveTab] = useState<"trailer" | "plot">("trailer")
     const { movie_id } = useParams()
         
-    const { data: movie, isError, isLoading, error } = useSpecificMovie(movie_id!)
+    const { data: movie, isError, isLoading, error } = useMovie.useSpecificMovie(movie_id!)
 
     const directorsName = movie?.directors.map((director) => director.name).join(", ")
     const actorsName = movie?.actors.map((actor) => actor.name).join(", ")

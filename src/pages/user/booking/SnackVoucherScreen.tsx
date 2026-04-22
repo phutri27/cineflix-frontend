@@ -1,15 +1,11 @@
-import { useSnacks } from "@/hooks/user/use-snack";
-import { useRedeemVoucher, useGetProfileVoucher } from "@/hooks/user/use-voucher";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useState } from "react";
-import { useBookingStore } from "@/utils/booking-store";
-import type { SnackData } from "@/utils/booking-store";
-import { useUserRoleStore } from "@/utils/user-role-store";
+import type { SnackData } from "@/types/user/booking-type";
 import { format } from "date-fns";
 import Page from "@/components/Page";
-import { useGetPages } from "@/hooks/user/use-pages";
 import { useQueryClient } from "@tanstack/react-query";
-import { type ProfileVoucher } from "@/api/user/voucher-api";
+import type { ProfileVoucher } from "@/types/user/voucher-type";
+import { useSnack, useVoucher, useBookedStore, useUserStore, usePages } from "@/hooks";
 
 interface SnackVoucherScreenProps {
     snackQuantities: SnackData[]
@@ -20,25 +16,25 @@ export default function SnackVoucherScreen({snackQuantities}: SnackVoucherScreen
         pageGroup, 
         handleChoosePage,
         incrementPageGroup,
-        decrementPageGroup } = useGetPages()
+        decrementPageGroup } = usePages.useGetPages()
 
-    const userId = useUserRoleStore((state) => state.id)
-    const handleIncrementQty = useBookingStore((state) => state.incrementSnackQuantities)
-    const handleDecrementQty = useBookingStore((state) => state.decrementSnackQuantites)
-    const setVoucherQuantity = useBookingStore((state) => state.setVoucherQuantity)
-    const voucherQuantity = useBookingStore((state) => state.voucherQuantity)
-    const removeVoucher = useBookingStore((state) => state.removeVoucher)
+    const userId = useUserStore.useUserRoleStore((state) => state.id)
+    const handleIncrementQty = useBookedStore.useBookingStore((state) => state.incrementSnackQuantities)
+    const handleDecrementQty = useBookedStore.useBookingStore((state) => state.decrementSnackQuantites)
+    const setVoucherQuantity = useBookedStore.useBookingStore((state) => state.setVoucherQuantity)
+    const voucherQuantity = useBookedStore.useBookingStore((state) => state.voucherQuantity)
+    const removeVoucher = useBookedStore.useBookingStore((state) => state.removeVoucher)
 
     const queryClient = useQueryClient()
-    const { data: snacks, isLoading, isError, error } = useSnacks()
+    const { data: snacks, isLoading, isError, error } = useSnack.useSnacks()
     const { 
         mutate: redeem, 
         isPending: isRedeeming, 
         isError: isRedeemError,
          error: redeemError, 
-          } = useRedeemVoucher()
+          } = useVoucher.useRedeemVoucher()
     
-    const { data: vouchers, isFetched} = useGetProfileVoucher(userId, page)
+    const { data: vouchers, isFetched} = useVoucher.useGetProfileVoucher(userId, page)
 
     const handleVoucherCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoucherCode(e.target.value)

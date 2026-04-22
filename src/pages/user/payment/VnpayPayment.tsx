@@ -1,12 +1,10 @@
-import { useGetVnpayUrl } from "@/hooks/user/use-payment-checkout";
 import { useSearchParams, Link } from "react-router";
-import { useBookingStore } from "@/utils/booking-store";
+import { useBookedStore, usePaymentCheckout, useUserStore } from "@/hooks";
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useUserRoleStore } from "@/utils/user-role-store";
 
 const StatusCard = ({ Icon, glow, color, title, desc, btnClass }: any) => (
     <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 md:p-12 max-w-lg w-full text-center shadow-2xl flex flex-col items-center">
@@ -27,16 +25,16 @@ const StatusCard = ({ Icon, glow, color, title, desc, btnClass }: any) => (
 export default function VnpayPayment() {
     const [searchParams] = useSearchParams();
     const hashCode = searchParams.get("vnp_SecureHash");
-    const clearBookingStore = useBookingStore((state) => state.clearBookingData);
+    const clearBookingStore = useBookedStore.useBookingStore((state) => state.clearBookingData);
     
     const queryClient = useQueryClient()
-    const userId = useUserRoleStore((state) => state.id)
-    const { isLoading, isError, error, isSuccess } = useGetVnpayUrl(hashCode!);
+    const userId = useUserStore.useUserRoleStore((state) => state.id)
+    const { isLoading, isError, error, isSuccess } = usePaymentCheckout.useGetVnpayUrl(hashCode!);
 
     useEffect(() => {
         if (isSuccess){
             clearBookingStore();
-            useBookingStore.persist.clearStorage();
+            useBookedStore.useBookingStore.persist.clearStorage();
             queryClient.invalidateQueries({queryKey: ["booking_history", userId]})
             queryClient.invalidateQueries({queryKey: ["notifications", userId]})
             queryClient.invalidateQueries({queryKey: ["profile", userId]})

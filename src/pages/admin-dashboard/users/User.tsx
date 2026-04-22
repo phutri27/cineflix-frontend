@@ -1,7 +1,6 @@
-import { useAdminGetUsers } from "@/hooks/admin/users/use-admin-users";
-
+import { useAdminUser } from "@/hooks"
 export default function User(){
-    const { data: users, isLoading, isError } = useAdminGetUsers()
+    const { data: users, isLoading, isError } = useAdminUser.useAdminGetUsers()
 
     if(isLoading) return <p>Loading...</p>
     if(isError) return <p>Something went wrong</p>

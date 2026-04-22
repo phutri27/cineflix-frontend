@@ -1,7 +1,7 @@
-import { useAdminDeleteCinema } from "@/hooks/admin/cinemas/use-admin-cinema"
-import { type CinemaResponse } from "@/api/admin/cinema/admin-cinema-api"
+import { useAdminCinema } from "@/hooks";
 import { Link } from "react-router";
 import { Pencil, Trash2, MapPin, Phone } from "lucide-react";
+import type { CinemaResponse } from "@/types/admin/cinema/cinema-type";
 
 interface CinemaDetailsProps {
     cinema: CinemaResponse;
@@ -9,7 +9,7 @@ interface CinemaDetailsProps {
 }
 
 export default function CinemaDetails({cinema, handleEditingCinema}: CinemaDetailsProps) {
-    const { mutate: deleteCinema, isPending: deleteCinemaPending } = useAdminDeleteCinema()
+    const { mutate: deleteCinema, isPending: deleteCinemaPending } = useAdminCinema.useAdminDeleteCinema()
 
     const handleDeleteCinema = () => {
         deleteCinema(cinema.id)

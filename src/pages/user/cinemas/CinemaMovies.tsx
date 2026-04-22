@@ -1,19 +1,19 @@
-    import { format } from "date-fns";
-    import { useNavigate } from "react-router";
+import { format } from "date-fns";
+import { useNavigate } from "react-router";
 
-    interface CinemaMovieProps{
-        id: string
-        title: string;
-        posterUrl: string;
-        rated: string;
-        showtimes: {
-            id: string;
-            startTime: Date;
-            screen: {
-                name: string;
-            };
-        }[];
-    }
+interface CinemaMovieProps{
+    id: string
+    title: string;
+    posterUrl: string;
+    rated: string;
+    showtimes: {
+        id: string;
+        startTime: Date;
+        screen: {
+            name: string;
+        };
+    }[];
+}
 
 export default function CinemaMovies({movies, cinemaId}: {movies: CinemaMovieProps[], cinemaId: string | undefined}){
     const navigate = useNavigate()

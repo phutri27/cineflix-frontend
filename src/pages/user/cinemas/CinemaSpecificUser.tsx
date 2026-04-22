@@ -1,4 +1,4 @@
-import { useGetCinemaSpecificInfo } from "@/hooks/user/use-cinema";
+import { useCinema } from "@/hooks";
 import { useState } from "react";
 import { format } from "date-fns";
 import { createCalendar } from "@/utils/create-calendar";
@@ -12,7 +12,7 @@ export default function CinemaSpecificUser({pickedCinema, pickedCity}:
     const [selectedDate, setSelectedDate] = useState<string>(defaultDate.toString())
     const [isTicketInfo, setTicketInfo] = useState<boolean>(false)
 
-    const { data: cinema, isLoading, isFetched } = useGetCinemaSpecificInfo(
+    const { data: cinema, isLoading, isFetched } = useCinema.useGetCinemaSpecificInfo(
         pickedCity, 
         pickedCinema, 
         selectedDate, 

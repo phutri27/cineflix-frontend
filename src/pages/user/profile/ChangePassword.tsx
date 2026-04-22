@@ -1,7 +1,7 @@
-import { useChangePassword } from "@/hooks/user/use-profile";
 import { ErrorMessages } from "@/utils/error-messages";
 import React, { useState } from "react";
 import ConfirmOTP from "./ConfirmOTP";
+import { useProfile } from "@/hooks";
 
 export default function ChangePassword() {
     const [password, setPassword] = useState<string>("")
@@ -10,7 +10,7 @@ export default function ChangePassword() {
         isPending: changePasswordPending, 
         isError: isChangePasswordError, 
         error: changePasswordError, 
-        isSuccess: changePasswordSuccess } = useChangePassword()
+        isSuccess: changePasswordSuccess } = useProfile.useChangePassword()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)

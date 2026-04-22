@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import { useUserRoleStore } from "@/utils/user-role-store";
+import { useUserRoleStore } from "@/hooks/user/use-user-role-store";
 import { useVerifyUser } from "@/hooks/user/use-user";
 import { Outlet } from "react-router";
 export default function RoleAccess() {

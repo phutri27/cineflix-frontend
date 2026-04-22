@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
-import { useGetMovieRevenue } from '@/hooks/admin/transaction/use-admin-transaction';
+import { useAdminTransaction } from '@/hooks';
 import { optionsPick } from "./options"
 
 ChartJS.register(
@@ -24,7 +24,7 @@ ChartJS.register(
 );
 
 export default function MovieChart(){
-    const { data: datas, isLoading } = useGetMovieRevenue()
+    const { data: datas, isLoading } = useAdminTransaction.useGetMovieRevenue()
 
     const labels = datas?.map((d) => d.movieTitle) || []
     const revenue = datas?.map((d) => d.totalRevenue) || []

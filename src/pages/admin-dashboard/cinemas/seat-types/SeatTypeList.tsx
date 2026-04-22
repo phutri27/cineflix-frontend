@@ -1,4 +1,4 @@
-import { useInsertAdminSeatType, useUpdateAdminSeatType, useDeleteAdminSeatType } from "@/hooks/admin/cinemas/use-admin-seat-type"
+import { useAdminSeatType } from "@/hooks"
 import ModalComponent from "@/components/modal/Modal"
 import { useForm, type SubmitHandler, Controller } from "react-hook-form"
 import { useState } from "react"
@@ -48,9 +48,9 @@ export default function SeatTypeList({cinemaId, seatTypes}: {cinemaId: string, s
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [editingSeatTypeId, setEditingSeatTypeId] = useState<string>("")
 
-    const { mutate: insertSeatType, isError: isInsertError, error: insertError } = useInsertAdminSeatType(cinemaId)
-    const { mutate: updateSeatType, isError: isUpdateError, error: updateError } = useUpdateAdminSeatType(cinemaId)
-    const { mutate: deleteSeatType } = useDeleteAdminSeatType(cinemaId)
+    const { mutate: insertSeatType, isError: isInsertError, error: insertError } = useAdminSeatType.useInsertAdminSeatType(cinemaId)
+    const { mutate: updateSeatType, isError: isUpdateError, error: updateError } = useAdminSeatType.useUpdateAdminSeatType(cinemaId)
+    const { mutate: deleteSeatType } = useAdminSeatType.useDeleteAdminSeatType(cinemaId)
 
     const { register, handleSubmit, reset, formState: {errors}, control } = useForm<SeatTypeProp>({
         defaultValues: {

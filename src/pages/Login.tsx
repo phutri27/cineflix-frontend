@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLogin, useLoginGoogle } from '@/hooks';
+import { useLogin } from '@/hooks';
 import { useNavigate, useLocation, Link } from 'react-router';
 import { ErrorMessages } from '@/utils/error-messages';
 import Header from '@/components/Header';
@@ -15,8 +15,8 @@ export default function Login() {
 
     const location = useLocation()
 
-    const { mutate, isPending, isError, error } = useLogin();
-    const { isLoading } = useLoginGoogle({enabled: googleLogin})
+    const { mutate, isPending, isError, error } = useLogin.useLogin();
+    const { isLoading } = useLogin.useLoginGoogle({enabled: googleLogin})
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

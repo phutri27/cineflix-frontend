@@ -1,4 +1,4 @@
-import type { MovieFormInput } from "@/api"
+import type { MovieFormInput } from "@/types/admin/movies/movie-type";
 
 export const movieData = (data: MovieFormInput): FormData => {
     const formData = new FormData()

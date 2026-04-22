@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAdminGetVouchers, useAdminDeleteVoucher } from "@/hooks/admin/vouchers/use-admin-vouchers";
-import type { VoucherResponse } from "@/api/admin/vouchers/admin-vouchers-api";
+import { useAdminVoucher } from "@/hooks";
+import type { VoucherResponse } from "@/types/admin/vouchers/vouchers-type";
 import ModalComponent from "@/components/modal/Modal";
 import { ErrorMessages } from "@/utils/error-messages";
 import VoucherForm from "./VoucherForm";
@@ -23,8 +23,8 @@ export default function Vouchers(){
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [voucherData, setVoucherData] = useState<VoucherResponse | null>(null)
 
-    const {data: vouchers, isLoading, isError: isQueryError, error: queryError} = useAdminGetVouchers()
-    const {mutate: deleteVoucher, isPending, isError: isDeleteError, error: deleteError} = useAdminDeleteVoucher()
+    const {data: vouchers, isLoading, isError: isQueryError, error: queryError} = useAdminVoucher.useAdminGetVouchers()
+    const {mutate: deleteVoucher, isPending, isError: isDeleteError, error: deleteError} = useAdminVoucher.useAdminDeleteVoucher()
 
     const openModal = () => setIsOpenModal(true)
 

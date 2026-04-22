@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
-import { useGetSpecificMovieAdmin, useUpdateMovieAdmin, useGetActorsAdmin, useGetDirectorsAdmin, useGetGenresAdmin } from "@/hooks";
+import { useAdminMovie, useAdminActor, useAdminDirector, useAdminGenre } from "@/hooks";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import type { MovieFormInput } from "@/api";
+import type { MovieFormInput } from "@/types/admin/movies/movie-type";
 import Select from "react-select"
 import { movieData } from "@/components/helper/movie-submit-helper";
 import { useNavigate } from "react-router";
@@ -20,11 +20,11 @@ export default function SingleMovieEdit(){
     const navigate = useNavigate()
     const { movieId } = useParams()
 
-    const { data: admin_movie, isLoading, isError: queyrIsError, error: queryError} = useGetSpecificMovieAdmin(movieId!)
-    const { mutate, isPending, isError: mutateIsError, error: mutateError} = useUpdateMovieAdmin()
-    const { data: actors} = useGetActorsAdmin()
-    const { data: directors} = useGetDirectorsAdmin()
-    const { data: genres} = useGetGenresAdmin()
+    const { data: admin_movie, isLoading, isError: queyrIsError, error: queryError} = useAdminMovie.useGetSpecificMovieAdmin(movieId!)
+    const { mutate, isPending, isError: mutateIsError, error: mutateError} = useAdminMovie.useUpdateMovieAdmin()
+    const { data: actors} = useAdminActor.useGetActorsAdmin()
+    const { data: directors} = useAdminDirector.useGetDirectorsAdmin()
+    const { data: genres} = useAdminGenre.useGetGenresAdmin()
 
     const { register, handleSubmit, formState: {errors: formError}, control, watch} = useForm<MovieFormInput>({
         values: {

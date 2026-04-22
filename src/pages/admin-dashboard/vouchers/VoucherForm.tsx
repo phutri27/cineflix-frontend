@@ -1,5 +1,5 @@
-import { useAdminInsertVoucher, useAdminUpdateVoucher } from "@/hooks/admin/vouchers/use-admin-vouchers";
-import type { VoucherResponse, VoucherProp } from "@/api/admin/vouchers/admin-vouchers-api";
+import type { VoucherResponse, VoucherProp } from "@/types/admin/vouchers/vouchers-type";
+import { useAdminVoucher } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
 
@@ -27,8 +27,8 @@ export default function VoucherForm({ initialData, onClose }: VoucherFormProps) 
         mode: "onChange"
     })
 
-    const { mutate: createVoucher, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminInsertVoucher()
-    const { mutate: updateVoucher, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminUpdateVoucher()
+    const { mutate: createVoucher, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminVoucher.useAdminInsertVoucher()
+    const { mutate: updateVoucher, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminVoucher.useAdminUpdateVoucher()
 
     const onSubmit: SubmitHandler<VoucherProp> = (data) => {
         if (!isEditing) {

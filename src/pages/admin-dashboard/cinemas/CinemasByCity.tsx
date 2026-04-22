@@ -1,6 +1,5 @@
-import { type CityResponse } from "@/api/admin/cinema/admin-city-api"
-import { useDeleteAdminCity } from "@/hooks/admin/cinemas/use-city-cinema";
-import * as cinemas from "@/hooks/admin/cinemas/use-admin-cinema";
+import type { CityResponse } from "@/types/admin/cinema/city-type";
+import { useAdminCity,useAdminCinema } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import ModalComponent from "@/components/modal/Modal";
@@ -49,10 +48,10 @@ export default function CinemasByCity({city, openEditingModal}: CinemasByCityPro
         }
     })
     
-    const { mutate: deleteCity, isPending: cityPending } = useDeleteAdminCity()
-    const { data: cinemaByCity, isLoading, isError: isGetError, error: getError } = cinemas.useGetAdminCinema(Number(city.id))
-    const { mutate: insertCinema, isPending: insertCinemaPending, isError: isInsertError, error: insertError } = cinemas.useAdminInsertCinema()
-    const { mutate: updateCinema, isPending: updateCinemaPending, isError: isUpdateError, error: updateError } = cinemas.useAdminUpdateCinema()
+    const { mutate: deleteCity, isPending: cityPending } = useAdminCity.useDeleteAdminCity()
+    const { data: cinemaByCity, isLoading, isError: isGetError, error: getError } = useAdminCinema.useGetAdminCinema(Number(city.id))
+    const { mutate: insertCinema, isPending: insertCinemaPending, isError: isInsertError, error: insertError } = useAdminCinema.useAdminInsertCinema()
+    const { mutate: updateCinema, isPending: updateCinemaPending, isError: isUpdateError, error: updateError } = useAdminCinema.useAdminUpdateCinema()
 
     const openModal = () => setModal(true)
 

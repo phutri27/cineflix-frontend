@@ -1,20 +1,18 @@
-import { useMovie } from "@/hooks";
 import { ErrorMessages } from "@/utils/error-messages";
 import { Link } from "react-router";
 import Header from "@/components/Header";
-import { useUserRoleStore } from "@/utils/user-role-store";
-import { useGetUserInfo } from "@/hooks";
 import { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import "@/styles/style.css"
 import CineflixNavBar from "@/components/CineflixNavBar";
 import BannerCarousel from "@/components/BannerCarousel";
+import { useMovie, useLogin, useUserStore } from "@/hooks";
 export default function Home(){
-    const { data: movies, isError, isLoading, error } = useMovie()
-    const setUser = useUserRoleStore((state) => state.setUser)
-    const clearUser = useUserRoleStore((state) => state.clearUser)
-    const { data: userInfo } = useGetUserInfo()
+    const { data: movies, isError, isLoading, error } = useMovie.useGetMovie()
+    const setUser = useUserStore.useUserRoleStore((state) => state.setUser)
+    const clearUser = useUserStore.useUserRoleStore((state) => state.clearUser)
+    const { data: userInfo } = useLogin.useGetUserInfo()
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +21,7 @@ export default function Home(){
             setUser(userInfo.user)
         } else {
             clearUser()
-            useUserRoleStore.persist.clearStorage()
+            useUserStore.useUserRoleStore.persist.clearStorage()
         }
     }, [userInfo, setUser, clearUser])
 

@@ -1,7 +1,7 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { SnackResponse, SnackInput } from "@/api/admin/snacks/admin-snacks-api";
+import type { SnackResponse, SnackInput } from "@/types/admin/snacks/snacks-type";
 import { snackData } from "@/components/modal/snack-submit-helper";
-import { useAdminCreateSnack, useAdminUpdateSnack } from "@/hooks";
+import { useAdminSnack } from "@/hooks";
 import { ErrorMessages } from "@/utils/error-messages";
 import { Upload } from "lucide-react";
 
@@ -25,8 +25,8 @@ export default function SnackForm({ initialData, onClose }: SnackFormProps) {
 
     const selectedImage = watch("filename")
 
-    const { mutate: createSnack, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminCreateSnack()
-    const { mutate: updateSnack, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminUpdateSnack()
+    const { mutate: createSnack, isPending: insertPending, isError: isInsertError, error: insertError } = useAdminSnack.useAdminCreateSnack()
+    const { mutate: updateSnack, isPending: updatePending, isError: isUpdateError, error: updateError } = useAdminSnack.useAdminUpdateSnack()
 
     const onSubmit: SubmitHandler<SnackInput> = (data) => {
         const formData = snackData(data)

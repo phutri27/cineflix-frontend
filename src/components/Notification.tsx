@@ -1,12 +1,10 @@
-import { useNotifications, useUpdateNotificationStatus, useDeleteNotification, useGetNotificationsByPage } from "@/hooks/user/use-notification";
-import { useUserRoleStore } from "@/utils/user-role-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { type Notification as NotificationType } from "@/api/user/notification-api";
+import type { Notification as NotificationType } from "@/types/user/notifications-type";
+import { useUserStore, usePages, useNotification} from "@/hooks";
 import { io } from "socket.io-client";
 import { X } from "lucide-react"; 
 import { format } from 'date-fns'
-import { useGetPages } from "@/hooks/user/use-pages";
 import Page from "./Page";
 
 const socket = io(import.meta.env.VITE_API_URL);
@@ -16,14 +14,14 @@ export default function Notification(){
         pageGroup, 
         handleChoosePage,
         incrementPageGroup,
-        decrementPageGroup } = useGetPages()
+        decrementPageGroup } = usePages.useGetPages()
 
     const queryClient = useQueryClient();
-    const { id: userId } = useUserRoleStore();
-    const { data: notifications, isLoading: notiLoading } = useNotifications(userId, page);
-    const { data: paginationData, isLoading: pagiLoading } = useGetNotificationsByPage(userId, page);
-    const { mutate: updateNoti } = useUpdateNotificationStatus(userId, page);
-    const { mutate: deleteNoti } = useDeleteNotification(userId, page);
+    const { id: userId } = useUserStore.useUserRoleStore();
+    const { data: notifications, isLoading: notiLoading } = useNotification.useNotifications(userId, page);
+    const { data: paginationData, isLoading: pagiLoading } = useNotification.useGetNotificationsByPage(userId, page);
+    const { mutate: updateNoti } = useNotification.useUpdateNotificationStatus(userId, page);
+    const { mutate: deleteNoti } = useNotification.useDeleteNotification(userId, page);
 
     const handleUpdate = (id: string) => updateNoti(id);
     const handleDelete = (id: string) => deleteNoti(id);

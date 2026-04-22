@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { useUserRoleStore } from "@/utils/user-role-store";
 import { Link } from "react-router";
 import LogoutBtn from "./LogoutBtn";
 import { Film, Menu as MenuIcon, X, PlayCircle, CalendarClock, CircleUser, Bell, Search } from "lucide-react";
 import Notification from "./Notification";
 import SearchBar from "./SearchBar";
-import { useGetUnreadNoti } from "@/hooks/user/use-notification";
 import { LayoutDashboard } from "lucide-react"
+import { useNotification, useUserStore } from "@/hooks";
 
 export default function Header() {
-    const { id, first_name, last_name, role } = useUserRoleStore();
-    const { data: unreadNoti } = useGetUnreadNoti(id)
+    const { id, first_name, last_name, role } = useUserStore.useUserRoleStore();
+    const { data: unreadNoti } = useNotification.useGetUnreadNoti(id)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isNotiOpen, setIsNotiOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
