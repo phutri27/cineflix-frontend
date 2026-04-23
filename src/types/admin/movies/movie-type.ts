@@ -15,6 +15,16 @@ export interface MovieResponse {
     genres: Option[]
     directors: Option[]
     actors: Option[]
+    isActive: boolean
+    showtimes: {
+        bookings: {
+            id: string;
+            createdAt: Date;
+            status: string;
+            userId: string;
+            showtimeId: string;
+        }[];
+    }[];
 }
 
 export interface MovieFormInput{

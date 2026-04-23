@@ -2,11 +2,11 @@ import { useQuery, useMutation, type UseQueryOptions, useQueryClient } from "@ta
 import { adminMovieApi } from "@/api";
 import type { MovieResponse } from "@/types/admin/movies/movie-type";
 
-export const useGetMovieAdmin = (options?: Omit<UseQueryOptions<MovieResponse[]>, 'queryKey' | 'queryFn'>) => {
+export const useGetMovieAdmin = (unActive?: boolean, options?: Omit<UseQueryOptions<MovieResponse[]>, 'queryKey' | 'queryFn'>) => {
     return useQuery<MovieResponse[]>({
         ...options,
-        queryKey: ["admin_movies"],
-        queryFn: adminMovieApi.adminGetMovieApi,
+        queryKey: ["admin_movies", unActive],
+        queryFn: () => adminMovieApi.adminGetMovieApi(unActive),
         refetchOnWindowFocus: false
     })
 }
@@ -23,6 +23,16 @@ export const useInsertMovieAdmin = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: adminMovieApi.adminInsertMovieApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["admin_movies"]})
+        }
+    })
+}
+
+export const usePatchMovieStatusAdmin = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: adminMovieApi.adminPatchMovieActive,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["admin_movies"]})
         }

@@ -2,8 +2,12 @@ import axiosClient from "../../axios-client";
 import type { MovieResponse } from "@/types/admin/movies/movie-type";
 
 
-export const adminGetMovieApi = async (): Promise<MovieResponse[]> => {
-    const response = await axiosClient.get("/api/admin/dashboard/movies")
+export const adminGetMovieApi = async (unActive?: boolean): Promise<MovieResponse[]> => {
+    const response = await axiosClient.get("/api/admin/dashboard/movies", {
+        params:{
+            unActive
+        }
+    })
     return response.data
 }
 
@@ -22,12 +26,16 @@ export const adminInsertMovieApi = async (formData: FormData): Promise<MovieResp
 }
 
 export const adminUpdateMovieApi = async ({id, formData}: {id: string, formData: FormData}): Promise<MovieResponse> => {
-    console.log(formData.get("trailerUrl"))
     const response = await axiosClient.put(`/api/admin/dashboard/movies/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     })
+    return response.data
+}
+
+export const adminPatchMovieActive = async ({id, isActive}: {id: string, isActive: boolean}): Promise<{message: string}> => {
+    const response = await axiosClient.patch(`/api/admin/dashboard/movies/${id}`, {isActive})
     return response.data
 }
 

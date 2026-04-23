@@ -24,6 +24,9 @@ export default function Movies(){
                 <NavLink to="genres" className={tabClass}>
                     Genres
                 </NavLink>
+                <NavLink to="archive" className={tabClass}>
+                    Archive
+                </NavLink>
             </div>
             <div className="p-6">
                 <Outlet />

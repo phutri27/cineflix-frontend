@@ -2,20 +2,26 @@ import type { MovieResponse } from "@/types/admin/movies/movie-type";
 import { useNavigate } from "react-router";
 import { format } from 'date-fns'
 import { useAdminMovie } from "@/hooks";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Power } from "lucide-react";
 
 export default function SingleMovie({movie}: {movie: MovieResponse}) {
     const navigate = useNavigate()
-    const { mutate, isPending } = useAdminMovie.useDeleteMovieAdmin()
+    const { mutate: deleteMovie, isPending: deletePending } = useAdminMovie.useDeleteMovieAdmin()
+    const { mutate: patchMovieStatus, isPending: patchPending} = useAdminMovie.usePatchMovieStatusAdmin()
 
     const onDelete = () => {
-        mutate(movie.id)
+        deleteMovie(movie.id)
+    }
+
+    const onDeactivate = () => {
+        patchMovieStatus({id: movie.id, isActive: false})
     }
 
     const handleEdit = () => {
         navigate(`/admin/edit-movie/${movie.id}`)
     }
 
+    const existsBooking = movie.showtimes.flatMap((st) => st.bookings)
     const genres = movie.genres.map((genre) => genre.name)
 
     return(
@@ -33,13 +39,22 @@ export default function SingleMovie({movie}: {movie: MovieResponse}) {
                     >
                         <Pencil className="h-4 w-4" />
                     </button>
+                    {existsBooking.length === 0 ? 
                     <button 
                         onClick={onDelete} 
-                        disabled={isPending}
+                        disabled={deletePending}
                         className="h-10 w-10 rounded-full bg-neutral-800 border border-red-800 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-50 transition-colors"
+                        title="Delete movie"
                     >
                         <Trash2 className="h-4 w-4" />
-                    </button>
+                    </button> : 
+                    <button 
+                        className="h-10 w-10 rounded-full bg-neutral-800 border border-red-800 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-50 transition-colors"
+                        disabled={patchPending}
+                        onClick={onDeactivate}
+                        title="Deactivate movie">
+                        <Power className="h-4 w-4" />
+                    </button>}
                 </div>
             </div>
             <div className="p-4">

@@ -57,6 +57,7 @@ import CineflixSpecial from './pages/user/navbar-pages/CineflixSpecial'
 import ContactCineflix from './pages/user/navbar-pages/ContactCineflix'
 import NewsAndOffers from './pages/user/navbar-pages/NewsAndOffer'
 import RootLayout from './RootLayout'
+import Archive from './pages/admin-dashboard/movies/archive/Archive'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -182,6 +183,7 @@ const router = createBrowserRouter([
                   {path: "actors", element: <Actors /> },
                   {path: "directors", element: <Directors />},
                   {path: "genres", element: <Genres />},
+                  {path: "archive", element: <Archive />}
                 ]},
                 {path: "cinemas", element: <Cinemas />},
                 {path: "snacks", element: <Snacks />},

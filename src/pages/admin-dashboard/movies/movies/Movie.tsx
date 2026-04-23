@@ -24,7 +24,7 @@ const modalStyle = {
 }
 
 export default function Movie(){
-    const {data: admin_movies, isLoading, isError, error} = useAdminMovie.useGetMovieAdmin()
+    const {data: admin_movies, isLoading, isError, error } = useAdminMovie.useGetMovieAdmin()
     const {data: genres} = useAdminGenre.useGetGenresAdmin()
     const { mutate, isPending, isError: isInsertError, error: insertError } = useAdminMovie.useInsertMovieAdmin()
 
@@ -95,6 +95,7 @@ export default function Movie(){
                 />
             </ModalComponent>
 
+            {admin_movies && admin_movies.length > 0 && 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {selectedGenre === "All" ? 
                 (admin_movies?.map(movie => (
@@ -103,7 +104,7 @@ export default function Movie(){
                     .map(movie => (
                     <SingleMovie key={movie.id} movie={movie} />
                 )))}
-            </div>
+            </div>}
         </div>
     )
 }
