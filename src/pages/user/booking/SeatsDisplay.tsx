@@ -3,14 +3,13 @@ import PricingDetail from "./PricingDetail";
 import { ErrorMessages } from "@/utils/error-messages";
 import Header from "@/components/Header";
 import SnackVoucherScreen from "./SnackVoucherScreen";
-import { io } from "socket.io-client"
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useShowtime, useSeatType, useSeats, useBookedStore, useUserStore, useUser } from "@/hooks";
 import Seats from "./Seats"
 import Footer from "@/components/Footer";
+import { socket } from "@/utils/socket-instance";
 
-const socket = io(import.meta.env.VITE_API_URL)
 export default function SeatsDisplay(){
     const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
     const snackQuantities = useBookedStore.useBookingStore((state) => state.snackQuantities)

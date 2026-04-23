@@ -1,24 +1,9 @@
 import { Link } from "react-router";
-import { useBookingStore } from "@/hooks/user/use-booking-store";
-import { useEffect } from "react"
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CheckCircle } from "lucide-react"; 
-import { useQueryClient } from "@tanstack/react-query";
-import { useUserRoleStore } from "@/hooks/user/use-user-role-store";
-export default function PaymentSuccess() {    
-    const clearBookingStore = useBookingStore((state) => state.clearBookingData)
-    const userId = useUserRoleStore((state) => state.id)
-    const queryClient = useQueryClient()
 
-    useEffect(() => {
-        clearBookingStore()
-        useBookingStore.persist.clearStorage()
-        queryClient.invalidateQueries({queryKey: ["booking_history", userId]})
-        queryClient.invalidateQueries({queryKey: ["notifications", userId]})
-        queryClient.invalidateQueries({queryKey: ["profile", userId]})
-        queryClient.invalidateQueries({queryKey: ["profile_voucher", userId]})
-    }, [clearBookingStore, userId])
+export default function PaymentSuccess() {    
 
     return (
         <div className="flex flex-col min-h-screen bg-[#141414] text-white font-sans">

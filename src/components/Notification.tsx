@@ -2,12 +2,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { Notification as NotificationType } from "@/types/user/notifications-type";
 import { useUserStore, usePages, useNotification} from "@/hooks";
-import { io } from "socket.io-client";
+import { socket } from "@/utils/socket-instance";
 import { X } from "lucide-react"; 
 import { format } from 'date-fns'
 import Page from "./Page";
 
-const socket = io(import.meta.env.VITE_API_URL);
+
 
 export default function Notification(){
     const { page,
