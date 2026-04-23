@@ -1,7 +1,6 @@
 import SingleMovie from "./SingleMovie"
 import { useAdminMovie, useAdminGenre } from "@/hooks"
 import ModalComponent from "../../../../components/modal/Modal"
-import { useModalStore } from "../../../../components/modal/modal-store"
 import { type SubmitHandler } from "react-hook-form"
 import type { MovieFormInput } from "@/types/admin/movies/movie-type"
 import MovieForm from "@/components/forms/MovieForm"
@@ -30,14 +29,19 @@ export default function Movie(){
     const { mutate, isPending, isError: isInsertError, error: insertError } = useAdminMovie.useInsertMovieAdmin()
 
     const [selectedGenre, setSelectedGenre] = useState<string>("All")
-
-    const modalIsOpen = useModalStore(state => state.modalIsOpen)
-    const openModal = useModalStore(state => state.openModal)
-    const closeModal = useModalStore(state => state.closeModal) 
+    const [isOpenModal, setOpenModal] = useState<boolean>(false)
 
     const defaultGenreValues = {value: "sss", label: "All"}
     const optionGenres = genres?.map((genre) => ({value: genre.id, label: genre.name}))
     optionGenres?.unshift(defaultGenreValues)
+
+    const closeModal = () => {
+        setOpenModal(false)
+    }
+
+    const openModal = () => {
+        setOpenModal(true)
+    }
 
     const onSubmit: SubmitHandler<MovieFormInput> = (data) => {
         const formData = movieData(data)
@@ -75,7 +79,7 @@ export default function Movie(){
             </div>
 
             <ModalComponent
-                openModal={modalIsOpen}
+                openModal={isOpenModal}
                 closeModal={closeModal}
                 style={modalStyle}
             >

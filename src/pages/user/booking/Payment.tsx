@@ -7,7 +7,7 @@ import LoadingScreen from "./LoadingScreen";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { usePaymentCheckout, useBookedStore, useShowtime, useTimer  } from "@/hooks"
-
+import { toast } from 'react-toastify'
 export default function Payment() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [paymentPick, setPaymentPick] = useState<string>('')
@@ -212,7 +212,7 @@ export default function Payment() {
                     </div>
                     <div className="border-t border-neutral-700 mt-4 pt-4 flex justify-between items-center">
                         <p className="text-neutral-400 text-sm font-medium">Total Amount</p>
-                        <p className="text-white text-lg font-bold">{totalAmount?.toLocaleString()}</p>
+                        <p className="text-white text-lg font-bold">{totalAmount?.toLocaleString()} VND</p>
                     </div>
                 </div>
                 <button
