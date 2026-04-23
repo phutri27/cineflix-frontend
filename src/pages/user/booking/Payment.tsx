@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router";
 import LoadingScreen from "./LoadingScreen";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { usePaymentCheckout, useBookedStore, useShowtime, useTimer  } from "@/hooks";
+import { usePaymentCheckout, useBookedStore, useShowtime, useTimer  } from "@/hooks"
 
 export default function Payment() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -45,11 +45,11 @@ export default function Payment() {
                 },
                 onError: (error) => {
                     if (error.response?.data.seatTaken){
-                        alert("This seat has been taken, pleast book another seat")
+                        toast.error("This seat has been taken, please book another seat")
                     } else if (error.response?.data.transactionMethodPicked){
-                        alert("This payment method is currently operating, please finish it")
+                        toast.error("This payment method is currently operating, please finish it")
                     } else if (error.response?.data.bookingExpire){
-                        alert("This booking session has expired, please pick seats again")
+                        toast.error("This booking session has expired, please pick seats again")
                     }
                 }
             })
@@ -62,14 +62,14 @@ export default function Payment() {
                     window.open(data.paymentUrl, '_blank')
                 },
                 onError: (error) => {
-                     if (error.response?.data.seatTaken){
-                        alert("This seat has been taken, pleast book another seat")
+                    if (error.response?.data.seatTaken){
+                        toast.error("This seat has been taken, please book another seat")
                     } else if (error.response?.data.transactionMethodPicked){
-                        alert("This payment method is currently operating, please finish it")
+                        toast.error("This payment method is currently operating, please finish it")
                     } else if (error.response?.data.bookingExpire){
-                        alert("This booking session has expired, please pick seats again")
+                        toast.error("This booking session has expired, please pick seats again")
                     } else {
-                        alert("Unknown error")
+                        toast.error("An unexpected error occurred, please try again")
                     }
                 }
            })

@@ -9,6 +9,7 @@ import { useShowtime, useSeatType, useSeats, useBookedStore, useUserStore, useUs
 import Seats from "./Seats"
 import Footer from "@/components/Footer";
 import { socket } from "@/utils/socket-instance";
+import { toast } from "react-toastify";
 
 export default function SeatsDisplay(){
     const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
@@ -40,7 +41,7 @@ export default function SeatsDisplay(){
             navigate("/login", {state: {message: "Please login first to buy a ticket"}})
         }
         if (ticketDatas.length === 0){
-            alert("Please pick a seat before continue")
+            toast.error("Please pick a seat before continue")
             return
         }
         if (isSnackVoucherScreen){

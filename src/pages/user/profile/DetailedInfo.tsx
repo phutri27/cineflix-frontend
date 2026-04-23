@@ -1,7 +1,7 @@
 import { useProfile, useUserStore } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useState } from "react";
+import { toast } from "react-toastify";
 interface FormData {
     first_name: string;
     last_name: string;
@@ -11,7 +11,6 @@ interface FormData {
 const fieldMsg = "must not be empty"
 
 export default function DetailedInfo() {
-    const [successMessage, setSuccessMessage] = useState<string>("")
 
     const { id, first_name, last_name, email } = useUserStore.useUserRoleStore()
     const setFirstName = useUserStore.useUserRoleStore(state => state.setFirstName)
@@ -31,7 +30,7 @@ export default function DetailedInfo() {
             onSuccess: (responseData) => {
                 setFirstName(data.first_name)
                 setLastName(data.last_name)
-                setSuccessMessage(responseData.message)
+                toast.success(responseData.message)
                 reset({password: ""})
             }
         })
@@ -45,12 +44,7 @@ export default function DetailedInfo() {
             <h1 className="text-2xl font-bold text-white mb-6 border-b border-neutral-800 pb-4">
                 Detailed Information
             </h1>
-            {isError && <div className="mb-6"><ErrorMessages error={error}/></div>}
-            {successMessage && (
-                <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg text-sm">
-                    {successMessage}
-                </div>
-            )}
+            {isError && <div className="mb-6 text-red-500"><ErrorMessages error={error}/></div>}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 max-w-md">
                 <div>
                     <label htmlFor="first_name" className={labelClass}>First Name</label>

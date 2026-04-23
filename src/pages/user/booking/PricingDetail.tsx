@@ -1,4 +1,4 @@
-import type { PricingDetailProp } from "@/hooks/user/use-booking-store"
+import type { PricingDetailProp } from "@/types/user/booking-type"
 import { format } from "date-fns"
 import { ErrorMessages } from "@/utils/error-messages"
 

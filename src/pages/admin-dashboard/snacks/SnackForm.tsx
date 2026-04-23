@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { SnackResponse, SnackInput } from "@/types/admin/snacks/snacks-type";
-import { snackData } from "@/components/modal/snack-submit-helper";
+import { snackData } from "@/components/helper/snack-submit-helper";
 import { useAdminSnack } from "@/hooks";
 import { ErrorMessages } from "@/utils/error-messages";
 import { Upload } from "lucide-react";

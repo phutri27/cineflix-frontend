@@ -2,6 +2,7 @@ import { useProfile } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ErrorMessages } from "@/utils/error-messages";
 import { useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 
 interface NewPasswordForm {
     new_password: string,
@@ -28,7 +29,7 @@ export default function NewPassword() {
         }
         newPassword(newData, {
             onSuccess: () => {
-                alert("Password changed successfully")
+                toast.success("Password changed successfully")
                 reset()
             }
         })

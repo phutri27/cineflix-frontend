@@ -6,6 +6,7 @@ import Page from "@/components/Page";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ProfileVoucher } from "@/types/user/voucher-type";
 import { useSnack, useVoucher, useBookedStore, useUserStore, usePages } from "@/hooks";
+import { toast } from "react-toastify";
 
 interface SnackVoucherScreenProps {
     snackQuantities: SnackData[]
@@ -64,7 +65,7 @@ export default function SnackVoucherScreen({snackQuantities}: SnackVoucherScreen
     const handleAddVoucher = (id: string, reduceAmount: number, name: string, maxUsed: number) => {
         const voucherMax = voucherQuantity.find((voucher) => voucher.voucherId === id)
         if (voucherMax?.quantity && voucherMax.quantity >= maxUsed){
-            alert(`Maximum limit for this voucher is ${maxUsed} times`)
+            toast.error(`Maximum limit for this voucher is ${maxUsed} times`)
             return 
         }
         setVoucherQuantity(id, reduceAmount, name, maxUsed, "profile")
@@ -93,7 +94,7 @@ export default function SnackVoucherScreen({snackQuantities}: SnackVoucherScreen
             onSuccess: (data) => {
                 const voucherMax = voucherQuantity.find((voucher) => voucher.voucherId === data.id)
                 if (voucherMax?.quantity && voucherMax.quantity >= data.maxUsed){
-                    alert(`Maximum limit for this voucher is ${data.maxUsed} times`)
+                    toast.error(`Maximum limit for this voucher is ${data.maxUsed} times`)
                     return 
                 } 
                 setVoucherQuantity(data.id, data.reduceAmount, data.name, data.maxUsed, "redeem")
