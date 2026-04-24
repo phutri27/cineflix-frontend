@@ -16,15 +16,17 @@ export interface MovieResponse {
     directors: Option[]
     actors: Option[]
     isActive: boolean
-    showtimes: {
-        bookings: {
-            id: string;
-            createdAt: Date;
-            status: string;
-            userId: string;
-            showtimeId: string;
-        }[];
-    }[];
+    showtimes: ({
+        _count: {
+            bookings: number;
+        };
+    } & {
+        id: string;
+        startTime: Date;
+        movieId: string;
+        screenId: string;
+        isCancelled: boolean;
+    })[];
 }
 
 export interface MovieFormInput{

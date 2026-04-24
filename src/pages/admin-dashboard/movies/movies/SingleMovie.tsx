@@ -21,7 +21,7 @@ export default function SingleMovie({movie}: {movie: MovieResponse}) {
         navigate(`/admin/edit-movie/${movie.id}`)
     }
 
-    const existsBooking = movie.showtimes.flatMap((st) => st.bookings)
+    const existsBooking = movie.showtimes.find((st) => st._count.bookings > 0)
     const genres = movie.genres.map((genre) => genre.name)
 
     return(
@@ -39,7 +39,14 @@ export default function SingleMovie({movie}: {movie: MovieResponse}) {
                     >
                         <Pencil className="h-4 w-4" />
                     </button>
-                    {existsBooking.length === 0 ? 
+                    {existsBooking ? 
+                    <button 
+                        className="h-10 w-10 rounded-full bg-neutral-800 border border-red-800 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-50 transition-colors"
+                        disabled={patchPending}
+                        onClick={onDeactivate}
+                        title="Deactivate movie">
+                        <Power className="h-4 w-4" />
+                    </button> : 
                     <button 
                         onClick={onDelete} 
                         disabled={deletePending}
@@ -47,13 +54,6 @@ export default function SingleMovie({movie}: {movie: MovieResponse}) {
                         title="Delete movie"
                     >
                         <Trash2 className="h-4 w-4" />
-                    </button> : 
-                    <button 
-                        className="h-10 w-10 rounded-full bg-neutral-800 border border-red-800 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-50 transition-colors"
-                        disabled={patchPending}
-                        onClick={onDeactivate}
-                        title="Deactivate movie">
-                        <Power className="h-4 w-4" />
                     </button>}
                 </div>
             </div>
