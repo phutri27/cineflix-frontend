@@ -63,8 +63,8 @@ export default function Snacks(){
             </div>
 
             {isLoading && <p className="text-neutral-400 text-sm">Loading...</p>}
-            {isQueryError && <div className="mb-4"><ErrorMessages error={queryError} /></div>}
-            {isDeleteError && <div className="mb-4"><ErrorMessages error={deleteError} /></div>}
+            {isQueryError && <div className="mb-4 text-red-500"><ErrorMessages error={queryError} /></div>}
+            {isDeleteError && <div className="mb-4 text-red-500"><ErrorMessages error={deleteError} /></div>}
 
             {snacks && snacks.length === 0 && (
                 <p className="text-neutral-500 text-sm text-center py-8">No snacks added yet.</p>

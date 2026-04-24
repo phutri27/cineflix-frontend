@@ -44,12 +44,12 @@ export default function ConfirmOTP({password}: {password: string}) {
             </h2>
 
             {isError && (
-                <div className="mb-4">
+                <div className="mb-4 text-red-500">
                     <ErrorMessages error={error} />
                 </div>
             )}
             {isResendOtpError && (
-                <div className="mb-4">
+                <div className="mb-4 text-red-500">
                     <ErrorMessages error={resendOtpError} />
                 </div>
             )}

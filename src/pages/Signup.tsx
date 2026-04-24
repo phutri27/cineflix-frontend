@@ -47,7 +47,7 @@ export default function Signup(){
                         Sign Up
                     </h1>
                     {isSignupError && (
-                        <div className="mb-4">
+                        <div className="mb-4 text-red-500">
                             <ErrorMessages error={signupError!} />
                         </div>
                     )}

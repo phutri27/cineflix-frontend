@@ -124,8 +124,6 @@ export default function MovieForm({onSubmit, isPending, admin_genres}: MovieForm
                 />
                 {errors.actors && <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.actors.message}</p>}
             </div>
-
-            {/* Directors */}
             <div>
                 <label className="block text-sm font-medium text-neutral-400 mb-2">Directors</label>
                 <Controller 

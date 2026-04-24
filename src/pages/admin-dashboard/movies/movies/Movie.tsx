@@ -84,7 +84,7 @@ export default function Movie(){
                 style={modalStyle}
             >
                 {isInsertError && (
-                    <div className="mb-4">
+                    <div className="mb-4 text-red-500">
                         <ErrorMessages error={insertError!}/>
                     </div>
                 )}

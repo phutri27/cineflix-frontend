@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLogin } from '@/hooks';
-import { useNavigate, useLocation, Link } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { ErrorMessages } from '@/utils/error-messages';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,7 +13,6 @@ export default function Login() {
     const [googleLogin, setGoogleLogin] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    const location = useLocation()
 
     const { mutate, isPending, isError, error } = useLogin.useLogin();
     const { isLoading } = useLogin.useLoginGoogle({enabled: googleLogin})
@@ -45,11 +44,6 @@ export default function Login() {
             <Header />
             <main className="flex-1 flex items-center justify-center px-4 py-16">
                 <div className="w-full max-w-md">
-                    {location.state && (
-                        <div className="mb-4 bg-red-950/40 border border-red-800 rounded-lg px-4 py-3 text-sm text-red-400">
-                            {location.state.message}
-                        </div>
-                    )}
                     <h1 className="text-3xl font-extrabold text-white text-center mb-8">
                         Login
                     </h1>
@@ -98,7 +92,7 @@ export default function Login() {
                             </div>
                         </div>
                         {isError && (
-                            <div>
+                            <div className="text-red-500">
                                 <ErrorMessages error={error!} />
                             </div>
                         )}

@@ -64,7 +64,7 @@ export default function Vouchers(){
                 </button>
             </div>
 
-            {isDeleteError && <div className="mb-4"><ErrorMessages error={deleteError} /></div>}
+            {isDeleteError && <div className="mb-4 text-red-500"><ErrorMessages error={deleteError} /></div>}
 
             {vouchers && vouchers.length === 0 && (
                 <p className="text-neutral-500 text-sm text-center py-8">No vouchers created yet.</p>

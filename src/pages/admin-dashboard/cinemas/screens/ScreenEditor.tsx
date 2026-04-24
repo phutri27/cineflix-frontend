@@ -124,7 +124,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
                 </div>
 
                 {isError && (
-                    <div className="mb-6">
+                    <div className="mb-6 text-red-500">
                         <ErrorMessages error={error} />
                     </div>
                 )}
@@ -172,7 +172,7 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
                             handleSetSeats={handleSetSeats}
                         />
                         {isLoading && <p className="text-neutral-400 text-sm mt-3">Loading seat types...</p>}
-                        {isSeatTypeError && <div className="mt-3"><ErrorMessages error={seatTypeError} /></div>}
+                        {isSeatTypeError && <div className="mt-3 text-red-500"><ErrorMessages error={seatTypeError} /></div>}
                     </ModalComponent>
                 </FormProvider>
             </main>

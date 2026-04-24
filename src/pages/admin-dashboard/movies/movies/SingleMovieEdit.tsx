@@ -90,7 +90,7 @@ export default function SingleMovieEdit(){
                 </div>
 
                 {mutateIsError && (
-                    <div className="mb-6">
+                    <div className="mb-6 text-red-500">
                         <ErrorMessages error={mutateError!} />
                     </div>
                 )}

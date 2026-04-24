@@ -24,7 +24,7 @@ export default function CinemaScreensList({cinemaId, screens}: {cinemaId: string
 
     return (
         <div className="flex flex-col gap-2">
-            {isDeleteError && <div className="mb-2"><ErrorMessages error={deleteError}/></div>}
+            {isDeleteError && <div className="mb-2 text-red-500"><ErrorMessages error={deleteError}/></div>}
             {screens.map((screen) => (
                 <div
                     key={screen.id}

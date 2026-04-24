@@ -173,7 +173,7 @@ export default function CinemasByCity({city, openEditingModal}: CinemasByCityPro
                 </h2>
 
                 {((isInsertError || isUpdateError) && (
-                    <div className="mb-4">
+                    <div className="mb-4 text-red-500">
                         <ErrorMessages error={insertError || updateError!} />
                     </div>
                 ))}

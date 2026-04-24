@@ -86,7 +86,7 @@ export default function EditCinemaPage() {
                     </h2>
 
                     {isUpdateError && (
-                        <div className="mb-4">
+                        <div className="mb-4 text-red-500">
                             <ErrorMessages error={updateError!} />
                         </div>
                     )}

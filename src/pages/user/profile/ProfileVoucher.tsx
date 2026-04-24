@@ -52,7 +52,7 @@ export default function ProfileVoucher(){
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 border-b border-neutral-800 pb-4">
                 My Vouchers
             </h2>
-            {isInsertError && <div className="mb-6"><ErrorMessages error={insertError} /></div>}
+            {isInsertError && <div className="mb-6 text-red-500"><ErrorMessages error={insertError} /></div>}
             <form onSubmit={handleRedeem} className="flex flex-col sm:flex-row gap-3 mb-10 max-w-2xl">
                 <input 
                     type="text" 
