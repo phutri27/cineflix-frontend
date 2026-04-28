@@ -84,7 +84,7 @@ export default function ShowtimeForm({ cinemaId, movieId, showTimeEditId, onClos
     return (
         <div>
             {(isInsertError || isUpdateError) && (
-                <div className="mb-4">
+                <div className="mb-4 text-red-500">
                     <ErrorMessages error={insertError! || updateError!} />
                 </div>
             )}

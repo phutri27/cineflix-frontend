@@ -34,7 +34,7 @@ const modalStyle = {
 export default function MoviesListForm({ cinemaId, openModal, onClose, movies }: MoviesListFormProps) {
     const [selectedMovies, setSelectedMovies] = useState<SelectedMoviesProps[]>([])
 
-    const { data: moviesData, isLoading, isError, error } = useAdminMovie.useGetMovieAdmin({ enabled: openModal })
+    const { data: moviesData, isLoading, isError, error } = useAdminMovie.useGetMovieAdmin(false, { enabled: openModal })
     const { mutate: insertMovieInCinema, isPending } = useAdminCinema.useAdminInsertMovieInCinema(cinemaId)
 
     const displayDataSelect = moviesData?.filter((movie) => !movies.includes(movie.id)).map((movie) => ({
