@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { paymentCheckoutApi } from "@/api";
-export const useGetVnpayUrl = (urlHash: string) => {
+export const useGetVnpayUrl = (urlHash: string, searchUrl: string) => {
     return useQuery({
         queryKey: ["vnpayUrl", urlHash],
-        queryFn: paymentCheckoutApi.getVnpayUrl,
+        queryFn: () => paymentCheckoutApi.getVnpayUrl(searchUrl),
         refetchOnWindowFocus: false
     })
 }

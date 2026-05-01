@@ -1,5 +1,5 @@
-import { useSearchParams, Link } from "react-router";
-import {  usePaymentCheckout } from "@/hooks";
+import { useSearchParams, Link, useLocation } from "react-router";
+import { usePaymentCheckout } from "@/hooks";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
@@ -22,8 +22,9 @@ const StatusCard = ({ Icon, glow, color, title, desc, btnClass }: any) => (
 
 export default function VnpayPayment() {
     const [searchParams] = useSearchParams();
+    const location = useLocation()
     const hashCode = searchParams.get("vnp_SecureHash");
-    const { isLoading, isError, error } = usePaymentCheckout.useGetVnpayUrl(hashCode!)
+    const { isLoading, isError, error } = usePaymentCheckout.useGetVnpayUrl(hashCode!, location.search)
 
     let content;
 

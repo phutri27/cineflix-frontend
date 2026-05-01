@@ -7,8 +7,8 @@ interface VnPayCheckoutResponse {
     bookingId: string
 }
 
-export const getVnpayUrl = async (): Promise<{success: boolean}> => {
-    const response = await axiosClient.get("/api/payment/vnpay-return")
+export const getVnpayUrl = async (searchUrl: string): Promise<{success: boolean}> => {
+    const response = await axiosClient.get(`/api/payment/vnpay-return${searchUrl}`)
     return response.data
 }
 
