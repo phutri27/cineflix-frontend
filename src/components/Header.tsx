@@ -6,13 +6,35 @@ import Notification from "./Notification";
 import SearchBar from "./SearchBar";
 import { LayoutDashboard } from "lucide-react"
 import { useNotification, useUserStore } from "@/hooks";
+import { useEffect } from "react";
+import { socket } from "@/utils/socket-instance.ts";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
+    const queryClient = useQueryClient()
     const { id, first_name, last_name, role } = useUserStore.useUserRoleStore();
     const { data: unreadNoti } = useNotification.useGetUnreadNoti(id)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isNotiOpen, setIsNotiOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+    useEffect(() => {   
+        socket.emit("join-room", id)
+        const handleGetUnreadNoti = () => {
+            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", id]})
+        }
+
+        socket.on("update-notification", handleGetUnreadNoti);
+        socket.on("new-notification", handleGetUnreadNoti);
+        socket.on("delete-notification", handleGetUnreadNoti);
+
+        return () => {
+            socket.off("new-notification", handleGetUnreadNoti);
+            socket.off("update-notification", handleGetUnreadNoti);
+            socket.off("delete-notification", handleGetUnreadNoti);
+            socket.emit("leave-room", id)
+        }
+    },[id, queryClient])
 
     return (
         <>

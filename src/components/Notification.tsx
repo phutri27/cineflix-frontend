@@ -1,12 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import type { Notification as NotificationType } from "@/types/user/notifications-type";
 import { useUserStore, usePages, useNotification} from "@/hooks";
-import { socket } from "@/utils/socket-instance";
+import { socket } from "@/utils/socket-instance.ts";
 import { X } from "lucide-react"; 
 import { format } from 'date-fns'
 import Page from "./Page";
-
 
 
 export default function Notification(){
@@ -27,40 +25,23 @@ export default function Notification(){
     const handleDelete = (id: string) => deleteNoti(id);
 
     useEffect(() => {
-        socket.emit("join-room", userId);
-        const handleNewNotification = (noti: NotificationType) => {
+        socket.emit("join-room", userId)
+        const handleNewNotification = () => {
             queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
-                if (oldData) return [...oldData, noti];
-                return [noti];
-            });
+            queryClient.invalidateQueries({queryKey: ["notifications", userId]})
         };
 
-        const handleUpdateNotification = (notiId: string) => {
-            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
-                if (oldData) return oldData.map((n) => n.id === notiId ? { ...n, readStatus: true } : n);
-            });
-        };
-
-        const handleDeleteNotification = (notiId: string) => {
-            queryClient.invalidateQueries({queryKey: ["notifications", "unread-notis", userId]})
-            queryClient.setQueryData(["notifications", userId, page], (oldData: NotificationType[] | undefined) => {
-                if (oldData) return oldData.filter((n) => n.id !== notiId);
-            });
-        };
-
-        socket.on("update-notification", handleUpdateNotification);
+        socket.on("update-notification", handleNewNotification);
         socket.on("new-notification", handleNewNotification);
-        socket.on("delete-notification", handleDeleteNotification);
+        socket.on("delete-notification", handleNewNotification);
 
         return () => {
             socket.off("new-notification", handleNewNotification);
-            socket.off("update-notification", handleUpdateNotification);
-            socket.off("delete-notification", handleDeleteNotification);
+            socket.off("update-notification", handleNewNotification);
+            socket.off("delete-notification", handleNewNotification);
             socket.emit("leave-room", userId);
         };
-    }, [userId, queryClient, page]);
+    }, [userId, queryClient]);
 
     if (notiLoading || pagiLoading) {
         return <div className="p-4 text-center text-gray-400 text-sm animate-pulse">Loading notifications...</div>;
