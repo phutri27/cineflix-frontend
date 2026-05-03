@@ -53,7 +53,7 @@ export default function VnpayPayment() {
         content = <StatusCard 
             Icon={CheckCircle} glow="bg-green-500/20" color="text-green-500" 
             title="Payment Successful!" 
-            desc="Your VNPay transaction was completed successfully. Your tickets are secured and ready!" 
+            desc="Your VNPay transaction was completed successfully. You can view your ticket details in your booking history or check your email" 
             btnClass="bg-red-600 hover:bg-red-700 shadow-lg" 
         />;
     }
