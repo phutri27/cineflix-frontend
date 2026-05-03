@@ -20,6 +20,7 @@ export default function BookingHistory() {
     const userId = useUserStore.useUserRoleStore((state) => state.id)
     const { data: bookingHistory, isLoading, error } = useProfile.useGetBookingHistory(page, userId)
 
+    console.log(bookingHistory)
     const toggleTickets = (bookingId: string) => {
         setExpandedBooking((prev) => prev === bookingId ? null : bookingId)
     }

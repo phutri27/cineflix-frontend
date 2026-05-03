@@ -7,26 +7,6 @@ export interface BookingHistoryProps{
     data: {
         id: string;
         createdAt: Date;
-        tickets: {
-            ticketUrl: string | null;
-            seat: {
-                number: number;
-                row: string;
-            };
-        }[];
-        showtime: {
-            startTime: Date;
-            movie: {
-                title: string;
-                posterUrl: string;
-            };
-            screen: {
-                name: string;
-                cinema: {
-                    name: string;
-                };
-            };
-        };
         seats: {
             number: number;
             row: string;
@@ -35,18 +15,38 @@ export interface BookingHistoryProps{
                 seat_type: string;
             };
         }[];
-        vouchers: {
-            quantity: number;
-            voucher: {
+        showtime: {
+            screen: {
                 name: string;
-                reduceAmount: number;
+                cinema: {
+                    name: string;
+                };
             };
+            movie: {
+                title: string;
+                posterUrl: string;
+            };
+            startTime: Date;
+        };
+        tickets: {
+            seat: {
+                number: number;
+                row: string;
+            };
+            ticketUrl: string | null;
         }[];
         snacks: {
             quantity: number;
             snack: {
                 name: string;
                 price: number;
+            };
+        }[];
+        vouchers: {
+            quantity: number;
+            voucher: {
+                name: string;
+                reduceAmount: number;
             };
         }[];
         transaction: {

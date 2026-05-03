@@ -58,11 +58,13 @@ import ContactCineflix from './pages/user/navbar-pages/ContactCineflix'
 import NewsAndOffers from './pages/user/navbar-pages/NewsAndOffer'
 import RootLayout from './RootLayout'
 import Archive from './pages/admin-dashboard/movies/archive/Archive'
+import ErrorElement from './pages/error-element/ErrorElement.tsx'
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
       {
         element: <RootLayout />,
+        errorElement: <ErrorElement />,
         children: [
         {
         element: <LoginAccess />,
