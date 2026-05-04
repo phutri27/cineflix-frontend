@@ -10,6 +10,7 @@ import Seats from "./Seats"
 import Footer from "@/components/Footer";
 import { socket } from "@/utils/socket-instance";
 import { toast } from "react-toastify";
+import { coupleSeatsValidate } from "@/utils/couple-seats-validate.ts";
 
 export default function SeatsDisplay(){
     const ticketDatas = useBookedStore.useBookingStore((state) => state.ticketDatas)
@@ -44,6 +45,14 @@ export default function SeatsDisplay(){
             toast.error("Please pick a seat before continue")
             return
         }
+        
+        const coupleSeats = ticketDatas.filter((ticket) => ticket.seat_type === "COUPLE").map((seat) => ({row: seat.row, number: seat.number}))
+        const coupleSeatsValid = coupleSeatsValidate(coupleSeats)
+        if (!coupleSeatsValid){
+            toast.error("Please pick couple seats next to each other before continue")
+            return 
+        }
+
         if (isSnackVoucherScreen){
             setTotalAmount(totalAmount)
             navigate(`/default/checkout/payment/${showTimeId}`)

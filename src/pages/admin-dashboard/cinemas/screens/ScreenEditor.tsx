@@ -10,6 +10,8 @@ import type { ScreenTypeProp } from "@/types/admin/cinema/screen-type";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ArrowLeft, LayoutGrid, Save } from "lucide-react";
+import { coupleSeatsValidate } from "@/utils/couple-seats-validate.ts";
+import { toast } from "react-toastify";
 
 export interface ScreenFormData {
     rows: number,
@@ -72,6 +74,13 @@ export default function ScreenEditor({ cinemaId, initialName = "", initialSeats 
     })
 
     const handleSave = () => {
+        const coupleSeats = localSeats.filter((seat) => seat.seat_typeId.label === "COUPLE").map((seat) => ({row: seat.row, number: seat.number}))
+        const coupleSeatsValid = coupleSeatsValidate(coupleSeats)
+        if (!coupleSeatsValid){
+            toast.error("Couple seats violation, please check again")
+            return
+        }
+
         const formattedSeats = localSeats.map((s) => ({
             row: s.row,
             number: Number(s.number),

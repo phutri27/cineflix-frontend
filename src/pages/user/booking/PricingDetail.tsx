@@ -28,6 +28,7 @@ export default function PricingDetail({cinemaName,
     totalAmountBeforeDiscount,
     totalAmount}: SeatDetailsProp){
     const date = showTime ? format(new Date(showTime), "HH:mm dd/MM/y") : null
+    const sortedSeats = ticketDatas.sort((a, b) => a.row.localeCompare(b.row) || a.number - b.number)
 
     return (
         <div className="bg-[#141414] text-white px-6 py-4 font-sans">
@@ -53,7 +54,7 @@ export default function PricingDetail({cinemaName,
                         <p>{date}</p>
                         <p>{screenName}</p>
                         {ticketDatas.length > 0 && (
-                            <p className="truncate">{ticketDatas.map((ticket) => ticket.row + ticket.number).join(", ")}</p>
+                            <p className="truncate">{sortedSeats.map((seat) => seat.row + seat.number).join(", ")}</p>
                         )}
                     </div>
                 </div>

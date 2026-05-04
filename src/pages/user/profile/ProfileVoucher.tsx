@@ -59,7 +59,7 @@ export default function ProfileVoucher(){
                     value={voucherCode} 
                     onChange={handleVoucherCodeChange} 
                     placeholder="Enter voucher code" 
-                    className="flex-1 bg-neutral-800/50 border border-neutral-700 text-white rounded-lg px-4 py-3 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-all uppercase placeholder:normal-case placeholder:text-neutral-500"
+                    className="flex-1 bg-neutral-800/50 border border-neutral-700 text-white rounded-lg px-4 py-3 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-all placeholder:normal-case placeholder:text-neutral-500"
                 />
                 <button 
                     type="submit" 
@@ -99,7 +99,6 @@ export default function ProfileVoucher(){
                     ))}
                 </div>
             ) : (
-                /* Empty State */
                 <div className="flex flex-col items-center justify-center py-12 text-neutral-500 bg-neutral-900/20 border border-neutral-800 border-dashed rounded-xl mb-8">
                     <Ticket className="w-12 h-12 mb-3 opacity-20" />
                     <p>You don't have any vouchers yet.</p>
