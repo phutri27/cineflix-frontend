@@ -5,3 +5,9 @@ export const useOTP = () =>{
         mutationFn: otpApi.OTPapi,
     })
 }
+
+export const useResendSignupOTP = () => {
+    return useMutation({
+        mutationFn: otpApi.resendOTPSignUp
+    })
+}

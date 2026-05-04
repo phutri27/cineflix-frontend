@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ErrorMessages } from "@/utils/error-messages";
-import { useTimer, useForgotPassword } from "@/hooks";
+import { useTimer, useForgotPassword, useOtp } from "@/hooks";
 import Footer from "./Footer"
 import Header from "./Header"
 import { toast } from 'react-toastify'
@@ -27,15 +27,22 @@ export default function OTPInput({onMutate, email, isError, error, navigateURL}:
     const remainingTimes = useTimer.useSetTimer(60, otpResend)
 
     const navigate = useNavigate()
-    const { mutate: resendOTP, isError: isResendOtpError, error: resendOtpError } = useForgotPassword.useForgotPassword()
-    
+    const { mutate: resendForgotPasswordOTP, isError: isResendOtpError, error: resendOtpError } = useForgotPassword.useForgotPassword()
+    const { mutate: resendSignUpOTP, isError: isResendSignupOtpError, error: resendSignupOtpError} = useOtp.useResendSignupOTP()
+
     const handleOTP = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOTP(e.target.value)
     }
 
     const handleResendOtp = () => {
         setOtpResend(true)
-        resendOTP(email!)
+        if (email){
+            if (navigateURL === "new-password"){
+                resendForgotPasswordOTP(email)
+            } else if (navigateURL === "/login"){
+                resendSignUpOTP(email)
+            }
+        }
     }
 
     const handleSubmit = (e: React.SubmitEvent) => {
@@ -68,9 +75,9 @@ export default function OTPInput({onMutate, email, isError, error, navigateURL}:
                             <ErrorMessages error={error} />
                         </div>
                     )}
-                    {isResendOtpError && (
+                    {isResendOtpError || isResendSignupOtpError && (
                         <div className="mb-4 text-red-500">
-                            <ErrorMessages error={resendOtpError} />
+                            <ErrorMessages error={resendOtpError || resendSignupOtpError} />
                         </div>
                     )}
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
