@@ -1,74 +1,53 @@
-# React + TypeScript + Vite
+# Cineflix - Full-Stack Cinema Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-performance, real-time cinema ticketing system built to handle concurrent seat bookings, background scheduling, and seamless payment processing. 
 
-Currently, two official plugins are available:
+## Live Demo
+* **Live Site:** [https://hotriphu.fit](https://hotriphu.fit)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
+* **Secure Authentication:** Seamless user onboarding using Google OAuth2 integrated with secure session-based login.
+* **Real-Time Seat Locking:** Implemented concurrency control using WebSockets (Socket.io) and Redis Locks. This instantly reserves seats across all active clients the moment a user enters checkout, completely eliminating double-booking conflicts.
+* **Payment Integrations:** Integrated secure, automated checkouts via Stripe and VNPay, utilizing strict webhook verification to ensure payment integrity.
+* **Background Processing:** Offloaded heavy, blocking tasks to isolated background workers using BullMQ and Redis. This includes automated cron jobs for showtime generation, as well as reliable delivery of OTPs and transactional ticket-confirmation emails.
+* **Instant Notifications:** Pushes real-time booking confirmations to the client upon successful payment webhook verification.
+* **Admin Dashboard:** A full-featured internal portal for staff to manage movie catalogs, cinema rooms, dynamic showtime schedules,user role permissions and statistics.
 
-## React Compiler
+## Tech Stack
+**Frontend:**
+* React (TypeScript)
+* TanStack Query (React Query) for caching and server-state management
+* Tailwind CSS / UI Components
+* React-Hook-Form
+* React-Router
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Backend:**
+* Node.js / Express
+* Prisma ORM
+* PostgreSQL
+* Redis (for Express sessions, BullMQ, and fast state caching)
+* BullMQ (Cron jobs and background workers)
+* Socket.io
+* Resend
+* Cloudinary
 
-## Expanding the ESLint configuration
+**Infrastructure**
+* Hosted on DigitalOcean (Ubuntu VPS)
+* Separate processes for API and Background Worker
+* Nginx Reverse Proxy
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Architecture Overview
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Backend
+The backend is split into 3 primary processes to ensure high availability:
+1. **Core Express API Server:** Handles incoming HTTP requests, WebSocket connections, session management, and payment webhooks.
+2. **Showtime Scheduling Worker (BullMQ):** An isolated background process dedicated to listening to Redis queues. It safely executes heavy database writes (like upserting weekly showtimes) asynchronously, ensuring the main API thread remains lightning-fast.
+3. **Transactional Email And Cloudinary Upload Worker (BullMQ)** A dedicated background processor that handles all asynchronous email delivery (e.g., OTPs and ticket confirmations) and Cloudinary media uploads. Offloading third-party network calls ensures instant checkout response times for the user.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Frontend
+The frontend is built as a highly responsive Single Page Application (SPA) designed to handle complex state and real-time updates seamlessly:
+1. **Server-State & Caching Layer:** (TanStack Query): Serves as the backbone for async data management. It caches the notifications, booking history, profile information, minimizing redundant API calls and enabling a snappy user experience through background refetching and optimistic UI updates.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Real-Time Synchronization (Socket.io Client):** Maintains a persistent, lightweight WebSocket connection with the core API. This layer listens for instant seat-lock broadcasts and payment confirmations, dynamically updating the interactive seat-selection grid across all active browsers without requiring page refreshes.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# Cinema-frontend
+3. **Component & Styling Architecture (Tailwind CSS):** Utilizes a utility-first styling approach combined with modular UI components to maintain a consistent design system. This ensures rapid iteration and a fully responsive layout across desktop and mobile devices.
